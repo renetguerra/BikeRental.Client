@@ -1,0 +1,13 @@
+<mat-nav-list>
+    @for (assignedNotification of data.assignedNotifications; track $index) {
+        <div class="d-flex mb-2">
+            <span matListItemTitle>{{assignedNotification.notification.description}}</span>
+            <div class="ms-auto">
+                <button type="button" class="btn btn-info btn-xs" (click)="deleteNotification(assignedNotification.notification.id, data.username)">Done!</button>
+            </div>  
+        </div>        
+    }    
+    <div class="d-flex justify-content-end mb-2">
+        <button mat-raised-button (click)="cancel()" type="button">Cancel</button>
+    </div>
+</mat-nav-list>

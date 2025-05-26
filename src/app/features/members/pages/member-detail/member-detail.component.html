@@ -1,0 +1,152 @@
+<div class="row">
+  <div class="col-12 col-md-4 mb-3">
+    <div class="card">
+      <img
+        src="{{ member()?.photoUrl || './assets/user.png' }}"
+        alt="{{ member()?.knownAs }}"
+        class="card-img-top img-thumbnail"
+      />
+      <div class="card-body">
+        @if ((presenceService.onlineUsers$ | async)?.includes(user()!.username))
+        {
+        <div class="mb-2">
+          <i class="fa fa-user-circle text-success"></i> Online now
+        </div>
+        }
+        <div>
+          <strong>Name:</strong>
+          <p>{{ member()?.knownAs }}</p>
+        </div>
+        <div>
+          <strong>Location:</strong>
+          <p>{{ member()?.address?.city }}, {{ member()?.address?.country }}</p>
+        </div>
+        <div>
+          <strong>Age:</strong>
+          <p>{{ member()?.age }}</p>
+        </div>
+        <div>
+          <strong>Last active:</strong>
+          <p>{{ member()?.lastActive | timeago }}</p>
+        </div>
+        <div>
+          <strong>Member since:</strong>
+          <p>{{ member()?.created | date : "dd MMM yyyy" }}</p>
+        </div>
+      </div>
+      <!-- <div class="card-footer">
+                <div class="btn-group d-flex">                    
+                    <button (click)="selectTab('Messages')" class="btn btn-primary">Message</button>
+                </div>
+            </div> -->
+    </div>
+  </div>
+  <div class="col-12 col-md-8 mb-3">
+    <tabset class="member-tabset" #memberTabs>
+      @if (member()?.address || member()?.introduction) {
+      <tab
+        heading="About {{ member()!.knownAs }}"
+        (selectTab)="onTabActivated($event)"
+      >
+        <h4 class="mt-2">Location Details:</h4>
+        <div class="d-flex flex-row align-items-center">
+          <label for="street">Street: </label>
+          <input
+            [value]="member()?.address?.street"
+            type="text"
+            name="street"
+            class="form-control w-60"
+            readonly
+          />
+          <label for="houseNumber">Number: </label>
+          <input
+            [value]="member()?.address?.houseNumber"
+            type="text"
+            name="houseNumber"
+            class="form-control w-20"
+            readonly
+          />
+          <label for="zip">Zip: </label>
+          <input
+            [value]="member()?.address?.zip"
+            type="text"
+            name="zip"
+            class="form-control w-20"
+            readonly
+          />
+        </div>
+        <div class="d-flex flex-row align-items-center mt-2">
+          <label for="city">City: </label>
+          <input
+            [value]="member()?.address?.city"
+            type="text"
+            name="city"
+            class="form-control w-50"
+            readonly
+          />
+          <label for="country">Country: </label>
+          <input
+            [value]="member()?.address?.country"
+            type="text"
+            name="country"
+            class="form-control w-50"
+            readonly
+          />
+        </div>
+        @if (member()?.introduction) {
+        <div class="mt-5">
+          <h4>Interests</h4>
+          <p>{{ member()!.introduction }}</p>
+        </div>
+        }
+      </tab>
+      }
+      <tab
+        heading="Favorites"
+        (selectTab)="onTabActivated($event)"
+        class="custom-tab-size"
+      >
+        <app-bike-favorite></app-bike-favorite>
+      </tab>
+      <tab
+        heading="History"
+        (selectTab)="onTabActivated($event)"
+        class="custom-tab-size"
+      >
+        <app-customer-rental-history></app-customer-rental-history>
+      </tab>
+      <tab
+        heading="Photos"
+        #photoTab="tab"
+        (selectTab)="onTabActivated($event)"
+      >
+        @if(photoTab.active){ @if (user()?.roles?.includes('Admin')) {
+        <div class="row mt-3">
+          <div class="d-flex flex-wrap justify-content-end gap-2 mb-2">
+            <button mat-fab extended (click)="openDialogAddPhoto()">
+              <mat-icon>add_a_photo</mat-icon>
+              Add photos
+            </button>
+            <button mat-fab extended (click)="openDialogDeletePhoto()">
+              <mat-icon>delete</mat-icon>
+              Delete photos
+            </button>
+          </div>
+        </div>
+        }
+        <div class="flex mb-2 d-flex-row justify-content-center">
+          <gallery [items]="galleryImages()" class="gallery"></gallery>
+        </div>
+        }
+      </tab>
+      <tab
+        *appHasRole="['Admin', 'Moderator']"
+        heading="Students"
+        (selectTab)="onTabActivated($event)"
+        class="custom-tab-size"
+      >
+        <app-member-list></app-member-list>
+      </tab>
+    </tabset>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+@media (max-width: 600px) {
+    .btn-group {
+      width: 100%;
+      flex-direction: column;
+    }
+  
+    .btn-group .btn {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  
+    .form-select, .form-control {
+      width: 100%;
+    }
+  }

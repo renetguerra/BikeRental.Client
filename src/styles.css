@@ -1,0 +1,130 @@
+/* You can add global styles to this file, and also import other style files */
+
+.light-theme {
+  --primary-color: #99dfc1;
+  --accent-color: #ff4081;
+}
+
+.dark-theme {
+  --primary-color: #23C17B;
+  --accent-color: #f50057;
+}
+
+.mat-button {
+  background-color: var(--primary-color);
+}
+
+.tab-panel {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {
+    border-bottom: 4px solid #99dfc1;
+  }
+
+  .inactive-tab:hover {
+    border-bottom: 4px solid gray !important;
+    opacity: 0.5 !important;
+  }
+  
+  .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
+    border: 0 !important;
+    background: none !important;
+    color: #333333;
+  }
+  
+  .member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
+    color: #a6a6a6;
+  }
+  
+  .member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
+    margin-top: 0px;
+  }
+  
+  .member-tabset > .nav-tabs > li.active {
+    border-bottom: 4px solid #99dfc1;
+    position: relative;
+  }
+  
+  .member-tabset > .nav-tabs > li.active > a {
+    border: 0 !important;
+    color: #333333;
+  }
+  
+  .member-tabset > .nav-tabs > li.active > a > i {
+    color: #404040;
+  }
+  
+  .member-tabset > .tab-content {
+    margin-top: -3px;
+    background-color: #fff;
+    border: 0;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+  }
+  
+  .nav-tabs {
+      --bs-nav-tabs-border-width: 0px;
+  }
+
+  .primary {
+    background-color: #23C17B !important;
+    border-color: #23C17B !important;
+  }
+
+  .btn-primary {
+    background-color: #23C17B !important;
+    border-color: #23C17B !important;
+  }
+
+  .btn-success {
+    background-color: #99dfc1 !important;
+    border-color: #99dfc1 !important;
+  }
+
+  .bg-primary {
+    background-color: #23C17B !important;
+    border-color: #23C17B !important;
+  }
+
+  .bg-success {
+    background-color: #99dfc1 !important;
+    border-color: #99dfc1 !important;
+  }
+
+  .nav-link {
+    color: #99dfc1 !important;
+  }
+
+  .btn-outline-primary {
+    color: #23C17B !important;
+    border-color: #23C17B !important;
+  }
+
+  .btn-outline-primary:hover {
+    background-color: #99dfc1 !important;    
+  }
+
+  .active > .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #23C17B;
+    border-color: #23C17B;
+  }
+
+.ngx-pagination .current {
+  padding: .1875rem .625rem !important;
+  background: #23C17B !important;
+  color: #fefefe !important;
+  cursor: default !important;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+@media (min-width: 1400px) {
+  .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+      max-width: 1350px !important;
+  }
+}

@@ -1,0 +1,27 @@
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+}
+
+img {
+    max-height: 50px;
+    border: 2px solid white;
+    display: inline;
+}
+
+.bell {
+    margin-left: 10px;
+}
+
+.d-flex {
+    position: static;
+    top: 0;
+    right: 20%;
+  }
+
+.dropdown-item:hover {    
+    background-color: #99dfc1 !important;
+}
+
+mat-icon {
+    cursor: pointer;
+}

@@ -1,0 +1,81 @@
+<div class="row">
+    <div class="col-12 col-md-4 mb-3">
+        <div class="card">
+            <img src="{{bike()?.photoUrl || './assets/user.png'}}" alt="{{bike()?.model}}"
+                class="card-img-top img-thumbnail">
+            <div class="card-body">
+                @if (bike()!.isAvailable) {
+                    <div class="mb-2">
+                        <i class="fa fa-bicycle text-success"></i> Available now
+                    </div>
+                } @else {
+                    <div class="mb-2">
+                        <i class="fa fa-bicycle text-danger"></i> Not available
+                    </div>
+                }
+                <div>
+                    <strong>Brand:</strong>
+                    <p>{{bike()!.brand}}</p>
+                </div>
+                <div>
+                    <strong>Model:</strong>
+                    <p>{{bike()!.model}}</p>
+                </div>
+                <div>
+                    <strong>Year:</strong>
+                    <p>{{bike()!.year}}</p>
+                </div>
+                <div>
+                    <strong>Price:</strong> 
+                    <p>{{bike()!.price | currency}}</p>
+                </div>
+                <div>
+                    <strong>Type:</strong>
+                    <p>{{bike()!.type }}</p>
+                </div>                
+            </div>
+            <div class="card-footer">
+                <div class="btn-group d-flex">                    
+                    <button (click)="selectTab('Messages')" class="btn btn-primary" [disabled]="!bike()?.isAvailable">RENT</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-8 mb-3">
+        <tabset class="member-tabset" #memberTabs>
+            <tab heading="History {{bike()!.model}}" (selectTab)="onTabActivated($event)">                                                                                
+                @if (bike()?.brand) {
+                    <h4>Brand</h4>
+                    <p>{{bike()!.brand}}</p>
+                }  
+                <mat-divider></mat-divider>
+                @if (bike()?.model) {
+                    <h4>Model</h4>
+                    <p>{{bike()!.model}}</p>
+                }        
+                <app-bike-rental-history></app-bike-rental-history>                                                 
+            </tab>            
+            <tab heading="Photos" #photoTab="tab" (selectTab)="onTabActivated($event)">                                
+                 @if(photoTab.active){                     
+                     @if (user()?.roles?.includes('Admin')) {                                                              
+                        <div class="row mt-3">  
+                            <div class="d-flex flex-wrap justify-content-end gap-2 mb-2">
+                                <button mat-fab extended (click)="openDialogAddPhoto()">
+                                    <mat-icon>add_a_photo</mat-icon>
+                                    Add photos
+                                </button>
+                                <button mat-fab extended (click)="openDialogDeletePhoto()">
+                                    <mat-icon>delete</mat-icon>
+                                    Delete photos
+                                </button>
+                            </div>                                                                 
+                        </div>                                           
+                     }
+                     <div class="flex mb-2 d-flex-row justify-content-center">
+                        <gallery [items]="galleryImages()" class="gallery"></gallery>                    
+                    </div> 
+                 }
+            </tab>            
+        </tabset>
+    </div>
+</div>

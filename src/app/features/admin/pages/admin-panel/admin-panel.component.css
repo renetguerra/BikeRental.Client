@@ -1,0 +1,15 @@
+@media (max-width: 800px) {    
+    table {
+        font-size: 0.85rem;
+      }
+    
+      th, td {
+        padding: 0.5rem;
+        white-space: nowrap; /* evita que el texto salte de línea */
+      }
+    
+      .btn {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+      }
+  }

@@ -1,0 +1,81 @@
+.img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+}
+
+.card-body {
+    padding: 0 25px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    background-color: #fff;
+    border-top: none;
+}
+
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
+
+.gallery {
+    width: 850px;
+    display: flex;
+}
+
+button {
+   margin-left: 5px;
+}
+
+.card-familyMember {
+    height: auto;
+    width: 500px;
+    margin: 10px;
+    display: inline-block;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    padding-bottom: 0.4em;
+    margin-bottom: 1rem;
+}
+
+.card-img {
+    align-items: center;
+    height: 150px;
+    width: 150px;    
+    object-fit: cover;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    margin-top: 10px;
+}
+
+::ng-deep .nav-tabs .nav-item.disabled a {
+    pointer-events: none !important;
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+    color: gray !important;
+}
+
+@media (max-width: 800px) {
+    .card-img-top,
+    .card-img {      
+      height: auto;
+      width: 100%;
+    }
+  
+    .d-flex.flex-row {
+      flex-direction: column !important;
+      align-items: stretch;
+    }
+  
+    .gallery {
+      width: 100% !important;
+    }
+  
+    .custom-tab-size {
+      overflow-x: auto;
+    }
+}
+

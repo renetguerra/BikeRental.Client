@@ -1,0 +1,16 @@
+button {
+    margin-left: 5px;
+}
+
+.img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+}
+
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
+
+.gallery {
+    width: 850px;
+    display: flex;
+}

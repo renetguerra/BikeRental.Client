@@ -1,0 +1,54 @@
+@if (bike()) {
+<div class="card mb-4">
+    <div class="card-img-wrapper">
+        <img src="{{ bike()!.photoUrl || './assets/user.png' }}" alt="{{ bike()!.model }}" class="card-img-top">
+        <ul class="d-flex-row justify-content-center list-inline bike-icons animate text-center">
+            <li class="list-inline-item">
+                <button [routerLink]="['/bike', bike()!.id]" class="btn btn-primary">                    
+                    <mat-icon aria-hidden="false" fontIcon="pedal_bike"></mat-icon>                   
+                </button>
+            </li>            
+            <li class="list-inline-item">
+                <button 
+                    (click)="toggleLikeBike()"                    
+                    class="btn btn-primary" title="Details"
+                >
+                    <mat-icon aria-hidden="false" fontIcon="favorite" title="Favorite"></mat-icon>
+                </button>
+            </li>
+            <li class="list-inline-item">
+                @if (bike()!.isAvailable) {
+                    <button (click)="rentBike()" class="btn btn-primary">
+                        <mat-icon aria-hidden="false" fontIcon="directions_bike" title="Rent bike"></mat-icon>
+                    </button>
+                } @else {
+                    <button (click)="returnBike()" class="btn btn-primary">
+                        <mat-icon aria-hidden="false" fontIcon="timer_off" title="Return bike"></mat-icon>
+                    </button>
+                }
+                
+            </li> 
+        </ul>
+    </div>
+    <div class="card-body p-1">
+        <h6 class="card-title text-center mb-1">
+            <span [class.is-online]="(bike()!.isAvailable)">                                 
+                 @if (bike()!.isAvailable) {
+                        <div class="mb-2">
+                            <i class="fa fa-circle text-success" title="Available"></i> {{bike()?.brand}}, {{bike()?.year}}
+                        </div>
+                    } @else {
+                        <div class="mb-2">
+                            <i class="fa fa-circle text-danger" title="Not Available"></i> {{bike()?.brand}}, {{bike()?.year}}
+                        </div>
+                    }                    
+            </span>            
+            @if (hasLiked()) {
+                <i class="fa fa-heart ms-2" style="color: red"></i>
+            }                  
+        </h6>
+        <p class="card-text text-muted text-center mb-1">{{bike()?.type}}</p>
+        <p class="card-text text-muted text-center mb-1">{{bike()?.price | currency}}</p>
+    </div>
+</div>
+}

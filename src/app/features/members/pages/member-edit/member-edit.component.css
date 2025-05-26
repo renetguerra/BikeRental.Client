@@ -1,0 +1,43 @@
+.img-thumbnail {
+    margin: 25px;
+    width: 85%;
+    height: 85%;
+}
+
+.card-body {
+    padding: 0 25px;
+}
+
+.card-footer {
+    padding: 10px 15px;
+    background-color: #fff;
+    border-top: none;
+}
+
+.ngx-gallery { display: inline-block; margin-bottom: 20px; }
+
+.gallery {
+    width: 860px;    
+    display: flex !important;
+}
+
+button {
+    margin-left: 5px;
+}
+
+@media (max-width: 800px) {
+    .d-flex.flex-row {
+      flex-direction: column !important;
+      align-items: stretch;
+    }
+  
+    .d-flex.flex-row label,
+    .d-flex.flex-row input {
+      width: 100%;
+      margin-bottom: 0.5rem;
+    }
+  
+    .gallery {
+      width: 100% !important;
+    }
+  }
