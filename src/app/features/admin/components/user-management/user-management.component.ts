@@ -21,9 +21,7 @@ export class UserManagementComponent implements OnInit {
   
   users = this.adminUserStore.users;
   bsModalRef: BsModalRef<RolesModalComponent> = new BsModalRef<RolesModalComponent>();
-  availableRoles = ['Admin','Moderator','Member'];
-   
-  canSendMessages = this.adminUserStore.canSendMessages;
+  availableRoles = ['Admin','Moderator','Member'];    
 
   ngOnInit(): void {
     this.getUsersWithRoles();
@@ -58,12 +56,5 @@ export class UserManagementComponent implements OnInit {
 
   private arrayEqual(arr1: any, arr2: any) {
     return JSON.stringify(arr1.sort()) === JSON.stringify(arr2.sort())
-  }
-
-  allowSendMessages(user: User) {    
-    const currentState = this.canSendMessages()[user.username];    
-    const newState = !currentState;
-    this.adminUserStore.toggleSendMessagesPermission(user.username);
-    this.adminUserStore.updateUserCanSendMessages(user.username, newState);    
-  }
+  } 
 }

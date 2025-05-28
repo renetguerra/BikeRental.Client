@@ -52,9 +52,7 @@ export class MemberDetailComponent {
     
   galleryImages = this.photoStore.galleryImages;
   
-  readonly memberByUser = this.memberStore.memberByUsername;  
-
-  // isMessagesTabDisabled = signal(false);
+  readonly memberByUser = this.memberStore.memberByUsername;    
    
   constructor(private router: Router, private route: ActivatedRoute) {
     this.user.set(this.accountService.currentUser()!);

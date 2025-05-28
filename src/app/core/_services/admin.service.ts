@@ -26,12 +26,7 @@ export class AdminService {
   updateUserRoles(username: string, roles: string[]) {
     return this.http.post<string[]>(this.baseUrl + 'admin/edit-roles/' 
       + username  + '?roles=' + roles, {});
-  }
-
-  updateCanSendMessages(username: string, canSendMessages: boolean) {
-    return this.http.post(this.baseUrl + 'admin/update-can-send-messages/' 
-      + username  + '?canSendMessages=' + canSendMessages, {});
-  }
+  }  
 
   createUserNotifications(username: string, notifications: Notification[]) {   
       return this.http.post(`${this.baseUrl}admin/create-notifications/${username}`, notifications);

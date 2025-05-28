@@ -43,14 +43,7 @@ export class PresenceService {
 
     this.hubConnection.on('GetOnlineUsers', usernames => {
       this.onlineUsersSource.next(usernames);
-    })
-
-    this.hubConnection.on('NewMessageReceived', ({ username, knownAs }) => {
-      this.toastr.info(knownAs + ' has sent you a new message! Click me to see it!')
-        .onTap
-        .pipe(take(1))
-        .subscribe(() => this.router.navigateByUrl('/members/' + username + '?tab=Messages'))
-    })
+    })    
   }
 
   stopHubConnection() {

@@ -16,6 +16,7 @@ import { Bike } from 'src/app/core/_models/bike';
 import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/photo-editor.component';
 import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/photo-delete.component';
 import { BikeRentalHistoryComponent } from 'src/app/features/rental/bike-rental-history/bike-rental-history.component';
+import { RentStore } from 'src/app/core/_stores/rent.store';
 
 @Component({
     selector: 'app-bike-detail',
@@ -34,6 +35,7 @@ export class BikeDetailComponent {
   readonly dialog = inject(MatDialog);
 
   private bikeStore = inject(BikeStore);  
+  public rentStore = inject(RentStore);
   private photoStore = inject(PhotoStore);
 
   readonly user = signal(this.accountService.currentUser());  
@@ -46,9 +48,7 @@ export class BikeDetailComponent {
     
   galleryImages = this.photoStore.galleryBikeImages; 
 
-  readonly bikeById = this.bikeStore.bikeById;  
-
-  // isMessagesTabDisabled = signal(false);
+  readonly bikeById = this.bikeStore.bikeById;    
   
   constructor(private router: Router, private route: ActivatedRoute) {
     this.user.set(this.accountService.currentUser()!);
@@ -58,12 +58,7 @@ export class BikeDetailComponent {
     }
   }
 
-  ngOnInit(): void {
-
-    // if (!this.bike()! || this.bike()!.id === 0) {
-    //   this.userNameParam.set(this.route.snapshot.paramMap.get('id')!);
-    //   this.bikeStore.bikeById();
-    // }
+  ngOnInit(): void {    
 
     this.route.data.subscribe({
       next: data => this.bikeStore.setBike(data['bike'])
@@ -90,10 +85,7 @@ export class BikeDetailComponent {
     this.activeTab = data;        
   }
   
-  openDialogAddPhoto() {    
-    // this.dialog.open(PhotoEditorComponent, {
-    //   data: this.bike()
-    // });
+  openDialogAddPhoto() {       
     this.dialog.open(PhotoEditorComponent<Bike>, {
       data: {
         entity: this.bike(),
@@ -110,6 +102,18 @@ export class BikeDetailComponent {
         getEntityIdentifier: (b: Bike) => b.id.toString()
       }
     });         
+  }
+
+  rentBike() {
+    if (!this.bike()) return;
+    this.rentStore.rentBike(this.bike()!.id).subscribe({
+      next: (response) => {
+        console.log('OK', response);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
 }

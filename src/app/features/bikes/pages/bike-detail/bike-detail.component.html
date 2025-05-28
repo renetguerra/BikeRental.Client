@@ -36,7 +36,7 @@
             </div>
             <div class="card-footer">
                 <div class="btn-group d-flex">                    
-                    <button (click)="selectTab('Messages')" class="btn btn-primary" [disabled]="!bike()?.isAvailable">RENT</button>
+                    <button (click)="rentBike()" class="btn btn-primary" [disabled]="!bike()?.isAvailable">RENT</button>
                 </div>
             </div>
         </div>

@@ -6,19 +6,12 @@ import { AdminService } from "../_services/admin.service";
 export class AdminUserStore {
     private adminService = inject(AdminService);
 
-    private _users = signal<User[]>([]);
-    private _canSendMessages = signal<{ [username: string]: boolean }>({});
+    private _users = signal<User[]>([]);    
   
-    readonly users = computed(() => this._users());
-    readonly canSendMessages = computed(() => this._canSendMessages());
+    readonly users = computed(() => this._users());    
   
     setUsers(users: User[]) {
-      this._users.set(users);
-      const messagePermissions: { [username: string]: boolean } = {};
-      users.forEach(user => {
-        messagePermissions[user.username] = user.canSendMessages;
-      });
-      this._canSendMessages.set(messagePermissions);
+      this._users.set(users);            
     }
   
     updateUserRoles(username: string, roles: string[]) {
@@ -29,20 +22,5 @@ export class AdminUserStore {
         return user;
       });
       this._users.set(updatedUsers);
-    }
-  
-    toggleSendMessagesPermission(username: string) {
-      const currentState = this._canSendMessages()[username];
-      this._canSendMessages.update(state => ({
-        ...state,
-        [username]: !currentState
-      }));
-    }
-  
-    updateUserCanSendMessages(username: string, canSendMessages: boolean) {
-      const updatedPermissions = { ...this._canSendMessages(), [username]: canSendMessages };
-      this._canSendMessages.set(updatedPermissions);
-
-      this.adminService.updateCanSendMessages(username, canSendMessages);       
-    }
+    }        
   }
