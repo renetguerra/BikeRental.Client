@@ -3,19 +3,14 @@ import { Component, inject, signal, viewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { TimeagoModule } from 'ngx-timeago';
-import { MessageService } from 'src/app/core/_services/message.service';
 import { PresenceService } from 'src/app/core/_services/presence.service';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { GalleryModule } from 'ng-gallery';
-import { HasRoleDirective } from 'src/app/shared/_directives/has-role.directive';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
-// import { PhotoEditorComponent } from '../../components/bike-photo/photo-editor/photo-editor.component';
-// import { PhotoDeleteComponent } from '../../components/bike-photo/photo-delete/photo-delete.component';
 import {MatDividerModule} from '@angular/material/divider';
-import { BikeListComponent } from '../bike-list/bike-list.component';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { Bike } from 'src/app/core/_models/bike';
 import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/photo-editor.component';
@@ -34,8 +29,7 @@ export class BikeDetailComponent {
   
   bikeTabs = viewChild<TabsetComponent>('bikeTabs');  
 
-  private accountService = inject(AccountService);    
-  private messageService = inject(MessageService);  
+  private accountService = inject(AccountService);      
   public presenceService = inject(PresenceService);      
   readonly dialog = inject(MatDialog);
 

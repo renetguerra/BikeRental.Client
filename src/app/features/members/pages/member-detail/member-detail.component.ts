@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { TimeagoModule } from 'ngx-timeago';
 import { Member } from 'src/app/core/_models/member';
-import { MessageService } from 'src/app/core/_services/message.service';
 import { PresenceService } from 'src/app/core/_services/presence.service';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { GalleryModule } from 'ng-gallery';
@@ -35,8 +34,7 @@ export class MemberDetailComponent {
   
   memberTabs = viewChild<TabsetComponent>('memberTabs');  
 
-  private accountService = inject(AccountService);    
-  private messageService = inject(MessageService);  
+  private accountService = inject(AccountService);      
   public presenceService = inject(PresenceService);  
   private _bottomSheet = inject(MatBottomSheet);  
   readonly dialog = inject(MatDialog);
@@ -95,12 +93,7 @@ export class MemberDetailComponent {
   }
 
   onTabActivated(data: TabDirective) {
-    this.activeTab = data;    
-    if ((this.activeTab.heading === 'Messages' || this.activeTab.heading === 'Calendar') && this.user()) {      
-      this.messageService.createHubConnection(this.user()!, this.member()!.username);
-    } else {
-      this.messageService.stopHubConnection();
-    }
+    this.activeTab = data;        
   }   
   
   openDialogAddPhoto() {    
