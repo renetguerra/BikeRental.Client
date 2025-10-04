@@ -3,7 +3,6 @@ import { ToastrService } from "ngx-toastr";
 import { Member } from "../_models/member";
 import { Photo } from "../_models/photo";
 import { MembersService } from "../_services/members.service";
-import { FileUploader } from "ng2-file-upload";
 import { ImageItem } from "ng-gallery";
 import { AccountService } from "../_services/account.service";
 import { MemberStore } from "./member.store";
@@ -17,22 +16,22 @@ type EntityType = 'user' | 'bike';
 
 @Injectable({ providedIn: 'root' })
 export class PhotoStore {
-    
+
   private photoService = inject(PhotoService);
   private memberService = inject(MembersService);
   private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
-  
+
   private memberStore = inject(MemberStore);
   private bikeStore = inject(BikeStore);
 
   readonly user = signal(this.accountService.currentUser());
-  
+
   readonly member = this.memberStore.member;
   readonly userPhotos = computed(() => this.member()?.userPhotos ?? []);
 
   readonly bike = this.bikeStore.bike;
-  readonly bikePhotos = computed(() => this.bike()?.bikePhotos ?? []);  
+  readonly bikePhotos = computed(() => this.bike()?.bikePhotos ?? []);
 
   //uploader = signal<FileUploader | undefined>(undefined);
   readonly uploadedPhotos = signal<Photo[]>([]);
@@ -41,12 +40,12 @@ export class PhotoStore {
   hasBaseDropzoneOver = false;
 
   private readonly _galleryHomePhotos = signal<Photo[]>([]);
-  readonly galleryHomePhotos = this._galleryHomePhotos.asReadonly();    
+  readonly galleryHomePhotos = this._galleryHomePhotos.asReadonly();
 
   readonly galleryImages = computed(() => {
     const member = this.member();
     if (!member) return [];
-    return member.userPhotos.map(photo => 
+    return member.userPhotos.map(photo =>
       new ImageItem({ src: photo.url, thumb: photo.url })
     );
   });
@@ -54,7 +53,7 @@ export class PhotoStore {
   readonly galleryBikeImages = computed(() => {
     const bike = this.bike();
     if (!bike) return [];
-    return bike.bikePhotos.map(photo => 
+    return bike.bikePhotos.map(photo =>
       new ImageItem({ src: photo.url, thumb: photo.url })
     );
   });
@@ -130,17 +129,17 @@ export class PhotoStore {
     uploadPhoto(entityId: string, uploadPath: string, file: File): Observable<Photo> {
       const token = this.accountService.currentUser()?.token;
       if (!token) return EMPTY as Observable<Photo>;
-    
+
       const formData = new FormData();
       formData.append('file', file);
-    
+
       return this.photoService.uploadPhoto(entityId, uploadPath, formData, token).pipe(
         map(event => {
           if (event.type === HttpEventType.Response) {
             const photo = event.body as Photo;
-    
+
             this.updateMainPhotoLocal(entityId, photo);
-    
+
             return photo; // esto se emite al subscribe
           }
           return null;
@@ -194,21 +193,21 @@ export class PhotoStore {
 
   setMainPhoto(entityId: string, uploadPath: string, photo: Photo) : Observable<Photo> {
     //const entityType = entityId == 'user' ? this.memberStore.member()?.username : this.bikeStore.bike()?.id.toString();
-  
+
     if (!entityId) return of(photo);
-  
+
     return this.photoService.setMainPhoto(entityId, uploadPath, photo.id).pipe(
       tap(() => this.updateMainPhotoLocal(entityId, photo)),
       map(()=> photo)
     );
   }
 
-  deletePhoto(entityType: EntityType, photoId: number) {
-    if (entityType === 'user') {
+  deletePhoto(entityId: string, uploadPath: string, photoId: number) {
+    if (entityId === 'user') {
       const member = this.memberStore.member();
       if (!member) return;
-  
-      this.photoService.deletePhoto(entityType, member.username, photoId).subscribe({
+
+      this.photoService.deletePhoto(entityId, uploadPath, photoId).subscribe({
         next: () => {
           this.memberStore.setMember({
             ...member,
@@ -221,8 +220,8 @@ export class PhotoStore {
     } else {
       const bike = this.bikeStore.bike();
       if (!bike) return;
-  
-      this.photoService.deletePhoto(entityType, bike.id.toString(), photoId).subscribe({
+
+      this.photoService.deletePhoto(entityId, uploadPath, photoId).subscribe({
         next: () => {
           this.bikeStore.setBike({
             ...bike,
@@ -244,7 +243,7 @@ export class PhotoStore {
         const updated = {
           ...this.member()!,
           userPhotos: this.member()!.userPhotos.filter(p => p.id !== photoId)
-        };        
+        };
         this.memberStore.setMember(updated);
         this.toastr.success('Photo deleted');
       },
@@ -260,7 +259,7 @@ export class PhotoStore {
 
     this.memberService.setMainPhoto(photo.id).subscribe({
       next: () => {
-        
+
         const updatedPhotos = member.userPhotos.map(p => ({
           ...p,
           isMain: p.id === photo.id
@@ -272,8 +271,8 @@ export class PhotoStore {
             userPhotos: updatedPhotos
           };
 
-        this.memberStore.setMember(updatedMember);            
-        
+        this.memberStore.setMember(updatedMember);
+
         this.accountService.setCurrentUser({
             ...this.accountService.currentUser()!,
             photoUrl: photo.url

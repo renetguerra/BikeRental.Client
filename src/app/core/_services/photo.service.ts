@@ -22,9 +22,9 @@ export class PhotoService {
     return this.http.put(`${this.baseUrl}${uploadPath}/${entityId}/set-main-photo/${photoId}`, {});
   }
 
-  deletePhoto(entityType: EntityType, entityId: string, photoId: number) {
+  deletePhoto(entityId: string, uploadPath: string, photoId: number) {
     return this.http.delete(
-      `${this.baseUrl}${entityType}/delete-photo/${entityId}?photoId=${photoId}`
+      `${this.baseUrl}${uploadPath}/${entityId}?photoId=${photoId}`
     );
   }
 }

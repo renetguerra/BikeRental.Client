@@ -16,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
     imports: [MatDialogModule, MatButtonModule]
 })
 export class PhotoEditorComponent<T> implements OnInit {
-   
+
   readonly dialogRef = inject(MatDialogRef<PhotoEditorComponent<T>>);
   readonly data = inject<PhotoEditorDialogData<T>>(MAT_DIALOG_DATA);
 
@@ -28,9 +28,9 @@ export class PhotoEditorComponent<T> implements OnInit {
   uploadedPhotos = signal<Photo[]>([]);
   hasBaseDropzoneOver = signal(false);
   progress = signal<number>(0);
-  
+
   user = this.photoStore.user;
-  
+
   constructor() {}
 
   ngOnInit(): void {
@@ -39,7 +39,7 @@ export class PhotoEditorComponent<T> implements OnInit {
 
   fileOverBase(e: any) {
     this.hasBaseDropzoneOver.set(e);
-  }  
+  }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -71,13 +71,13 @@ export class PhotoEditorComponent<T> implements OnInit {
   }
 
   deletePhoto(photo: Photo) {
-    const entityType = this.data.entityType;
+    const uploadPath = this.data.uploadPath;
     const entityId = this.data.getEntityIdentifier(this.data.entity);
 
-    this.photoStore.deletePhoto(entityType, photo.id);
+    this.photoStore.deletePhoto(entityId, uploadPath, photo.id);
   }
 
-  /*initializeUploader() {    
+  /*initializeUploader() {
     const currentUser = this.user();
     const entityId = this.data.getEntityIdentifier(this.data.entity);
 
@@ -95,7 +95,7 @@ export class PhotoEditorComponent<T> implements OnInit {
 
     this.uploader()!.onAfterAddingFile = (file) => {
       file.withCredentials = false;
-    }    
+    }
 
     this.uploader()!.onSuccessItem = (item, response, status, headers) => {
       if (!response) return;
