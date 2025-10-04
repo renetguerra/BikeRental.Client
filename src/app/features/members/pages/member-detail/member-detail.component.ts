@@ -103,7 +103,7 @@ export class MemberDetailComponent {
       data: {
         entity: this.member(),
         uploadPath: 'user/add-photo',
-        getEntityIdentifier: (m: Member) => m.username
+        getEntityIdentifier: (m: Member) => m.username        
       }
     });
 

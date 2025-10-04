@@ -5,6 +5,7 @@ import { AccountService } from "../_services/account.service";
 import { MembersService } from "../_services/members.service";
 import { Member } from "../_models/member";
 import { UserParams } from "../_models/userParams";
+import { Photo } from "../_models/photo";
 
 @Injectable({ providedIn: 'root' })
 export class MemberStore {
@@ -87,4 +88,23 @@ export class MemberStore {
   setMember(member: Member) {
       this._member.set(member);        
   }    
+
+  /*addPhotoLocal(photo: Photo) {
+    this._member.update(member => member ? { ...member, photos: [...member.userPhotos, photo] } : member);
+  }
+  
+  setMainPhotoLocal(photo: Photo) {
+    this._member.update(member => {
+      if (!member) return member;
+      return {
+        ...member,
+        photoUrl: photo.url,
+        photos: member.userPhotos.map(p => ({ ...p, isMain: p.id === photo.id }))
+      };
+    });
+  }
+  
+  deletePhotoLocal(photoId: number) {
+    this._member.update(member => member ? { ...member, photos: member.userPhotos.filter(p => p.id !== photoId) } : member);
+  }*/
 }

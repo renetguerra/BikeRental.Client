@@ -8,12 +8,13 @@ import { BikeCardComponent } from '../../components/bike-card/bike-card.componen
 import { Bike } from 'src/app/core/_models/bike';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @Component({
     selector: 'app-bike-list',
     templateUrl: './bike-list.component.html',
     styleUrls: ['./bike-list.component.css'],
-    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, NgxPaginationModule, MatSlideToggleModule]
+    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, NgxPaginationModule, MatSlideToggleModule, ButtonsModule]
 })
 export class BikeListComponent {  
   

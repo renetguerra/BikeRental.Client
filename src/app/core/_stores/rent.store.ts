@@ -75,16 +75,48 @@ export class RentStore {
   });
   
 
-  constructor() {
+  constructor() {    
+    // getRentalsByBike
     effect(() => {
       const bike = this.bike();
+      if (!bike || bike.id <= 0) return;
+
+      this.rentService.getRentalsByBike(bike.id).subscribe((bikeRentals) => {
+        this._bikeRentals.set(bikeRentals);
+
+        // actualizar cache de bicis faltantes
+        this.updateBikeCache(bikeRentals.rentals.map((r) => r.bikeId));
+      });
+    });
+
+    // getCustomerRentalHistory
+    effect(() => {
       const user = this.user();
+      if (!user) return;
 
-      if (!bike || !user) return;
+      this.rentService.getCustomerRentalHistory(user.username).subscribe((customerRentals) => {
+        this._customerRentals.set(customerRentals);
 
-      this.loadRentalsByBike(bike.id);    
-      this.loadBikeRentalsHistoryEffect();
-      this.loadCustomerRentalsHistoryEffect();
+        // actualizar cache de bicis faltantes
+        this.updateBikeCache(customerRentals.rentals.map((r) => r.bikeId));
+      });
+    });
+  }
+
+  private updateBikeCache(missingIds: number[]) {
+    const bikesMap = this.bikeCache();
+    const idsToFetch = [...new Set(missingIds)].filter((id) => id > 0 && !bikesMap.has(id));
+
+    if (idsToFetch.length === 0) return;
+
+    const bikeRequests = idsToFetch.map((id) =>
+      this.bikeService.getBike(id).pipe(map((bike) => ({ id, bike })))
+    );
+
+    forkJoin(bikeRequests).subscribe((results) => {
+      const updatedCache = new Map(bikesMap);
+      results.forEach(({ id, bike }) => updatedCache.set(id, bike));
+      this._bikeCache.set(updatedCache);
     });
   }
 
@@ -106,63 +138,4 @@ export class RentStore {
     });
   }
 
-  private loadBikeRentalsHistoryEffect() {
-    effect(() => {
-      const bike = this.bike();
-      if (!bike) return;
-
-      this.rentService
-        .getRentalsByBike(bike.id)
-        .subscribe((bikeRentals) => {
-          this._bikeRentals.set(bikeRentals);
-
-          const bikesMap = this.bikeCache();
-          const missingBikeIds = [
-            ...new Set(bikeRentals.rentals.map((r) => r.bikeId)),
-          ].filter((id) => !bikesMap.has(id));
-
-          if (missingBikeIds.length === 0) return;
-
-          const bikeRequests = missingBikeIds.map((id) =>
-            this.bikeService.getBike(id).pipe(map((bike) => ({ id, bike })))
-          );
-
-          forkJoin(bikeRequests).subscribe((results) => {
-            const updatedCache = new Map(bikesMap);
-            results.forEach(({ id, bike }) => updatedCache.set(id, bike));
-            this._bikeCache.set(updatedCache);
-          });
-        });
-    });
-  }
-
-  private loadCustomerRentalsHistoryEffect() {
-    effect(() => {
-      const user = this.user();
-      if (!user) return;
-
-      this.rentService
-        .getCustomerRentalHistory(this.user()!.username)
-        .subscribe((customerRentals) => {
-          this._customerRentals.set(customerRentals);
-
-          const bikesMap = this.bikeCache();
-          const missingBikeIds = [
-            ...new Set(customerRentals.rentals.map((r) => r.bikeId)),
-          ].filter((id) => !bikesMap.has(id));
-
-          if (missingBikeIds.length === 0) return;
-
-          const bikeRequests = missingBikeIds.map((id) =>
-            this.bikeService.getBike(id).pipe(map((bike) => ({ id, bike })))
-          );
-
-          forkJoin(bikeRequests).subscribe((results) => {
-            const updatedCache = new Map(bikesMap);
-            results.forEach(({ id, bike }) => updatedCache.set(id, bike));
-            this._bikeCache.set(updatedCache);
-          });
-        });
-    });
-  }
 }

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
-import { of, map, catchError, throwError } from 'rxjs';
+import { of, map, catchError, throwError, Observable } from 'rxjs';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
@@ -21,7 +21,8 @@ export class MembersService {
   userParams = signal<UserParams | undefined>(undefined);  
 
   constructor() { 
-    if (this.user) this.userParams.set(new UserParams(this.user));
+    if (this.user) 
+      this.userParams.set(new UserParams(this.user));
   }
 
   getUserParams() {
@@ -41,9 +42,12 @@ export class MembersService {
   }
 
   getMembers(userParams: UserParams) {
-    const response = this.memberCache.get(Object.values(userParams).join('-'));
+    const cacheKey = Object.values(userParams).join('-');
+    const cached = this.memberCache.get(cacheKey);
+    
+    //const response = this.memberCache.get(Object.values(userParams).join('-'));
 
-    if (response) return of(response);
+    if (cached) return of(cached);
 
     let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
 
@@ -52,24 +56,48 @@ export class MembersService {
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
 
-    return getPaginatedResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
+    /*return getPaginatedResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
       map(response => {
         this.memberCache.set(Object.values(userParams).join('-'), response);
         return response;
       })
-    )
+    )*/
+    return getPaginatedResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
+      map(response => {
+        this.memberCache.set(cacheKey, response);
+        this.members.set(response.result || []); // actualizamos signal
+        return response;
+      }),
+      catchError(error => {
+        console.error('Error al obtener miembros:', error);
+        return throwError(() => new Error('Error al obtener miembros'));
+      })
+    );
   }
 
-  getMembersWithoutCacheAndPagination() {        
+  /*getMembersWithoutCacheAndPagination() {        
     return this.http.get<Member[]>(this.baseUrl + 'user/all-users').pipe(
       catchError(error => {
         console.error('Error en la petición HTTP:', error);
         return throwError(() => new Error('Error al obtener los usuarios'));
       })
     )
+  }*/
+
+  getMembersWithoutCacheAndPagination(): Observable<Member[]> {        
+    return this.http.get<Member[]>(this.baseUrl + 'user/all-users').pipe(
+      map(members => {
+        this.members.set(members);
+        return members;
+      }),
+      catchError(error => {
+        console.error('Error to get users:', error);
+        return throwError(() => new Error('Error to get users'));
+      })
+    );
   }
 
-  getMember(username: string) {
+  /*getMember(username: string) {
     // const member = [...this.memberCache.values()]
     //   .reduce((arr, elem) => arr.concat(elem.result), [])
     //   .find((member: Member) => member.username === username);
@@ -77,13 +105,29 @@ export class MembersService {
     // if (member) return of(member);
     
     return this.http.get<Member>(this.baseUrl + 'user/' + username);
+  }*/
+  getMember(username: string): Observable<Member> {
+    // Buscar en cache global
+    const member = this.members().find(m => m.username === username);
+    if (member) return of(member);
+
+    return this.http.get<Member>(`${this.baseUrl}user/${username}`).pipe(
+      map(member => {
+        this.members.update(list => [...list, member]); // añadimos al signal
+        return member;
+      })
+    );
   }
 
   updateMember(member: Member) {
     return this.http.put(this.baseUrl + 'user', member).pipe(
       map(() => {
-        const index = this.members().indexOf(member);
-        this.members()[index] = { ...this.members()[index], ...member }
+        //const index = this.members().indexOf(member);
+        //this.members()[index] = { ...this.members()[index], ...member }
+
+        this.members.update(list =>
+          list.map(m => (m.username === member.username ? { ...m, ...member } : m))
+        );
       })
     )
   }

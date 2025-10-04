@@ -93,7 +93,7 @@ export class BikeEditComponent implements OnInit  {
       data: {
         entity: this.bike(),
         uploadPath: 'bike/add-photo',
-        getEntityIdentifier: (b: Bike) => b.id.toString()
+        getEntityIdentifier: (b: Bike) => b.id.toString()        
       }
     });
 

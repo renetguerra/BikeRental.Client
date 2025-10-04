@@ -5,12 +5,13 @@ import { RouterModule } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { MemberCardComponent } from '../../components/member-card/member-card.component';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 
 @Component({
     selector: 'app-member-list',
     templateUrl: './member-list.component.html',
     styleUrls: ['./member-list.component.css'],
-    imports: [CommonModule, RouterModule, FormsModule, MemberCardComponent, NgxPaginationModule]
+    imports: [CommonModule, RouterModule, FormsModule, MemberCardComponent, NgxPaginationModule, ButtonsModule]
 })
 export class MemberListComponent {  
   

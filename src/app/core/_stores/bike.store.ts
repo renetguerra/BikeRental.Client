@@ -8,6 +8,7 @@ import { UserParams } from "../_models/userParams";
 import { Bike } from "../_models/bike";
 import { BikeService } from "../_services/bike.service";
 import { BikeParams } from "../_models/bikeParams";
+import { Photo } from "../_models/photo";
 
 @Injectable({ providedIn: 'root' })
 export class BikeStore {
@@ -90,4 +91,24 @@ export class BikeStore {
   setBike(bike: Bike) {
       this._bike.set(bike);
   } 
+
+  /*addPhotoLocal(photo: Photo) {
+    this._bike.update(bike => bike ? { ...bike, photos: [...bike.bikePhotos, photo] } : bike);
+  }
+  
+  setMainPhotoLocal(photo: Photo) {
+    this._bike.update(bike => {
+      if (!bike) return bike;
+      return {
+        ...bike,
+        photoUrl: photo.url,
+        photos: bike.bikePhotos.map(p => ({ ...p, isMain: p.id === photo.id }))
+      };
+    });
+  }
+  
+  deletePhotoLocal(photoId: number) {
+    this._bike.update(bike => bike ? { ...bike, photos: bike.bikePhotos.filter(p => p.id !== photoId) } : bike);
+  }*/
+
 }

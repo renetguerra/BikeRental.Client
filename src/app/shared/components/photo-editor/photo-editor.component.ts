@@ -1,5 +1,4 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { FileUploader, FileUploadModule } from 'ng2-file-upload';
 import { Member } from 'src/app/core/_models/member';
 import { environment } from 'src/environments/environment';
 import { NgClass, NgStyle, DecimalPipe } from '@angular/common';
@@ -8,12 +7,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { PhotoEditorDialogData } from 'src/app/core/_models/photoEditorDialogData';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-photo-editor',
     templateUrl: './photo-editor.component.html',
     styleUrls: ['./photo-editor.component.css'],
-    imports: [NgClass, FileUploadModule, NgStyle, DecimalPipe, MatDialogModule, MatButtonModule]
+    imports: [MatDialogModule, MatButtonModule]
 })
 export class PhotoEditorComponent<T> implements OnInit {
    
@@ -21,25 +21,63 @@ export class PhotoEditorComponent<T> implements OnInit {
   readonly data = inject<PhotoEditorDialogData<T>>(MAT_DIALOG_DATA);
 
   private photoStore = inject(PhotoStore);
+  private toastr = inject(ToastrService);
 
-  uploader = signal<FileUploader | undefined>(undefined);
-  hasBaseDropzoneOver = signal(false);
+  // uploader = signal<FileUploader | undefined>(undefined);
   baseUrl = environment.apiUrl;
-  uploadedPhotos: Photo[] = [];
+  uploadedPhotos = signal<Photo[]>([]);
+  hasBaseDropzoneOver = signal(false);
+  progress = signal<number>(0);
   
   user = this.photoStore.user;
   
   constructor() {}
 
   ngOnInit(): void {
-    this.initializeUploader();
+    // this.initializeUploader();
   }
 
   fileOverBase(e: any) {
-    this.hasBaseDropzoneOver = e;
+    this.hasBaseDropzoneOver.set(e);
   }  
 
-  initializeUploader() {    
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const file = input.files[0];
+    const uploadPath = this.data.uploadPath;
+    const entityId = this.data.getEntityIdentifier(this.data.entity);
+
+    this.progress.set(0);
+
+    this.photoStore.uploadPhoto(entityId, uploadPath, file).subscribe({
+      next: (photo) => {
+        this.uploadedPhotos.update(list => [...list, photo]);
+        this.toastr.success('Photo uploaded');
+      },
+      error: () => this.toastr.error('Upload failed')
+    });
+  }
+
+  setMainPhoto(photo: Photo) {
+    const uploadPath = this.data.uploadPath;
+    const entityId = this.data.getEntityIdentifier(this.data.entity);
+
+    this.photoStore.setMainPhoto(entityId, uploadPath, photo).subscribe({
+      next: () => this.toastr.success('Photo set as main'),
+      error: () => this.toastr.error('Could not set main photo')
+    });
+  }
+
+  deletePhoto(photo: Photo) {
+    const entityType = this.data.entityType;
+    const entityId = this.data.getEntityIdentifier(this.data.entity);
+
+    this.photoStore.deletePhoto(entityType, photo.id);
+  }
+
+  /*initializeUploader() {    
     const currentUser = this.user();
     const entityId = this.data.getEntityIdentifier(this.data.entity);
 
@@ -71,5 +109,5 @@ export class PhotoEditorComponent<T> implements OnInit {
       });
       this.dialogRef.close();
     };
-  }
+  }*/
 }
