@@ -1,30 +1,62 @@
-<h3 mat-dialog-title>Add Photos</h3>
-<mat-dialog-content >
-    <div class="row mt-3">
-    
-        <div class="col-md-6">
+<h3 mat-dialog-title>Manage Photos</h3>
+<mat-dialog-content class="photo-dialog-content">
+  <div class="photo-upload-container">
 
-            <h3>Add Photos</h3>
+    <h4>Select photos to upload</h4>
 
-            <mat-dialog-content>
-                <input type="file" (change)="onFileSelected($event)" multiple />
-                @if (progress()) {
-                    <div>
-                        Upload progress: {{ progress() }}%
-                      </div>
-                      <ul>
-                        @for (photo of uploadedPhotos(); track $index) {
-                            <li>{{ photo.url }}</li>
-                        }
-                      </ul>
-                }
-            </mat-dialog-content>
-            <mat-dialog-actions align="end">
-            <button mat-button mat-dialog-close>Cancel</button>
-            </mat-dialog-actions>
+    <input type="file" (change)="onFileSelected($event)" multiple class="file-input" />
+
+    @if (progress() > 0) {
+      <div class="progress-container">
+        <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
+        <p>{{ progress() }}% uploaded</p>
+      </div>
+    }
+
+    @if (existingPhotos().length > 0) {
+      <div class="existing-photos">
+        <h5>Existing Photos: ({{ existingPhotos().length }} photos)</h5>
+        <div class="row">
+          @for (photo of existingPhotos(); track photo.id) {
+            <div class="col-md-3 mb-3">
+              <div class="card" style="border: 1px solid #ddd; border-radius: 8px;">
+                <img [src]="photo.url" alt="photo" class="card-img-top uploaded-photo-preview"/>
+                <div class="card-body p-2">
+                  @if (photo.isMain) {
+                    <div class="text-center mb-2">
+                      <span class="badge badge-success">Main Photo</span>
+                    </div>
+                  }
+                  <div class="d-flex justify-content-between">
+                    <button
+                      mat-mini-fab
+                      color="primary"
+                      [disabled]="photo.isMain"
+                      (click)="setMainPhoto(photo)"
+                      title="Set as main photo">
+                      <mat-icon>star</mat-icon>
+                    </button>
+                    <button
+                      mat-mini-fab
+                      color="warn"
+                      [disabled]="photo.isMain"
+                      (click)="deletePhoto(photo)"
+                      title="Delete photo">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
         </div>
-    </div>
+      </div>
+    }
+
+  </div>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>    
+
+<mat-dialog-actions align="end" class="photo-dialog-actions">
+  <button mat-stroked-button mat-dialog-close color="warn">Cancel</button>
+  <button mat-stroked-button mat-dialog-close color="primary">Done</button>
 </mat-dialog-actions>

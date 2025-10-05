@@ -10,6 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/materia
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { PhotoEditorDialogData } from 'src/app/core/_models/photoEditorDialogData';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-photo-delete',
@@ -19,16 +20,39 @@ import { PhotoEditorDialogData } from 'src/app/core/_models/photoEditorDialogDat
 })
 export class PhotoDeleteComponent<T> implements OnInit {
   private accountService = inject(AccountService);
+  private toastr = inject(ToastrService);
   readonly dialogRef = inject(MatDialogRef<PhotoDeleteComponent<T>>);
   readonly data = inject<PhotoEditorDialogData<T>>(MAT_DIALOG_DATA);
-  readonly getEntityIdentifier = this.data.getEntityIdentifier;
+  readonly getEntityIdentifier = this.data.photoConfig.getEntityIdentifier;
 
   readonly photoStore = inject(PhotoStore);
   readonly memberStore = inject(MemberStore);
 
   user = signal<User>(this.accountService.currentUser()!);
   entity = signal(this.data.entity);
-  userPhotos = computed(() => this.photoStore.userPhotos());
+
+  // Fotos genéricas basadas en la configuración
+  photos = computed(() => {
+    const currentEntity = this.entity();
+    if (!currentEntity) return [];
+
+    const photosProperty = this.data.photoConfig.photosProperty;
+    return (currentEntity as any)[photosProperty] as Photo[] || [];
+  });
+
+  // Para compatibilidad hacia atrás con el template
+  userPhotos = this.photos;
+
+  // Verificar si el usuario actual puede editar esta entidad
+  canEdit = computed(() => {
+    const currentUser = this.user();
+    const currentEntity = this.entity();
+    if (!currentUser || !currentEntity) return false;
+
+    const entityId = this.data.photoConfig.getEntityIdentifier(currentEntity);
+    return entityId === currentUser.username ||
+           currentUser.roles?.includes('Admin');
+  });
 
 
   constructor() {
@@ -37,17 +61,64 @@ export class PhotoDeleteComponent<T> implements OnInit {
   ngOnInit(): void { }
 
   setMainPhoto(photo: Photo) {
-    const uploadPath = this.data.uploadPath;
-    const entityId = this.data.getEntityIdentifier(this.data.entity);
+    const entity = this.data.urlServerPath.split('/')[0]; // 'user' o 'bike'
+    const urlServerPath = entity + '/set-main-photo/';
 
-    this.photoStore.setMainPhoto(entityId, uploadPath, photo)
+    this.photoStore.setMainPhotoAndUpdate(
+      this.data.entity,
+      photo,
+      this.data.photoConfig,
+      urlServerPath,
+      (updatedEntity) => {
+        this.entity.set(updatedEntity);
+
+        // Call the callback if provided
+        if (this.data.onMainPhotoSet) {
+          this.data.onMainPhotoSet(photo, updatedEntity);
+        }
+      }
+    ).subscribe({
+      next: () => this.toastr.success('Photo set as main'),
+      error: (error) => {
+        console.error('Could not set main photo', error);
+        this.toastr.error('Could not set main photo');
+      }
+    });
   }
 
-  deletePhoto(photoId: number) {
-    const uploadPath = this.data.uploadPath;
-    const entityId = this.data.getEntityIdentifier(this.data.entity);
+  deletePhoto(photo: Photo) {
+    const urlServerPath = this.data.urlServerPath;
 
-    this.photoStore.deletePhoto(entityId, uploadPath, photoId);
+    this.photoStore.deletePhotoAndUpdate(
+      this.data.entity,
+      photo.id,
+      this.data.photoConfig,
+      urlServerPath,
+      (updatedEntity) => {
+        this.entity.set(updatedEntity);
+
+        // Call the callback if provided
+        if (this.data.onPhotoDeleted) {
+          this.data.onPhotoDeleted(photo.id, updatedEntity);
+        }
+      }
+    ).subscribe({
+      next: () => {
+        this.toastr.success('Photo deleted successfully');
+        // Cerrar el diálogo si no quedan fotos
+        if (this.photos().length === 0) {
+          this.dialogRef.close();
+        }
+      },
+      error: (error) => {
+        console.error('Could not delete photo', error);
+        this.toastr.error('Could not delete photo');
+      }
+    });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }

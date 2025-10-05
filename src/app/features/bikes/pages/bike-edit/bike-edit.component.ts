@@ -29,13 +29,13 @@ import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/pho
 })
 export class BikeEditComponent implements OnInit  {
 
-  private accountService = inject(AccountService);  
+  private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
 
   private bikeStore = inject(BikeStore);
   private photoStore = inject(PhotoStore);
-  
+
   editForm = viewChild<NgForm>('editForm');
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editForm()?.dirty) {
@@ -44,14 +44,14 @@ export class BikeEditComponent implements OnInit  {
   }
 
   user = this.accountService.currentUser();
-  bike = this.bikeStore.bike;  
+  bike = this.bikeStore.bike;
   bikeIdParam = signal<number>(0);
 
   galleryImages = this.photoStore.galleryBikeImages;
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     // if (!this.bike()! || this.bike()!.id === 0) {
-    //   this.bikeIdParam.set(this.route.snapshot.paramMap.get('id'));      
+    //   this.bikeIdParam.set(this.route.snapshot.paramMap.get('id'));
     //   const bike = this.bikeStore.bikeById();
     //   if (bike) {
     //     this.bikeStore.setBike(bike);
@@ -73,33 +73,33 @@ export class BikeEditComponent implements OnInit  {
 
     const updatedBike: Bike = {
       ...current,
-      ...formValue      
+      ...formValue
     };
 
     this.bikeStore.updateBike(updatedBike).subscribe({
-      next: () => {        
+      next: () => {
         this.toastr.success('Profile updated successfully');
         this.editForm()?.reset(updatedBike);
       }
     });
   }
-  
-  openDialogAddPhoto() {    
+
+  openDialogAddPhoto() {
     // this.dialog.open(PhotoEditorComponent, {
     //   data: this.member()
-    // });    
+    // });
 
     this.dialog.open(PhotoEditorComponent<Bike>, {
       data: {
         entity: this.bike(),
-        uploadPath: 'bike/add-photo',
-        getEntityIdentifier: (b: Bike) => b.id.toString()        
+        urlServerPath: 'bike/add-photo/',
+        getEntityIdentifier: (b: Bike) => b.id.toString()
       }
     });
 
   }
-  
-  openDialogDeletePhoto() {        
+
+  openDialogDeletePhoto() {
     // this.dialog.open(PhotoDeleteComponent, {
     //   data: this.bike()
     // });
@@ -108,6 +108,6 @@ export class BikeEditComponent implements OnInit  {
         entity: this.bike(),
         getEntityIdentifier: (b: Bike) => b.id.toString()
       }
-    });            
+    });
   }
 }

@@ -15,7 +15,7 @@
   <div class="col-12 col-md-4 mb-3">
     <div class="card">
       <img
-        src="{{ member()!.photoUrl || './assets/user.png' }}"
+        src="{{ member()?.photoUrl || './assets/user.png' }}"
         alt="{{ member()?.knownAs }}"
         class="card-img-top img-thumbnail"
       />
@@ -60,7 +60,7 @@
             [(ngModel)]="member()!.introduction"
             name="introduction"
             rows="6"
-          ></textarea>          
+          ></textarea>
           <h4 class="mt-2">Location Details:</h4>
           <div class="d-flex flex-row align-items-center">
             <label for="street">Street: </label>
@@ -85,7 +85,7 @@
               class="form-control w-20"
             />
         </div>
-        <div class="d-flex flex-row align-items-center mt-2">            
+        <div class="d-flex flex-row align-items-center mt-2">
             <label for="city">City: </label>
             <input
               [ngModel]="member()?.address?.city"
@@ -109,10 +109,6 @@
             <button mat-fab extended (click)="openDialogAddPhoto()">
               <mat-icon>add_a_photo</mat-icon>
               Add photos
-            </button>
-            <button mat-fab extended (click)="openDialogDeletePhoto()">
-              <mat-icon>delete</mat-icon>
-              Delete photos
             </button>
           </div>
         </div>

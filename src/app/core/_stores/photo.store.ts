@@ -2,6 +2,7 @@ import { Injectable, inject, signal, computed, effect } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 import { Member } from "../_models/member";
 import { Photo } from "../_models/photo";
+import { PhotoConfig } from "../_models/genericPhotoConfig";
 import { MembersService } from "../_services/members.service";
 import { ImageItem } from "ng-gallery";
 import { AccountService } from "../_services/account.service";
@@ -9,15 +10,32 @@ import { MemberStore } from "./member.store";
 import { User } from "../_models/user";
 import { BikeStore } from "./bike.store";
 import { HttpEventType } from "@angular/common/http";
-import { PhotoService } from "../_services/photo.service";
+import { GenericPhotoService } from "../_services/genericPhoto.service";
 import { tap, of, map, Observable, EMPTY, filter } from "rxjs";
 
-type EntityType = 'user' | 'bike';
-
+/**
+ * PhotoStore - Store centralizado para manejo de fotos genéricas
+ *
+ * ARQUITECTURA ACTUAL:
+ * PhotoEditorComponent → PhotoStore → GenericPhotoService → PhotoService → HTTP Client
+ *
+ * MÉTODOS RECOMENDADOS (usan GenericPhotoService):
+ * - uploadAndAddPhoto<T>() - Upload + agregar foto en una operación
+ * - setMainPhotoAndUpdate<T>() - Establecer foto principal + actualizar entidad
+ * - deletePhotoAndUpdate<T>() - Eliminar foto + actualizar entidad
+ *
+ * MÉTODOS LEGACY (compatibilidad hacia atrás):
+ * - addPhoto() - Solo para Member
+ * - addPhotoToBike() - Solo para Bike
+ * - uploadPhoto(), setMainPhoto(), deletePhoto() - Métodos básicos deprecados
+ *
+ * USO RECOMENDADO:
+ * photoStore.uploadAndAddPhoto(entity, config, urlServerPath, file, updateCallback);
+ */
 @Injectable({ providedIn: 'root' })
 export class PhotoStore {
 
-  private photoService = inject(PhotoService);
+  private genericPhotoService = inject(GenericPhotoService);
   private memberService = inject(MembersService);
   private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
@@ -62,176 +80,316 @@ export class PhotoStore {
     this.hasBaseDropzoneOver = e;
   }
 
-  addPhoto(photo: Photo) {
-    const current = this.member();
-    const currentUser = this.user();
+  addPhotoToEntity<T>(
+    entity: T,
+    photo: Photo,
+    config: {
+      photosProperty: keyof T,
+      photoUrlProperty?: keyof T,
+      updateEntityFn: (updatedEntity: T) => void,
+      updateCurrentUser?: boolean
+    }
+  ) {
+    const currentPhotos = (entity[config.photosProperty] as Photo[]) || [];
+    const updatedPhotos = [...currentPhotos, photo];
 
-    if (!current || !currentUser) return;
+    // Marcar solo la nueva foto como principal si es main
+    const processedPhotos = updatedPhotos.map(p => ({
+      ...p,
+      isMain: p.id === photo.id ? photo.isMain : (photo.isMain ? false : p.isMain)
+    }));
 
-    const updatedPhotos = [...current.userPhotos, photo];
-    const updatedMember: Member = {
-      ...current,
-      photoUrl: photo.isMain ? photo.url : current.photoUrl,
-      userPhotos: updatedPhotos.map(p => ({
-        ...p,
-        isMain: p.id === photo.id
-      }))
-    };
+    const updatedEntity: T = {
+      ...entity,
+      [config.photosProperty]: processedPhotos,
+      ...(config.photoUrlProperty && photo.isMain ?
+        { [config.photoUrlProperty]: photo.url } : {}
+      )
+    } as T;
 
-    this.memberStore.setMember(updatedMember);
+    config.updateEntityFn(updatedEntity);
 
-    if (photo.isMain) {
-      const updatedUser = { ...currentUser, photoUrl: photo.url };
-      this.accountService.setCurrentUser(updatedUser);
-      this.user.set(updatedUser);
+    // Actualizar usuario actual si es necesario (solo para Member)
+    if (config.updateCurrentUser && photo.isMain) {
+      const currentUser = this.user();
+      if (currentUser) {
+        const updatedUser = { ...currentUser, photoUrl: photo.url };
+        this.accountService.setCurrentUser(updatedUser);
+        this.user.set(updatedUser);
+      }
     }
   }
 
-  /*uploadPhoto(entityId: string, uploadPath: string, file: File): Observable<Photo> {
+  // Método específico para Member (mantener compatibilidad)
+  addPhoto(photo: Photo) {
+    const current = this.member();
+    if (!current) return;
+
+    this.addPhotoToEntity(current, photo, {
+      photosProperty: 'userPhotos',
+      photoUrlProperty: 'photoUrl',
+      updateEntityFn: (updatedMember) => this.memberStore.setMember(updatedMember),
+      updateCurrentUser: true
+    });
+  }
+
+  // Método específico para Bike
+  addPhotoToBike(photo: Photo) {
+    const current = this.bike();
+    if (!current) return;
+
+    this.addPhotoToEntity(current, photo, {
+      photosProperty: 'bikePhotos',
+      photoUrlProperty: 'photoUrl',
+      updateEntityFn: (updatedBike) => this.bikeStore.setBike(updatedBike),
+      updateCurrentUser: false
+    });
+  }
+
+  setMainPhotoForEntity<T>(
+    entity: T,
+    photo: Photo,
+    config: {
+      photosProperty: keyof T,
+      photoUrlProperty?: keyof T,
+      updateEntityFn: (updatedEntity: T) => void,
+      updateCurrentUser?: boolean
+    }
+  ) {
+    const currentPhotos = (entity[config.photosProperty] as Photo[]) || [];
+
+    const updatedPhotos = currentPhotos.map(p => ({
+      ...p,
+      isMain: p.id === photo.id
+    }));
+
+    const updatedEntity: T = {
+      ...entity,
+      [config.photosProperty]: updatedPhotos,
+      ...(config.photoUrlProperty ?
+        { [config.photoUrlProperty]: photo.url } : {}
+      )
+    } as T;
+
+    config.updateEntityFn(updatedEntity);
+
+    // Actualizar usuario actual si es necesario (solo para Member)
+    if (config.updateCurrentUser) {
+      const currentUser = this.user();
+      if (currentUser) {
+        const updatedUser = { ...currentUser, photoUrl: photo.url };
+        this.accountService.setCurrentUser(updatedUser);
+        this.user.set(updatedUser);
+      }
+    }
+  }
+
+  deletePhotoFromEntity<T>(
+    entity: T,
+    photoId: number,
+    config: {
+      photosProperty: keyof T,
+      updateEntityFn: (updatedEntity: T) => void
+    }
+  ) {
+    const currentPhotos = (entity[config.photosProperty] as Photo[]) || [];
+    const updatedPhotos = currentPhotos.filter(p => p.id !== photoId);
+
+    const updatedEntity: T = {
+      ...entity,
+      [config.photosProperty]: updatedPhotos
+    } as T;
+
+    config.updateEntityFn(updatedEntity);
+  }
+
+  // Métodos genéricos usando PhotoConfig
+  addPhotoWithConfig<T>(
+    entity: T,
+    photo: Photo,
+    config: PhotoConfig<T>,
+    updateEntityFn: (updatedEntity: T) => void,
+    updateCurrentUser: boolean = false
+  ) {
+    this.addPhotoToEntity(entity, photo, {
+      photosProperty: config.photosProperty,
+      photoUrlProperty: config.photoUrlProperty,
+      updateEntityFn,
+      updateCurrentUser
+    });
+  }
+
+  setMainPhotoWithConfig<T>(
+    entity: T,
+    photo: Photo,
+    config: PhotoConfig<T>,
+    updateEntityFn: (updatedEntity: T) => void,
+    updateCurrentUser: boolean = false
+  ) {
+    this.setMainPhotoForEntity(entity, photo, {
+      photosProperty: config.photosProperty,
+      photoUrlProperty: config.photoUrlProperty,
+      updateEntityFn,
+      updateCurrentUser
+    });
+  }
+
+  deletePhotoWithConfig<T>(
+    entity: T,
+    photoId: number,
+    config: PhotoConfig<T>,
+    updateEntityFn: (updatedEntity: T) => void
+  ) {
+    this.deletePhotoFromEntity(entity, photoId, {
+      photosProperty: config.photosProperty,
+      updateEntityFn
+    });
+  }
+
+  // Método que combina upload + addPhotoToEntity usando GenericPhotoService
+  uploadAndAddPhoto<T>(
+    entity: T,
+    config: PhotoConfig<T>,
+    urlServerPath: string,
+    file: File,
+    updateEntityFn: (updatedEntity: T, photo: Photo) => void,
+    updateCurrentUser: boolean = false
+  ): Observable<Photo> {
     const token = this.accountService.currentUser()?.token;
-    if (!token) return;
+    if (!token) {
+      this.toastr.error('Authentication required');
+      return EMPTY;
+    }
+
+    return this.genericPhotoService.uploadPhoto(
+      entity,
+      config,
+      urlServerPath,
+      file,
+      token,
+      (photo, updatedEntity) => {
+        updateEntityFn(updatedEntity, photo);
+
+        // Actualizar usuario actual si es necesario (solo para Member)
+        if (updateCurrentUser && photo.isMain) {
+          const currentUser = this.user();
+          if (currentUser) {
+            const updatedUser = { ...currentUser, photoUrl: photo.url };
+            this.accountService.setCurrentUser(updatedUser);
+            this.user.set(updatedUser);
+          }
+        }
+      }
+    ).pipe(
+      map(result => result.photo)
+    );
+  }
+
+  // Método que combina setMainPhoto + actualización local usando GenericPhotoService
+  setMainPhotoAndUpdate<T>(
+    entity: T,
+    photo: Photo,
+    config: PhotoConfig<T>,
+    urlServerPath: string,
+    updateEntityFn: (updatedEntity: T) => void,
+    updateCurrentUser: boolean = false
+  ): Observable<Photo> {
+    return this.genericPhotoService.setMainPhoto(
+      entity,
+      config,
+      urlServerPath,
+      photo,
+      (photo, updatedEntity) => {
+        updateEntityFn(updatedEntity);
+
+        // Actualizar usuario actual si es necesario (solo para Member)
+        if (updateCurrentUser) {
+          const currentUser = this.user();
+          if (currentUser) {
+            const updatedUser = { ...currentUser, photoUrl: photo.url };
+            this.accountService.setCurrentUser(updatedUser);
+            this.user.set(updatedUser);
+          }
+        }
+      }
+    ).pipe(
+      map(result => result.photo)
+    );
+  }
+
+  /**
+   * @deprecated Use uploadAndAddPhoto with GenericPhotoService instead
+   * Legacy method kept for compatibility
+   */
+  uploadPhoto(entityId: string, urlServerPath: string, file: File): Observable<Photo> {
+    const token = this.accountService.currentUser()?.token;
+    if (!token) return EMPTY as Observable<Photo>;
 
     const formData = new FormData();
     formData.append('file', file);
 
-    this.photoService.uploadPhoto(entityId, uploadPath, formData, token).subscribe({
-      next: event => {
+    // Delegamos al GenericPhotoService
+    // Como no tenemos la entidad aquí, usamos el PhotoService legacy
+    return this.genericPhotoService['photoService'].uploadPhoto(entityId, urlServerPath, formData, token).pipe(
+      map(event => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
           this.progress.set(Math.round((100 * event.loaded) / event.total));
         } else if (event.type === HttpEventType.Response) {
           const photo = event.body as Photo;
-          this.uploadedPhotos.update(list => [...list, photo]);
-
-          // Update the store with the new photo
-          if (entityId === 'user') {
-            const member = this.memberStore.member();
-            if (!member) return;
-            this.memberStore.setMember({
-              ...member,
-              userPhotos: [...member.userPhotos, photo]
-            });
-          } else if (entityId === 'bike') {
-            const bike = this.bikeStore.bike();
-            if (!bike) return;
-            this.bikeStore.setBike({
-              ...bike,
-              bikePhotos: [...bike.bikePhotos, photo]
-            });
-          }
-
-          this.toastr.success('Photo uploaded');
+          return photo;
         }
-      },
-      error: () => this.toastr.error('Upload failed')
-    });
-  }*/
-
-    uploadPhoto(entityId: string, uploadPath: string, file: File): Observable<Photo> {
-      const token = this.accountService.currentUser()?.token;
-      if (!token) return EMPTY as Observable<Photo>;
-
-      const formData = new FormData();
-      formData.append('file', file);
-
-      return this.photoService.uploadPhoto(entityId, uploadPath, formData, token).pipe(
-        map(event => {
-          if (event.type === HttpEventType.Response) {
-            const photo = event.body as Photo;
-
-            this.updateMainPhotoLocal(entityId, photo);
-
-            return photo; // esto se emite al subscribe
-          }
-          return null;
-        }),
-        filter((p): p is Photo => !!p) // filtramos nulls
-      );
-    }
-
-  private updateMainPhotoLocal(entityId: string, photo: Photo) {
-    if (entityId === 'user') {
-      const member = this.memberStore.member();
-      if (!member) return;
-
-      this.memberStore.setMember({
-        ...member,
-        photoUrl: photo.url,
-        userPhotos: member.userPhotos.map(p => ({ ...p, isMain: p.id === photo.id }))
-      });
-    } else {
-      const bike = this.bikeStore.bike();
-      if (!bike) return;
-
-      this.bikeStore.setBike({
-        ...bike!,
-        bikePhotos: bike!.bikePhotos.map(p => ({ ...p, isMain: p.id === photo.id }))
-      });
-    }
-  }
-
-  /*setMainPhoto(entityId: string, uploadPath: string, photo: Photo) {
-    this.photoService.setMainPhoto(photo.id).subscribe({
-      next: () => {
-        if (entityId === 'user') {
-          this.memberStore.setMainPhotoLocal(photo);
-        } else if (entityId === 'bike') {
-          this.bikeStore.setMainPhotoLocal(photo);
-        }
-
-        if (entityId === 'user') {
-          this.accountService.setCurrentUser({
-            ...this.accountService.currentUser()!,
-            photoUrl: photo.url
-          });
-        }
-
-        this.toastr.success('Photo set as main');
-      },
-      error: () => this.toastr.error('Could not set main photo')
-    });
-  }*/
-
-  setMainPhoto(entityId: string, uploadPath: string, photo: Photo) : Observable<Photo> {
-    //const entityType = entityId == 'user' ? this.memberStore.member()?.username : this.bikeStore.bike()?.id.toString();
-
-    if (!entityId) return of(photo);
-
-    return this.photoService.setMainPhoto(entityId, uploadPath, photo.id).pipe(
-      tap(() => this.updateMainPhotoLocal(entityId, photo)),
-      map(()=> photo)
+        return null;
+      }),
+      filter((p): p is Photo => !!p)
     );
   }
 
-  deletePhoto(entityId: string, uploadPath: string, photoId: number) {
-    if (entityId === 'user') {
-      const member = this.memberStore.member();
-      if (!member) return;
+  /**
+   * @deprecated Use setMainPhotoAndUpdate with GenericPhotoService instead
+   * Legacy method kept for compatibility
+   */
+  setMainPhoto(entityId: string, urlServerPath: string, photo: Photo): Observable<Photo> {
+    if (!entityId) return of(photo);
 
-      this.photoService.deletePhoto(entityId, uploadPath, photoId).subscribe({
-        next: () => {
-          this.memberStore.setMember({
-            ...member,
-            userPhotos: member.userPhotos.filter(p => p.id !== photoId)
-          });
-          this.toastr.success('Photo deleted');
-        },
-        error: () => this.toastr.error('Could not delete photo')
-      });
-    } else {
-      const bike = this.bikeStore.bike();
-      if (!bike) return;
+    // Delegamos al GenericPhotoService
+    return this.genericPhotoService['photoService'].setMainPhoto(entityId, urlServerPath, photo.id).pipe(
+      map(() => photo)
+    );
+  }
 
-      this.photoService.deletePhoto(entityId, uploadPath, photoId).subscribe({
-        next: () => {
-          this.bikeStore.setBike({
-            ...bike,
-            bikePhotos: bike.bikePhotos.filter(p => p.id !== photoId)
-          });
-          this.toastr.success('Photo deleted');
-        },
-        error: () => this.toastr.error('Could not delete photo')
-      });
-    }
+  /**
+   * @deprecated Use GenericPhotoService.deletePhoto instead
+   * Legacy method kept for compatibility
+   */
+  deletePhoto(entityId: string, urlServerPath: string, photoId: number) {
+    // Delegamos al GenericPhotoService
+    this.genericPhotoService['photoService'].deletePhoto(entityId, urlServerPath, photoId).subscribe({
+      next: () => {
+        this.toastr.success('Photo deleted');
+      },
+      error: () => this.toastr.error('Could not delete photo')
+    });
+  }
+
+  // Método que elimina foto y actualiza entidad usando GenericPhotoService
+  deletePhotoAndUpdate<T>(
+    entity: T,
+    photoId: number,
+    config: PhotoConfig<T>,
+    urlServerPath: string,
+    updateEntityFn: (updatedEntity: T) => void
+  ): Observable<number> {
+    return this.genericPhotoService.deletePhoto(
+      entity,
+      config,
+      urlServerPath,
+      photoId,
+      (photoId, updatedEntity) => {
+        updateEntityFn(updatedEntity);
+      }
+    ).pipe(
+      map(result => result.photoId)
+    );
   }
 
   /*deletePhoto(photoId: number) {

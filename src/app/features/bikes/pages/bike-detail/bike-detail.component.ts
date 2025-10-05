@@ -22,34 +22,34 @@ import { RentStore } from 'src/app/core/_stores/rent.store';
     selector: 'app-bike-detail',
     templateUrl: './bike-detail.component.html',
     styleUrls: ['./bike-detail.component.css'],
-    imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule, 
-        BikeRentalHistoryComponent, 
+    imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule,
+        BikeRentalHistoryComponent,
         MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule]
 })
-export class BikeDetailComponent {  
-  
-  bikeTabs = viewChild<TabsetComponent>('bikeTabs');  
+export class BikeDetailComponent {
 
-  private accountService = inject(AccountService);      
-  public presenceService = inject(PresenceService);      
+  bikeTabs = viewChild<TabsetComponent>('bikeTabs');
+
+  private accountService = inject(AccountService);
+  public presenceService = inject(PresenceService);
   readonly dialog = inject(MatDialog);
 
-  private bikeStore = inject(BikeStore);  
+  private bikeStore = inject(BikeStore);
   public rentStore = inject(RentStore);
   private photoStore = inject(PhotoStore);
 
-  readonly user = signal(this.accountService.currentUser());  
+  readonly user = signal(this.accountService.currentUser());
   bike = this.bikeStore.bike;
   bikes = this.bikeStore.bikes;
 
-  activeTab?: TabDirective;  
-  
-  userNameParam = signal<string>('');
-    
-  galleryImages = this.photoStore.galleryBikeImages; 
+  activeTab?: TabDirective;
 
-  readonly bikeById = this.bikeStore.bikeById;    
-  
+  userNameParam = signal<string>('');
+
+  galleryImages = this.photoStore.galleryBikeImages;
+
+  readonly bikeById = this.bikeStore.bikeById;
+
   constructor(private router: Router, private route: ActivatedRoute) {
     this.user.set(this.accountService.currentUser()!);
     const bikeValue = this.bike();
@@ -58,7 +58,7 @@ export class BikeDetailComponent {
     }
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
 
     this.route.data.subscribe({
       next: data => this.bikeStore.setBike(data['bike'])
@@ -68,40 +68,40 @@ export class BikeDetailComponent {
       next: params => {
         params['tab'] && this.selectTab(params['tab'])
       }
-    })        
-  }  
+    })
+  }
 
   setBike(bike: Bike) {
     this.bikeStore.setBike(bike);
-  }  
+  }
 
   selectTab(heading: string) {
     if (this.bikeTabs()) {
       this.bikeTabs()!.tabs.find(x => x.heading === heading)!.active = true;
     }
-  }  
+  }
 
   onTabActivated(data: TabDirective) {
-    this.activeTab = data;        
+    this.activeTab = data;
   }
-  
-  openDialogAddPhoto() {       
+
+  openDialogAddPhoto() {
     this.dialog.open(PhotoEditorComponent<Bike>, {
       data: {
         entity: this.bike(),
-        uploadPath: 'bike/add-photo',
-        getEntityIdentifier: (b: Bike) => b.id.toString()       
+        urlServerPath: 'bike/add-photo/',
+        getEntityIdentifier: (b: Bike) => b.id.toString()
       }
     });
   }
-  
-  openDialogDeletePhoto() {             
+
+  openDialogDeletePhoto() {
     this.dialog.open(PhotoDeleteComponent<Bike>, {
       data: {
         entity: this.bike(),
         getEntityIdentifier: (b: Bike) => b.id.toString()
       }
-    });         
+    });
   }
 
   rentBike() {

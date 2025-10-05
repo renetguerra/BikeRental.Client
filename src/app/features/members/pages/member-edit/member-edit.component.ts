@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, inject, signal, viewChild } from '@ang
 import { NgForm, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/core/_models/member';
+import { Photo } from 'src/app/core/_models/photo';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { TimeagoModule } from 'ngx-timeago';
 import { TabsModule } from 'ngx-bootstrap/tabs';
@@ -27,13 +28,13 @@ import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/pho
 })
 export class MemberEditComponent implements OnInit  {
 
-  private accountService = inject(AccountService);  
+  private accountService = inject(AccountService);
   private toastr = inject(ToastrService);
   readonly dialog = inject(MatDialog);
 
   private memberStore = inject(MemberStore);
   private photoStore = inject(PhotoStore);
-  
+
   editForm = viewChild<NgForm>('editForm');
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editForm()?.dirty) {
@@ -47,10 +48,10 @@ export class MemberEditComponent implements OnInit  {
 
   galleryImages = this.photoStore.galleryImages;
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
 
     if (!this.member()! || this.member()!.id === 0) {
-      this.userNameParam.set(this.accountService.currentUser()!.username);      
+      this.userNameParam.set(this.accountService.currentUser()!.username);
       const member = this.memberStore.memberByUsername();
       if (member) {
         this.memberStore.setMember(member);
@@ -61,8 +62,8 @@ export class MemberEditComponent implements OnInit  {
     if (memberValue) {
       this.memberStore.setMember(memberValue);
     }
-  }    
-  
+  }
+
   updateMember() {
     const formValue = this.editForm()?.value;
     if (!formValue) return;
@@ -72,41 +73,76 @@ export class MemberEditComponent implements OnInit  {
 
     const updatedMember: Member = {
       ...current,
-      ...formValue      
+      ...formValue
     };
 
     this.memberStore.updateMember(updatedMember).subscribe({
-      next: () => {        
+      next: () => {
         this.toastr.success('Profile updated successfully');
         this.editForm()?.reset(updatedMember);
       }
     });
   }
-  
-  openDialogAddPhoto() {    
-    // this.dialog.open(PhotoEditorComponent, {
-    //   data: this.member()
-    // });  
+
+  openDialogAddPhoto() {
     this.dialog.open(PhotoEditorComponent<Member>, {
       data: {
         entity: this.member(),
-        uploadPath: 'user/add-photo',
-        getEntityIdentifier: (m: Member) => m.username       
+        urlServerPath: 'user/add-photo/',
+        photoConfig: {
+          photosProperty: 'userPhotos',
+          photoUrlProperty: 'photoUrl',
+          getEntityIdentifier: (m: Member) => m.username
+        },
+        onPhotoAdded: (photo: Photo, updatedMember: Member) => {
+          // Update the store with the new member data
+          this.memberStore.setMember(updatedMember);
+        },
+        onPhotoDeleted: (photoId: number, updatedMember: Member) => {
+          // Update the store with the updated member data
+          this.memberStore.setMember(updatedMember);
+        },
+        onMainPhotoSet: (photo: Photo, updatedMember: Member) => {
+          // Update the store and current user if needed
+          this.memberStore.setMember(updatedMember);
+          const currentUser = this.accountService.currentUser();
+          if (currentUser) {
+            this.accountService.setCurrentUser({
+              ...currentUser,
+              photoUrl: photo.url
+            });
+          }
+        }
       }
     });
-  
   }
-  
-  openDialogDeletePhoto() {        
-    // this.dialog.open(PhotoDeleteComponent, {
-    //   data: this.member()
-    // });     
+
+  openDialogDeletePhoto() {
     this.dialog.open(PhotoDeleteComponent<Member>, {
       data: {
         entity: this.member(),
-        getEntityIdentifier: (m: Member) => m.username
+        urlServerPath: 'user/delete-photo/',
+        photoConfig: {
+          photosProperty: 'userPhotos',
+          photoUrlProperty: 'photoUrl',
+          getEntityIdentifier: (m: Member) => m.username
+        },
+        onPhotoDeleted: (photoId: number, updatedMember: Member) => {
+          // Update the store with the updated member data
+          this.memberStore.setMember(updatedMember);
+        },
+        onMainPhotoSet: (photo: Photo, updatedMember: Member) => {
+          // Update the store and current user if needed
+          this.memberStore.setMember(updatedMember);
+          const currentUser = this.accountService.currentUser();
+          if (currentUser) {
+            this.accountService.setCurrentUser({
+              ...currentUser,
+              photoUrl: photo.url
+            });
+          }
+        }
       }
     });
-       
   }
 }

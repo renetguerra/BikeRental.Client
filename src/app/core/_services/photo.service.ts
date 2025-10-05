@@ -10,21 +10,21 @@ export class PhotoService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
 
-  uploadPhoto(entityId: string, uploadPath: string, formData: FormData, token: string) {
-    return this.http.post<Photo>(`${this.baseUrl}${uploadPath}/${entityId}/photos`, formData, {
+  uploadPhoto(entityId: string, urlServerPath: string, formData: FormData, token: string) {
+    return this.http.post<Photo>(`${this.baseUrl}${urlServerPath}${entityId}`, formData, {
       headers: { Authorization: `Bearer ${token}` },
       observe: 'events',
       reportProgress: true
     });
   }
 
-  setMainPhoto(entityId: string, uploadPath: string, photoId: number) {
-    return this.http.put(`${this.baseUrl}${uploadPath}/${entityId}/set-main-photo/${photoId}`, {});
+  setMainPhoto(entityId: string, urlServerPath: string, photoId: number) {
+    return this.http.put(`${this.baseUrl}${urlServerPath}${photoId}`, {});
   }
 
-  deletePhoto(entityId: string, uploadPath: string, photoId: number) {
+  deletePhoto(entityId: string, urlServerPath: string, photoId: number) {
     return this.http.delete(
-      `${this.baseUrl}${uploadPath}/${entityId}?photoId=${photoId}`
+      `${this.baseUrl}${urlServerPath}${entityId}/${photoId}`
     );
   }
 }

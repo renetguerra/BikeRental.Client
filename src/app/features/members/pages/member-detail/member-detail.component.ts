@@ -25,35 +25,35 @@ import { BikeFavoriteComponent } from 'src/app/features/like/bike-favorite/bike-
     selector: 'app-member-detail',
     templateUrl: './member-detail.component.html',
     styleUrls: ['./member-detail.component.css'],
-    imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule, 
+    imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule,
         MemberListComponent, CustomerRentalHistoryComponent, BikeFavoriteComponent,
         MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule,
         HasRoleDirective]
 })
-export class MemberDetailComponent {  
-  
-  memberTabs = viewChild<TabsetComponent>('memberTabs');  
+export class MemberDetailComponent {
 
-  private accountService = inject(AccountService);      
-  public presenceService = inject(PresenceService);  
-  private _bottomSheet = inject(MatBottomSheet);  
+  memberTabs = viewChild<TabsetComponent>('memberTabs');
+
+  private accountService = inject(AccountService);
+  public presenceService = inject(PresenceService);
+  private _bottomSheet = inject(MatBottomSheet);
   readonly dialog = inject(MatDialog);
 
   private memberStore = inject(MemberStore);
   private photoStore = inject(PhotoStore);
 
-  readonly user = signal(this.accountService.currentUser());  
+  readonly user = signal(this.accountService.currentUser());
   member = this.memberStore.member;
   members = this.memberStore.members;
 
-  activeTab?: TabDirective;  
-  
+  activeTab?: TabDirective;
+
   userNameParam = signal<string>('');
-    
+
   galleryImages = this.photoStore.galleryImages;
-  
-  readonly memberByUser = this.memberStore.memberByUsername;    
-   
+
+  readonly memberByUser = this.memberStore.memberByUsername;
+
   constructor(private router: Router, private route: ActivatedRoute) {
     this.user.set(this.accountService.currentUser()!);
     const memberValue = this.member();
@@ -62,11 +62,11 @@ export class MemberDetailComponent {
     }
   }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
 
     if (!this.member()! || this.member()!.id === 0) {
-      this.userNameParam.set(this.route.snapshot.paramMap.get('username')!);      
-      this.memberStore.memberByUsername();                              
+      this.userNameParam.set(this.route.snapshot.paramMap.get('username')!);
+      this.memberStore.memberByUsername();
     }
 
     this.route.data.subscribe({
@@ -77,12 +77,12 @@ export class MemberDetailComponent {
       next: params => {
         params['tab'] && this.selectTab(params['tab'])
       }
-    })        
-  }  
+    })
+  }
 
   setMember(member: Member) {
     this.memberStore.setMember(member);
-  }  
+  }
 
   selectTab(heading: string) {
     if (this.memberTabs()) {
@@ -91,28 +91,28 @@ export class MemberDetailComponent {
   }
 
   onTabActivated(data: TabDirective) {
-    this.activeTab = data;        
-  }   
-  
-  openDialogAddPhoto() {    
+    this.activeTab = data;
+  }
+
+  openDialogAddPhoto() {
     // this.dialog.open(PhotoEditorComponent, {
     //   data: this.member()
-    // });    
+    // });
 
     this.dialog.open(PhotoEditorComponent<Member>, {
       data: {
         entity: this.member(),
-        uploadPath: 'user/add-photo',
-        getEntityIdentifier: (m: Member) => m.username        
+        urlServerPath: 'user/add-photo/',
+        getEntityIdentifier: (m: Member) => m.username
       }
     });
 
   }
-  
-  openDialogDeletePhoto() {        
+
+  openDialogDeletePhoto() {
     // this.dialog.open(PhotoDeleteComponent, {
     //   data: this.member()
-    // });            
+    // });
     this.dialog.open(PhotoDeleteComponent<Member>, {
       data: {
         entity: this.member(),

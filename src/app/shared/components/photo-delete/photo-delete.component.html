@@ -1,32 +1,37 @@
 <h3 mat-dialog-title>Delete Photos</h3>
-<mat-dialog-content >
+<mat-dialog-content>
     @if (entity()) {
         <div class="row">
             @for (photo of userPhotos(); track photo.id) {
                 <div class="col-6 mb-3">
-                    <img src="{{photo?.url}}" alt="photo of user" class="img-thumbnail">
-                    <div class="text-center"> 
-                        @if (getEntityIdentifier(entity()!) === user().username!) {
-                            <button  
+                    <img src="{{photo?.url}}" alt="photo" class="img-thumbnail">
+                    <div class="text-center">
+                        @if (canEdit()) {
+                            <button
                             class="btn btn-sm"
                             [disabled]="photo.isMain"
                             (click)="setMainPhoto(photo)"
                             [ngClass]='photo.isMain ? "btn-success active" : "btn-outline-success"'
                             >
                             Main
-                            </button>  
-                        }                                                        
-                        <button 
-                            [disabled]="photo.isMain"
-                            (click)="deletePhoto(photo.id)"
-                            class="btn btn-sm btn-danger align-self-center"
-                        ><i class="fa fa-trash"></i></button>
+                            </button>
+                        }
+                        @if (canEdit()) {
+                            <button
+                                [disabled]="photo.isMain"
+                                (click)="deletePhoto(photo)"
+                                class="btn btn-sm btn-danger align-self-center"
+                            ><i class="fa fa-trash"></i></button>
+                        }
                     </div>
                 </div>
-            }    
+            }
         </div>
+    }
+    @if (photos().length === 0) {
+        <p>No photos available.</p>
     }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>    
+    <button mat-button (click)="closeDialog()">Close</button>
 </mat-dialog-actions>
