@@ -1,16 +1,254 @@
-button {
-    margin-left: 5px;
+/* Hero Section */
+.hero-section {
+  position: relative;
+  min-height: 70vh;
+  background: linear-gradient(
+    rgba(18, 32, 23, 0.4) 0%,
+    rgba(18, 32, 23, 0.7) 100%
+  ),
+  url('https://lh3.googleusercontent.com/aida-public/AB6AXuDbCU8OdK3vVCerzgjTQ25Oq0erEjSR6RSlxQKhapjLMMWggnWksmZ2noOjJIaLrTkZNZLtE36yR0b0k4hypAysEtcgyLh9eUJEXg8pG0O33M5qoKkvhSUwRKaU_yYqrikZeT0XZWPf_v6pAvLo-eNnct0cQCZ3Nb5bl-vPwDvqPCHFyVeISWteT1U_Hia9-VtlI4tqbS3LDinLIJ79vWQQUiY-Uioyi6aeD9N_NS3UE-dLiAbxFGc4EEePaAgWKlBqbHNbGcVDiLg') center/cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }
 
-.img-thumbnail {
-    margin: 25px;
-    width: 85%;
-    height: 85%;
+.hero-content {
+  max-width: 1200px;
+  width: 100%;
+  padding: 2rem;
+  text-align: center;
 }
 
-.ngx-gallery { display: inline-block; margin-bottom: 20px; }
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.025em;
+}
 
-.gallery {
-    width: 850px;
-    display: flex;
+.hero-description {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  opacity: 0.95;
+}
+
+.hero-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.hero-btn {
+  min-width: 150px;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.hero-btn--primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.hero-btn--primary:hover {
+  background-color: var(--primary-hover);
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+.hero-btn--secondary {
+  background-color: var(--secundary);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.hero-btn--secondary:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: white;
+}
+
+/* Registration Section */
+.register-section {
+  padding: 4rem 0;
+  background-color: var(--bs-light);
+}
+
+.register-container {
+  display: flex;
+  justify-content: center;
+}
+
+.register-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 2.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 100%;
+}
+
+.register-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--bs-dark);
+}
+
+/* Bikes Section */
+.bikes-section {
+  padding: 4rem 0;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--bs-dark);
+  letter-spacing: -0.025em;
+}
+
+.bikes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.bike-card {
+  background: white;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bike-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.bike-card__image {
+  width: 100%;
+  aspect-ratio: 1;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s ease;
+}
+
+.bike-card:hover .bike-card__image {
+  transform: scale(1.05);
+}
+
+.bike-card__image--city {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCS5rHbsY6xWkNVnOeEKW3Hc-KWfYy7OQq0M4D-QAm8SjDxp-49tyNy9UsbLwx597ZawZZvc3I5kXd41blhTqxwH7pH6B7CjgUANJcHX5H61Nnzddjx6RUg8N3H0zIvykINQpkXYlCS44j5_2_Y_4DdpN3zLkDLTgKPqC5B8KUZB6nWqOmFkgz07-udyi6CmaWo_glSiKB3p3uJxDbUCeI_wtnSzOcgwbvgAWTscLh9lr0Fb12ZF6T0IEmbkHMm2i0uq7J6J0cz8W4');
+}
+
+.bike-card__image--mountain {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCkhMIyNBa4mOvobfXuuyLbxWYj02dFcmAai5kEt8ItOFO2eqkPs5tIEGoE7SpQBpbpR9MwJqAOKaDfo0YzmASBH_YYshGKCbu1o5KlH4f2lBuRYVetrVhNsauwmovsNz12F1NeaRBKb8-jWhXFcF8J8JLCgl-en8FIZuqhKewdz0M7xbkCObaXDXK3P2LPDFqJEt2ngY_tN7ragR-uQqIMH35qdHL3qW645CJV6feFHTm2XzCghDv9uNroDMTutP3nKs1J_3Fi5BY');
+}
+
+.bike-card__image--electric {
+  background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBr-9oy8U4-A0zRuTaEckZOfgWBoAPsyZ86DUIdKYXh6C707ofcI5HecG6Vf7VNci-_N3iR5YrT1GjP3HRci_O27gcFGHpY5ASzh_XbPcCcUxC74Af6LBhULE1gEEygRBMdMaaerjbdCubLF-d4tDKvS5-YOSsuHkotvF1llOtC-WFYCZ2HbTg1ZpODOgcbFkcXRk-Dhd4QBeJD4lKQWfwP7GVLHlYccmwAU7mQK6Xu_F8u_VQG-nHKNcDSLCp875BQUmrGz-0J-Ak');
+}
+
+.bike-card__content {
+  padding: 1.5rem;
+}
+
+.bike-card__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--bs-dark);
+}
+
+.bike-card__description {
+  font-size: 0.95rem;
+  color: var(--bs-secondary);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* CTA Section */
+.cta-section {
+  background: linear-gradient(135deg, var(--bs-primary) 0%, #1976d2 100%);
+  padding: 4rem 0;
+  color: white;
+}
+
+.cta-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  letter-spacing: -0.025em;
+}
+
+.cta-description {
+  font-size: 1.25rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.95;
+}
+
+.cta-btn {
+  min-width: 180px;
+  height: 48px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background-color: white;
+  color: var(--bs-primary);
+}
+
+.cta-btn:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .bikes-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
 }

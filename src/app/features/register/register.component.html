@@ -1,97 +1,341 @@
-<form
-  [formGroup]="registerForm"
-  (ngSubmit)="registerForm.valid && register()"
-  autocomplete="off"
->
-  <h2 class="text-center text-primary">Sign up</h2>
-  <hr />
-
-  <div class="mb-3">
-    <label style="margin-right: 10px">I am a: </label>
-    <label class="form-check-label">
-      <input
-        class="form-check-input"
-        type="radio"
-        value="male"
-        formControlName="gender"
-      />
-      Male
-    </label>
-    <label class="form-check-label">
-      <input
-        class="form-check-input ms-3"
-        type="radio"
-        value="female"
-        formControlName="gender"
-      />
-      Female
-    </label>
+<!-- Animated Background -->
+<div class="register-background">
+  <div class="animated-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+    <div class="shape shape-4"></div>
   </div>
+</div>
 
-  <app-text-input
-    [formControl]="$any(registerForm.controls['name'])"
-    [label]="'Name'"
-  ></app-text-input>
-  <app-text-input
-    [formControl]="$any(registerForm.controls['surname'])"
-    [label]="'Surname'"
-  ></app-text-input>
-  <app-text-input
-    [formControl]="$any(registerForm.controls['username'])"
-    [label]="'Username'"
-  ></app-text-input>
-  <!-- <app-text-input
-    [formControl]="$any(registerForm.controls['email'])"
-    [label]="'Email'"
-  ></app-text-input> -->
-  <app-text-input
-    [formControl]="$any(registerForm.controls['knownAs'])"
-    [label]="'Known as'"
-  ></app-text-input>
-  <app-date-picker
-    [formControl]="$any(registerForm.controls['dateOfBirth'])"
-    [label]="'Date of birth'"
-    [maxDate]="maxDate"
-  ></app-date-picker>
-  <app-text-input
-    [formControl]="$any(registerForm.controls['city'])"
-    [label]="'City'"
-  ></app-text-input>
-  <app-text-input
-    [formControl]="$any(registerForm.controls['country'])"
-    [label]="'Country'"
-  ></app-text-input>
-  <app-text-input
-    [formControl]="$any(registerForm.controls['password'])"
-    [label]="'Password'"
-    [type]="'password'"
-  ></app-text-input>
-  <app-text-input
-    [formControl]="$any(registerForm.controls['confirmPassword'])"
-    [label]="'Confirm Password'"
-    [type]="'password'"
-  ></app-text-input>
+<!-- Register Container -->
+<div class="register-container">
 
-  @if (validationErrors()) {
-  <div class="row">
-    <ul class="text-danger">
-      @for (error of validationErrors(); track error) {
-      <li>{{ error }}</li>
-      }
-    </ul>
-  </div>
-  }
+  <!-- Main Card with Glassmorphism Effect -->
+  <mat-card class="register-card">
 
-  <div class="form-group text-center">
+    <!-- Back Button -->
     <button
-      [disabled]="!registerForm.valid"
-      class="btn btn-success me-2"
-      type="submit"
-    >
-      Register
+      mat-icon-button
+      class="back-button"
+      (click)="goBack()"
+      matTooltip="Back to Home"
+      matTooltipPosition="right">
+      <mat-icon>arrow_back</mat-icon>
     </button>
-    <button class="btn btn-default me-2" (click)="cancel()" type="button">
-      Cancel
-    </button>
+
+    <!-- Animated Avatar Section -->
+    <div class="avatar-section">
+      <div
+        class="avatar-container"
+        [class.hovered]="avatarHovered()"
+        (mouseenter)="onAvatarHover(true)"
+        (mouseleave)="onAvatarHover(false)">
+
+        <!-- Avatar Background Circle -->
+        <div class="avatar-bg">
+          <div class="avatar-ring"></div>
+          <div class="avatar-ring-2"></div>
+        </div>
+
+        <!-- Avatar Icon -->
+        <div class="avatar-icon">
+          <mat-icon>person_add</mat-icon>
+        </div>
+
+        <!-- Floating Particles -->
+        <div class="particles">
+          <div class="particle particle-1"></div>
+          <div class="particle particle-2"></div>
+          <div class="particle particle-3"></div>
+          <div class="particle particle-4"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="register-header">
+      <h1 class="register-title">Sign Up</h1>
+      <p class="register-subtitle">Create your BikeRental account</p>
+    </div>
+
+    <!-- Register Form -->
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="register-form">
+
+      <!-- Gender Selection -->
+      <div class="form-field">
+        <label class="form-label">I am a:</label>
+        <mat-radio-group formControlName="gender" class="gender-group">
+          <mat-radio-button value="male" class="gender-option">Male</mat-radio-button>
+          <mat-radio-button value="female" class="gender-option">Female</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Name Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Name *</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            autocomplete="given-name">
+          <mat-icon matSuffix class="field-icon">person</mat-icon>
+          <mat-error *ngIf="hasError('name')">
+            {{ getErrorMessage('name') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Surname Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Surname *</mat-label>
+          <input
+            matInput
+            formControlName="surname"
+
+            autocomplete="family-name">
+          <mat-icon matSuffix class="field-icon">person</mat-icon>
+          <mat-error *ngIf="hasError('surname')">
+            {{ getErrorMessage('surname') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Username Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Username *</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            autocomplete="username">
+          <mat-icon matSuffix class="field-icon">alternate_email</mat-icon>
+          <mat-error *ngIf="hasError('username')">
+            {{ getErrorMessage('username') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Email Field (Optional - commented in original) -->
+      <!-- <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Email address</mat-label>
+          <input
+            matInput
+            formControlName="email"
+
+            autocomplete="email"
+            type="email">
+          <mat-icon matSuffix class="field-icon">email</mat-icon>
+          <mat-error *ngIf="hasError('email')">
+            {{ getErrorMessage('email') }}
+          </mat-error>
+        </mat-form-field>
+      </div> -->
+
+      <!-- Known As Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Known as *</mat-label>
+          <input
+            matInput
+            formControlName="knownAs"
+            autocomplete="nickname">
+          <mat-icon matSuffix class="field-icon">badge</mat-icon>
+          <mat-error *ngIf="hasError('knownAs')">
+            {{ getErrorMessage('knownAs') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Date of Birth Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Date of birth *</mat-label>
+          <input
+            matInput
+            [matDatepicker]="dobPicker"
+            formControlName="dateOfBirth"
+
+            [max]="maxDate">
+          <mat-datepicker-toggle matSuffix [for]="dobPicker">
+            <mat-icon matDatepickerToggleIcon>cake</mat-icon>
+          </mat-datepicker-toggle>
+          <mat-datepicker #dobPicker></mat-datepicker>
+          <mat-error *ngIf="hasError('dateOfBirth')">
+            {{ getErrorMessage('dateOfBirth') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- City Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>City *</mat-label>
+          <input
+            matInput
+            formControlName="city"
+
+            autocomplete="address-level2">
+          <mat-icon matSuffix class="field-icon">location_city</mat-icon>
+          <mat-error *ngIf="hasError('city')">
+            {{ getErrorMessage('city') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Country Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Country *</mat-label>
+          <input
+            matInput
+            formControlName="country"
+
+            autocomplete="country-name">
+          <mat-icon matSuffix class="field-icon">public</mat-icon>
+          <mat-error *ngIf="hasError('country')">
+            {{ getErrorMessage('country') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Password *</mat-label>
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+            formControlName="password"
+
+            autocomplete="new-password">
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            matTooltip="Toggle password visibility">
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="hasError('password')">
+            {{ getErrorMessage('password') }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Password Strength Indicator -->
+        <div class="password-strength" *ngIf="registerForm.get('password')?.value">
+          <div class="strength-bar">
+            <div
+              class="strength-fill"
+              [class.weak]="getPasswordStrength() === 'weak'"
+              [class.medium]="getPasswordStrength() === 'medium'"
+              [class.strong]="getPasswordStrength() === 'strong'">
+            </div>
+          </div>
+          <small class="strength-text">
+            Password strength:
+            <span [class]="'strength-' + getPasswordStrength()">
+              {{ getPasswordStrength() || 'Enter password' }}
+            </span>
+          </small>
+        </div>
+      </div>
+
+      <!-- Confirm Password Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Confirm Password *</mat-label>
+          <input
+            matInput
+            [type]="hideConfirmPassword() ? 'password' : 'text'"
+            formControlName="confirmPassword"
+
+            autocomplete="new-password">
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            class="password-toggle"
+            (click)="toggleConfirmPasswordVisibility()"
+            matTooltip="Toggle password visibility">
+            <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="hasError('confirmPassword')">
+            {{ getErrorMessage('confirmPassword') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="register-button"
+          [disabled]="isLoading()">
+
+          <span *ngIf="!isLoading()" class="button-content">
+            <mat-icon>person_add</mat-icon>
+            Register
+          </span>
+
+          <span *ngIf="isLoading()" class="loading-content">
+            <div class="loading-spinner"></div>
+            Registering...
+          </span>
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Validation Errors -->
+    <div class="validation-errors" *ngIf="validationErrors() && validationErrors()!.length > 0">
+      <mat-divider></mat-divider>
+      <div class="error-list">
+        <h4>Please fix the following errors:</h4>
+        <ul>
+          <li *ngFor="let error of validationErrors()">{{ error }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <mat-divider class="form-divider"></mat-divider>
+
+    <!-- Footer -->
+    <div class="register-footer">
+      <p class="signin-prompt">
+        Already have an account?
+        <button
+          mat-button
+          color="primary"
+          (click)="navigateToSignIn()"
+          class="signin-link">
+          Sign In
+        </button>
+      </p>
+    </div>
+
+  </mat-card>
+
+  <!-- Floating Action Elements -->
+  <div class="floating-elements">
+    <div class="floating-icon floating-icon-1">
+      <mat-icon>two_wheeler</mat-icon>
+    </div>
+    <div class="floating-icon floating-icon-2">
+      <mat-icon>security</mat-icon>
+    </div>
+    <div class="floating-icon floating-icon-3">
+      <mat-icon>verified_user</mat-icon>
+    </div>
+    <div class="floating-icon floating-icon-4">
+      <mat-icon>email</mat-icon>
+    </div>
   </div>
-</form>
+
+</div>

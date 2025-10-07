@@ -1,4 +1,5 @@
 import { Component, computed, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { RegisterComponent } from '../register/register.component';
 import { GalleryModule, ImageItem } from 'ng-gallery';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,23 +16,36 @@ import { AccountService } from 'src/app/core/_services/account.service';
     imports: [RegisterComponent, GalleryModule, MatButtonModule, MatDialogModule, MatIconModule]
 })
 export class HomeComponent {
-  private accountService = inject(AccountService);  
+  private accountService = inject(AccountService);
+  private router = inject(Router);
   readonly dialog = inject(MatDialog);
 
   readonly photoStore = inject(PhotoStore);
-  
-  user = this.photoStore.user;  
 
-  private readonly refreshTrigger = new Subject<void>();  
-  
-  registerMode = false;        
+  user = this.photoStore.user;
 
+  private readonly refreshTrigger = new Subject<void>();
+
+  registerMode = false;
+
+  /**
+   * Toggle registration mode on/off
+   */
   registerToggle() {
-    this.registerMode = !this.registerMode
+    this.registerMode = !this.registerMode;
   }
 
-  cancelRegisterMode(event: boolean) {
-    this.registerMode = event;
-  }  
+  /**
+   * Cancel registration mode (called from register component)
+   */
+  cancelRegisterMode(event?: boolean) {
+    this.registerMode = event ?? false;
+  }
 
+  /**
+   * Navigate to bikes list page
+   */
+  navigateToBikes() {
+    this.router.navigate(['/bikes']);
+  }
 }

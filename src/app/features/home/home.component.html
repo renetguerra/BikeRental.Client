@@ -1,21 +1,104 @@
-<div class="container mt-5">
-    @if (!registerMode) {
-        <div style="text-align: center;">
-            <h1>Welcome</h1>
-            <p class="lead">Come on in to view your information... all you need to do is sign up!</p>
-            <div class="text-center">                
-                <button (click)="registerToggle()" class="btn btn-primary btn-lg me-2 mb-2">Register</button>                   
-                <button class="btn btn-info btn-lg mb-2">Learn more</button>                                             
-            </div>
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-content">
+    <div class="hero-text">
+      <h1 class="hero-title">Explore the City with BikeRental</h1>
+      <p class="hero-description">
+        Rent a bike and discover the city at your own pace. Our service offers a wide range of bikes for every adventure.
+      </p>
+      <div class="hero-buttons">
+        @if (!registerMode && !user) {
+          <button
+            mat-raised-button
+            color="primary"
+            class="hero-btn hero-btn--primary"
+            (click)="navigateToBikes()">
+            <mat-icon>directions_bike</mat-icon>
+            View Bikes
+          </button>
+          <button
+            mat-stroked-button
+            class="hero-btn hero-btn--secondary"
+            (click)="registerToggle()">
+            <mat-icon>person_add</mat-icon>
+            Get Started
+          </button>
+        } @else {
+          <button
+            mat-stroked-button
+            class="hero-btn hero-btn--secondary"
+            (click)="cancelRegisterMode()">
+            <mat-icon>arrow_back</mat-icon>
+            Back to Home
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Registration Section -->
+@if (registerMode) {
+  <section class="register-section">
+    <div class="container">
+      <div class="register-container">
+        <div class="register-card">
+          <h2 class="register-title">Join BikeRental Today</h2>
+          <app-register (cancelRegister)="cancelRegisterMode()"></app-register>
         </div>
-    }
-    @else {
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-4">
-                    <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
-                </div>
-            </div>
+      </div>
+    </div>
+  </section>
+} @else {
+  <!-- Popular Bikes Section -->
+  <section class="bikes-section">
+    <div class="container">
+      <h2 class="section-title">Our Popular Bikes</h2>
+      <div class="bikes-grid">
+        <div class="bike-card">
+          <div class="bike-card__image bike-card__image--city"></div>
+          <div class="bike-card__content">
+            <h3 class="bike-card__title">City Cruiser</h3>
+            <p class="bike-card__description">Perfect for leisurely rides around the city.</p>
+          </div>
         </div>
-    }    
-</div>
+
+        <div class="bike-card">
+          <div class="bike-card__image bike-card__image--mountain"></div>
+          <div class="bike-card__content">
+            <h3 class="bike-card__title">Mountain Explorer</h3>
+            <p class="bike-card__description">Tackle any terrain with our rugged mountain bikes.</p>
+          </div>
+        </div>
+
+        <div class="bike-card">
+          <div class="bike-card__image bike-card__image--electric"></div>
+          <div class="bike-card__content">
+            <h3 class="bike-card__title">Electric Glide</h3>
+            <p class="bike-card__description">Effortlessly cover long distances with our electric bikes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Ride?</h2>
+        <p class="cta-description">
+          Join the BikeRental community today and start your next urban adventure.
+        </p>
+        <button
+          mat-raised-button
+          color="primary"
+          class="cta-btn"
+          (click)="registerToggle()">
+          <mat-icon>rocket_launch</mat-icon>
+          Get Started
+        </button>
+      </div>
+    </div>
+  </section>
+}

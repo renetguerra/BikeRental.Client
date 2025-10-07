@@ -1,15 +1,137 @@
 /* You can add global styles to this file, and also import other style files */
 
+/* Theme Variables */
+:root {
+  /* Light Theme Colors */
+  --light-bg-primary: #ffffff;
+  --light-bg-secondary: #f8f9fa;
+  --light-text-primary: #212529;
+  --light-text-secondary: #6c757d;
+  --light-border: #dee2e6;
+  --light-shadow: rgba(0, 0, 0, 0.1);
+
+  /* Dark Theme Colors */
+  --dark-bg-primary: #0f1923;
+  --dark-bg-secondary: #1a252f;
+  --dark-text-primary: #e3e5e4;
+  --dark-text-secondary: #a8a8a8;
+  --dark-border: #374151;
+  --dark-shadow: rgba(0, 0, 0, 0.3);
+
+  /* Common Colors */
+  --primary: #007ACC;
+  --primary-hover: #005a9e;
+  --accent: #ff4081;
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --info: #17a2b8;
+}
+
+/* Light Theme */
 .light-theme {
-  --primary-color: #99dfc1;
+  --primary-color: #007ACC;
+  --primary-color-light: #1f8dd6;
   --accent-color: #ff4081;
+  --bg-primary: var(--light-bg-primary);
+  --bg-secondary: var(--light-bg-secondary);
+  --text-primary: var(--light-text-primary);
+  --text-secondary: var(--light-text-secondary);
+  --border-color: var(--light-border);
+  --shadow-color: var(--light-shadow);
+  --btn-secondary: #6c757d;
+
+  /* Navbar specific variables */
+  --navbar-bg: #007ACC;
+  --nav-text-color: #ffffff;
+  --card-bg: #ffffff;
+  --text-color: var(--light-text-primary);
+  --text-muted: #6c757d;
+  --hover-bg: #f8f9fa;
+  --input-bg: #ffffff;
+  --success-color: #28a745;
+  --success-hover: #218838;
+  --primary-rgb: 0, 122, 204;
+  --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+  /* Footer specific variables */
+  --footer-bg: #f8f9fa;
+  --footer-text: #212529;
+  --footer-text-muted: #6c757d;
 }
 
+.light-theme body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Theme */
 .dark-theme {
-  --primary-color: #23C17B;
+  --primary-color: #007ACC;
+  --primary-color-light: #1f8dd6;
   --accent-color: #f50057;
+  --bg-primary: var(--dark-bg-primary);
+  --bg-secondary: var(--dark-bg-secondary);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --border-color: var(--dark-border);
+  --shadow-color: var(--dark-shadow);
+  --btn-secondary: #4c4d4e;
+
+  /* Navbar specific variables */
+  --navbar-bg: #1a252f;
+  --nav-text-color: #e3e5e4;
+  --card-bg: var(--dark-bg-secondary);
+  --text-color: var(--dark-text-primary);
+  --text-muted: #a8a8a8;
+  --hover-bg: #374151;
+  --input-bg: var(--dark-bg-secondary);
+  --success-color: #007ACC;
+  --success-hover: #005a9e;
+  --primary-rgb: 0, 122, 204;
+  --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+
+  /* Footer specific variables */
+  --footer-bg: #1a252f;
+  --footer-text: #e3e5e4;
+  --footer-text-muted: #a8a8a8;
 }
 
+.dark-theme body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Theme-aware Components */
+.dark-theme .card,
+.dark-theme .modal-content {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dark-theme .navbar,
+.dark-theme .footer {
+  background-color: var(--bg-secondary);
+  border-color: var(--border-color);
+}
+
+.dark-theme .form-control {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+.dark-theme .form-control:focus {
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(35, 193, 123, 0.25);
+}
+
+/* Angular Material Theme Overrides */
 .mat-button {
   background-color: var(--primary-color);
 }
@@ -19,44 +141,44 @@
     padding: 10px;
     border-radius: 4px;
   }
-  
+
   .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {
-    border-bottom: 4px solid #99dfc1;
+    border-bottom: 4px solid #1f8dd6;
   }
 
   .inactive-tab:hover {
     border-bottom: 4px solid gray !important;
     opacity: 0.5 !important;
   }
-  
+
   .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
     border: 0 !important;
     background: none !important;
     color: #333333;
   }
-  
+
   .member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
     color: #a6a6a6;
   }
-  
+
   .member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
     margin-top: 0px;
   }
-  
+
   .member-tabset > .nav-tabs > li.active {
-    border-bottom: 4px solid #99dfc1;
+    border-bottom: 4px solid #1f8dd6;
     position: relative;
   }
-  
+
   .member-tabset > .nav-tabs > li.active > a {
     border: 0 !important;
     color: #333333;
   }
-  
+
   .member-tabset > .nav-tabs > li.active > a > i {
     color: #404040;
   }
-  
+
   .member-tabset > .tab-content {
     margin-top: -3px;
     background-color: #fff;
@@ -64,59 +186,59 @@
     border-top: 1px solid #eee;
     padding: 15px 0;
   }
-  
+
   .nav-tabs {
       --bs-nav-tabs-border-width: 0px;
   }
 
   .primary {
-    background-color: #23C17B !important;
-    border-color: #23C17B !important;
+    background-color: #007ACC !important;
+    border-color: #007ACC !important;
   }
 
   .btn-primary {
-    background-color: #23C17B !important;
-    border-color: #23C17B !important;
+    background-color: #007ACC !important;
+    border-color: #007ACC !important;
   }
 
   .btn-success {
-    background-color: #99dfc1 !important;
-    border-color: #99dfc1 !important;
+    background-color: #1f8dd6 !important;
+    border-color: #1f8dd6 !important;
   }
 
   .bg-primary {
-    background-color: #23C17B !important;
-    border-color: #23C17B !important;
+    background-color: #007ACC !important;
+    border-color: #007ACC !important;
   }
 
   .bg-success {
-    background-color: #99dfc1 !important;
-    border-color: #99dfc1 !important;
+    background-color: #1f8dd6 !important;
+    border-color: #1f8dd6 !important;
   }
 
   .nav-link {
-    color: #99dfc1 !important;
+    color: #1f8dd6 !important;
   }
 
   .btn-outline-primary {
-    color: #23C17B !important;
-    border-color: #23C17B !important;
+    color: #007ACC !important;
+    border-color: #007ACC !important;
   }
 
   .btn-outline-primary:hover {
-    background-color: #99dfc1 !important;    
+    background-color: #1f8dd6 !important;
   }
 
   .active > .page-link {
     z-index: 3;
     color: #fff;
-    background-color: #23C17B;
-    border-color: #23C17B;
+    background-color: #007ACC;
+    border-color: #007ACC;
   }
 
 .ngx-pagination .current {
   padding: .1875rem .625rem !important;
-  background: #23C17B !important;
+  background: #007ACC !important;
   color: #fefefe !important;
   cursor: default !important;
 }
@@ -126,5 +248,76 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @media (min-width: 1400px) {
   .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
       max-width: 1350px !important;
+  }
+}
+
+/* ===== GLOBAL MATERIAL DESIGN DARK THEME OVERRIDES ===== */
+/* Fix for Material Design input text color in dark theme */
+[data-theme="dark"] {
+  /* Specific MDC text field input override - highest specificity */
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-text-field__input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+  }
+
+  /* All Material Design input elements */
+  .mat-mdc-input-element,
+  .mdc-text-field__input,
+  .mat-input-element {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+  }
+
+  /* Form field labels */
+  .mat-mdc-form-field-label,
+  .mat-form-field-label,
+  .mdc-floating-label,
+  .mat-mdc-floating-label {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  /* Placeholder text */
+  .mat-mdc-input-element::placeholder,
+  .mdc-text-field__input::placeholder,
+  .mat-input-element::placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+    opacity: 1 !important;
+  }
+
+  /* Cross-browser placeholder support */
+  .mat-mdc-input-element::-webkit-input-placeholder,
+  .mdc-text-field__input::-webkit-input-placeholder,
+  .mat-input-element::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .mat-mdc-input-element::-moz-placeholder,
+  .mdc-text-field__input::-moz-placeholder,
+  .mat-input-element::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  .mat-mdc-input-element:-ms-input-placeholder,
+  .mdc-text-field__input:-ms-input-placeholder,
+  .mat-input-element:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.5) !important;
+  }
+
+  /* Text field wrapper background */
+  .mat-mdc-text-field-wrapper {
+    background: rgba(33, 37, 41, 0.85) !important;
+  }
+
+  /* Icons in form fields */
+  .mat-mdc-form-field .mat-icon,
+  .mat-form-field .mat-icon {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .mat-mdc-form-field .mat-icon:hover,
+  .mat-form-field .mat-icon:hover {
+    color: var(--primary) !important;
   }
 }

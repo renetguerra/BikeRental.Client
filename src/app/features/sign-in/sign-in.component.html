@@ -1,0 +1,179 @@
+<!-- Animated Background -->
+<div class="signin-background">
+  <div class="animated-shapes">
+    <div class="shape shape-1"></div>
+    <div class="shape shape-2"></div>
+    <div class="shape shape-3"></div>
+  </div>
+</div>
+
+<!-- Sign In Container -->
+<div class="signin-container">
+
+  <!-- Main Card with Glassmorphism Effect -->
+  <mat-card class="signin-card">
+
+    <!-- Back Button -->
+    <button
+      mat-icon-button
+      class="back-button"
+      (click)="goBack()"
+      matTooltip="Back to Home"
+      matTooltipPosition="right">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <!-- Animated Avatar Section -->
+    <div class="avatar-section">
+      <div
+        class="avatar-container"
+        [class.hovered]="avatarHovered()"
+        (mouseenter)="onAvatarHover(true)"
+        (mouseleave)="onAvatarHover(false)">
+
+        <!-- Avatar Background Circle -->
+        <div class="avatar-bg">
+          <div class="avatar-ring"></div>
+          <div class="avatar-ring-2"></div>
+        </div>
+
+        <!-- Avatar Icon -->
+        <div class="avatar-icon">
+          <mat-icon>person</mat-icon>
+        </div>
+
+        <!-- Floating Particles -->
+        <div class="particles">
+          <div class="particle particle-1"></div>
+          <div class="particle particle-2"></div>
+          <div class="particle particle-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Header -->
+    <div class="signin-header">
+      <h1 class="signin-title">Sign In</h1>
+      <p class="signin-subtitle">Welcome back to BikeRental</p>
+    </div>
+
+    <!-- Sign In Form -->
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="signin-form">
+
+      <!-- Username Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            autocomplete="username">
+          <mat-icon matSuffix class="field-icon">person_outline</mat-icon>
+          <mat-error *ngIf="hasError('username')">
+            {{ getErrorMessage('username') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-field">
+        <mat-form-field appearance="outline" class="full-width modern-field">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password">
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            matTooltip="Toggle password visibility">
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="hasError('password')">
+            {{ getErrorMessage('password') }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Forgot Password Link -->
+      <div class="forgot-password-section">
+        <button
+          type="button"
+          mat-button
+          class="forgot-link"
+          (click)="onForgotPassword()">
+          Forgot password?
+        </button>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="form-actions">
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="signin-button"
+          [disabled]="isLoading()">
+
+          <span *ngIf="!isLoading()" class="button-content">
+            <mat-icon>login</mat-icon>
+            Sign In
+          </span>
+
+          <span *ngIf="isLoading()" class="loading-content">
+            <div class="loading-spinner"></div>
+            Signing In...
+          </span>
+        </button>
+      </div>
+
+      <!-- Show Password Button (Alternative Design) -->
+      <div class="show-password-section" *ngIf="signInForm.get('password')?.value">
+        <button
+          type="button"
+          mat-stroked-button
+          class="show-password-btn"
+          (click)="togglePasswordVisibility()">
+          {{ hidePassword() ? 'Show' : 'Hide' }}
+        </button>
+      </div>
+
+    </form>
+
+    <!-- Divider -->
+    <mat-divider class="form-divider"></mat-divider>
+
+    <!-- Footer -->
+    <div class="signin-footer">
+      <p class="register-prompt">
+        Don't have an account?
+        <button
+          mat-button
+          color="primary"
+          (click)="navigateToRegister()"
+          class="register-link">
+          Create Account
+        </button>
+      </p>
+    </div>
+
+  </mat-card>
+
+  <!-- Floating Action Elements -->
+  <div class="floating-elements">
+    <div class="floating-icon floating-icon-1">
+      <mat-icon>two_wheeler</mat-icon>
+    </div>
+    <div class="floating-icon floating-icon-2">
+      <mat-icon>lock</mat-icon>
+    </div>
+    <div class="floating-icon floating-icon-3">
+      <mat-icon>verified_user</mat-icon>
+    </div>
+  </div>
+
+</div>

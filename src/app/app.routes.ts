@@ -12,9 +12,14 @@ import { MemberListComponent } from "./features/members/pages/member-list/member
 import { BikeListComponent } from "./features/bikes/pages/bike-list/bike-list.component";
 import { BikeDetailComponent } from "./features/bikes/pages/bike-detail/bike-detail.component";
 import { bikeDetailedResolver } from "./core/_resolvers/bike-detailed.resolver";
+import { SignInComponent } from "./features/sign-in/sign-in.component";
+import { RegisterComponent } from "./features/register/register.component";
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
+    { path: 'signin', component: SignInComponent },
+    { path: 'login', redirectTo: '/signin' }, // Alias for backward compatibility
+    { path: 'register', component: RegisterComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',

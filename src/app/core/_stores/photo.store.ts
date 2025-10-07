@@ -9,7 +9,7 @@ import { AccountService } from "../_services/account.service";
 import { MemberStore } from "./member.store";
 import { User } from "../_models/user";
 import { BikeStore } from "./bike.store";
-import { HttpEventType } from "@angular/common/http";
+import { HttpEventType, HttpEvent } from "@angular/common/http";
 import { GenericPhotoService } from "../_services/genericPhoto.service";
 import { tap, of, map, Observable, EMPTY, filter } from "rxjs";
 
@@ -331,7 +331,7 @@ export class PhotoStore {
     // Delegamos al GenericPhotoService
     // Como no tenemos la entidad aquí, usamos el PhotoService legacy
     return this.genericPhotoService['photoService'].uploadPhoto(entityId, urlServerPath, formData, token).pipe(
-      map(event => {
+      map((event: HttpEvent<Photo>) => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
           this.progress.set(Math.round((100 * event.loaded) / event.total));
         } else if (event.type === HttpEventType.Response) {

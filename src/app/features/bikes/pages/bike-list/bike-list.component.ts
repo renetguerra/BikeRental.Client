@@ -9,22 +9,23 @@ import { Bike } from 'src/app/core/_models/bike';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { FocusTrapModule } from "ngx-bootstrap/focus-trap";
 
 @Component({
     selector: 'app-bike-list',
     templateUrl: './bike-list.component.html',
     styleUrls: ['./bike-list.component.css'],
-    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, NgxPaginationModule, MatSlideToggleModule, ButtonsModule]
+    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, NgxPaginationModule, MatSlideToggleModule, ButtonsModule, FocusTrapModule]
 })
-export class BikeListComponent {  
-  
+export class BikeListComponent {
+
   public bikeStore = inject(BikeStore);
-  
+
   bikes = this.bikeStore.bikes;
   pagination = this.bikeStore.pagination;
   bikeParams = this.bikeStore.bikeParams;
   bikeYears = [
-    { value: 2023 }, 
+    { value: 2023 },
     { value: 2022 },
     { value: 2021 },
     { value: 2020 },
@@ -36,7 +37,7 @@ export class BikeListComponent {
   ];
 
   ngOnInit(): void {
-    this.bikeStore.loadBikes();    
+    this.bikeStore.loadBikes();
   }
 
   applyFilters() {
@@ -46,13 +47,13 @@ export class BikeListComponent {
     }
   }
 
-  setOrderBy(order: string) {    
+  setOrderBy(order: string) {
     const params = this.bikeParams();
     if (params) {
       params.orderBy = order;
       this.bikeStore.setBikeParams(params);
     }
-  } 
+  }
 
   resetFilters() {
     this.bikeStore.resetFilters();

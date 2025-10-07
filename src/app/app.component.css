@@ -1,0 +1,18 @@
+/* App Layout Styles */
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content container */
+.container {
+  flex: 1;
+  margin-top: 100px !important;
+  margin-bottom: 2rem;
+}
+
+/* Ensure footer stays at bottom */
+app-footer {
+  margin-top: auto;
+}

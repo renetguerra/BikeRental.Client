@@ -6,17 +6,17 @@
     </button>
 
     <div [collapse]="isCollapsed" class="collapse navbar-collapse" id="navbarMain">
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+      <ul class="navbar-nav mx-auto mb-2 mb-md-0">
         @if (user()) {
           <ng-container>
             <li class="nav-item">
               <a class="nav-link" [routerLink]="['/member', user()?.username]"  routerLinkActive="active">Profile</a>
-            </li>          
+            </li>
             <li class="nav-item">
               <a class="nav-link" routerLink="/bikes" routerLinkActive="active">Bikes</a>
             </li>
             <li *appHasRole="['Admin', 'Moderator']" class="nav-item">
-              <a class="nav-link" routerLink="/members" routerLinkActive="active">Customers</a>            
+              <a class="nav-link" routerLink="/members" routerLinkActive="active">Customers</a>
             </li>
             <li *appHasRole="['Admin', 'Moderator']" class="nav-item dropdown" dropdown>
               <a class="nav-link dropdown-toggle" id="adminMenu" role="button" data-bs-toggle="dropdown"
@@ -27,32 +27,90 @@
                 <li><a class="dropdown-item ps-3" routerLink="/admin">Customers</a></li>
                 <li><a class="dropdown-item ps-3" routerLink="/admin-bike">Bikes</a></li>
               </ul>
-            </li>           
+            </li>
           </ng-container>
-        }              
+        }
       </ul>
-    </div>  
+
+      <!-- Search Bar -->
+      @if (user()) {
+        <div class="d-flex me-3">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search bikes...</mat-label>
+            <input
+              matInput
+              #searchInput
+              [value]="searchTerm()"
+              (input)="onSearchInputChange(searchInput.value)"
+              (keyup.enter)="searchBikes()"
+              autocomplete="off">
+            <mat-icon matSuffix (click)="searchBikes()" class="search-icon">search</mat-icon>
+          </mat-form-field>
+        </div>
+      }
+    </div>
 
     <div class="d-flex align-items-center ms-auto">
+      <!-- Theme Toggle Button -->
+      <button
+        mat-icon-button
+        (click)="toggleTheme()"
+        [matTooltip]="currentTheme() === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'"
+        matTooltipPosition="below"
+        [matTooltipShowDelay]="500"
+        [matTooltipHideDelay]="100"
+        class="theme-toggle me-2">
+        <mat-icon>{{ currentTheme() === 'dark' ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
       @if (user()) {
         <div class="dropdown" dropdown>
-          <img src="{{user()?.photoUrl || './assets/user.png'}}" alt="user photo">
-          <a class="dropdown-toggle text-light text-decoration-none ms-2" dropdownToggle>Welcome {{user()?.knownAs}}</a>
-          <div class="dropdown-menu" *dropdownMenu>
-            <a routerLink="/member/profile/edit" class="dropdown-item">Edit Profile</a>
-            <a class="dropdown-item" (click)="logout()">Logout</a>
+          <div class="user-dropdown d-flex align-items-center"
+               dropdownToggle
+               [matTooltip]="'User Settings'"
+               matTooltipPosition="below"
+               [matTooltipShowDelay]="500"
+               [matTooltipHideDelay]="100">
+            <img src="{{user()?.photoUrl || './assets/user.png'}}" alt="{{user()?.knownAs}} profile photo">
+            <mat-icon class="settings-icon ms-2">settings</mat-icon>
           </div>
-        </div>        
+          <div class="dropdown-menu" *dropdownMenu>
+            <h6 class="dropdown-header">{{user()?.knownAs}}</h6>
+            <div class="dropdown-divider"></div>
+            <a routerLink="/member/profile/edit" class="dropdown-item">
+              <mat-icon class="me-2">edit</mat-icon>
+              Edit Profile
+            </a>
+            <a class="dropdown-item" (click)="logout()">
+              <mat-icon class="me-2">logout</mat-icon>
+              Logout
+            </a>
+          </div>
+        </div>
       }
       @else {
-        <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
+        <button
+            mat-raised-button
+            color="primary"
+            class="hero-btn signup-btn--secondary"
+            (click)="navigateToSignUp()">
+            Sign Up
+        </button>
+        <button
+          mat-stroked-button
+          class="hero-btn signin-btn--secondary"
+          (click)="navigateToLogin()">
+          Log In
+        </button>
+
+        <!-- <form #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
           autocomplete="off">
           <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="text" placeholder="Username">
           <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
             placeholder="Password">
           <button class="btn btn-success" type="submit">Login</button>
-        </form>
-      }        
+        </form> -->
+      }
     </div>
   </div>
 </nav>

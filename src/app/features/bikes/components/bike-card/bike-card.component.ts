@@ -11,6 +11,7 @@ import { PresenceService } from 'src/app/core/_services/presence.service';
 import { CommonModule } from '@angular/common';
 import { Bike } from 'src/app/core/_models/bike';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RentStore } from 'src/app/core/_stores/rent.store';
 import { Rental } from 'src/app/core/_models/rental';
 import { LikeStore } from 'src/app/core/_stores/like.store';
@@ -23,7 +24,7 @@ import { BikeService } from 'src/app/core/_services/bike.service';
   selector: 'app-bike-card',
   templateUrl: './bike-card.component.html',
   styleUrls: ['./bike-card.component.css'],
-  imports: [CommonModule, RouterModule, RouterLink, MatIconModule],
+  imports: [CommonModule, RouterModule, RouterLink, MatIconModule, MatTooltipModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BikeCardComponent implements OnInit {
@@ -55,11 +56,11 @@ export class BikeCardComponent implements OnInit {
         const current = this.likeStore.bikeFavoritesIds();
         const updated = this.hasLiked()
           ? current!.filter((id) => id !== bikeId)
-          : [...current!, bikeId];        
+          : [...current!, bikeId];
 
         this.likeStore.likeIds.set(updated);
 
-        this.likeStore.loadBikeFavorites();        
+        this.likeStore.loadBikeFavorites();
       },
       error: (err) => {
         console.error(err);

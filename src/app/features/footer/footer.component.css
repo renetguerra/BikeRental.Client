@@ -1,0 +1,242 @@
+/* Footer Component Styles */
+.footer {
+  background-color: var(--footer-bg, #1a252f);
+  color: var(--footer-text, #e3e5e4);
+  margin-top: auto;
+  border-top: 1px solid var(--border-color, #374151);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Main Footer Content */
+.footer-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  padding: 3rem 0 2rem;
+}
+
+.footer-brand {
+  grid-column: span 1;
+}
+
+.footer-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color, #007ACC);
+  margin: 0 0 1rem 0;
+}
+
+.footer-description {
+  color: var(--footer-text-muted, #a8a8a8);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Footer Sections */
+.footer-section {
+  grid-column: span 1;
+}
+
+.footer-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--footer-text, #e3e5e4);
+  margin: 0 0 1rem 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-link {
+  color: var(--footer-text-muted, #a8a8a8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: var(--primary-color, #007ACC);
+}
+
+/* Social Media Links */
+.social-links {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.social-button {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: var(--footer-text, #e3e5e4);
+  transition: all 0.3s ease;
+}
+
+.social-button:hover {
+  background-color: var(--primary-color, #007ACC);
+  border-color: var(--primary-color, #007ACC);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 122, 204, 0.3);
+}
+
+.social-icon {
+  font-size: 1.2rem;
+}
+
+/* Specific social media colors on hover */
+.social-button:hover .social-facebook {
+  color: #1877F2;
+}
+
+.social-button:hover .social-instagram {
+  color: #E4405F;
+}
+
+.social-button:hover .social-twitter {
+  color: #1DA1F2;
+}
+
+.social-button:hover .social-github {
+  color: #333333;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+  border-top: 1px solid var(--border-color, #374151);
+  padding: 1.5rem 0;
+}
+
+.footer-bottom-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.copyright {
+  margin: 0;
+  color: var(--footer-text-muted, #a8a8a8);
+  font-size: 0.9rem;
+}
+
+.footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-bottom-link {
+  color: var(--footer-text-muted, #a8a8a8);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom-link:hover {
+  color: var(--primary-color, #007ACC);
+}
+
+.separator {
+  color: var(--footer-text-muted, #a8a8a8);
+  opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0 1.5rem;
+  }
+
+  .footer-brand {
+    grid-column: span 2;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .footer-section {
+    grid-column: span 1;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-bottom-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 1.5rem 0 1rem;
+  }
+
+  .footer-brand,
+  .footer-section {
+    grid-column: span 1;
+    text-align: center;
+  }
+
+  .footer-container {
+    padding: 0 0.75rem;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .footer-bottom-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+/* Theme Support */
+:host-context(.light-theme) .footer {
+  --footer-bg: #f8f9fa;
+  --footer-text: #212529;
+  --footer-text-muted: #6c757d;
+  --border-color: #dee2e6;
+}
+
+:host-context(.light-theme) .social-button {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: var(--footer-text);
+}
+
+:host-context(.light-theme) .social-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Dark theme (default) */
+:host-context(.dark-theme) .footer {
+  --footer-bg: #1a252f;
+  --footer-text: #e3e5e4;
+  --footer-text-muted: #a8a8a8;
+  --border-color: #374151;
+}

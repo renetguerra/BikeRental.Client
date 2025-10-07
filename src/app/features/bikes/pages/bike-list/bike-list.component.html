@@ -1,154 +1,198 @@
-<div class="text-center mt-3">
-  <h2>Your matches - {{ pagination()?.totalItems }} found</h2>
-</div>
-
-@if (bikeParams() !== null && bikeParams() !== undefined) {
-<div class="container mt-3">
-  <form
-    #form="ngForm"
-    class="row gy-2 gx-3 align-items-center mb-3"
-    (ngSubmit)="applyFilters()"
-    autocomplete="off"
-  >
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Type: </label>
-      <input
-        type="text"
-        class="form-control ms-1"
-        style="width: 150px"
-        name="type"
-        [ngModel]="bikeParams() && bikeParams()?.type"
-        (ngModelChange)="bikeParams() && (bikeParams()!.type = $event)"
-      />
-    </div>
-
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Model: </label>
-      <input
-        type="text"
-        class="form-control ms-1"
-        style="width: 150px"
-        name="model"
-        [ngModel]="bikeParams() && bikeParams()?.model"
-        (ngModelChange)="bikeParams() && (bikeParams()!.model = $event)"
-      />
-    </div>
-
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Brand: </label>
-      <input
-        type="text"
-        class="form-control ms-1"
-        style="width: 150px"
-        name="brand"
-        [ngModel]="bikeParams() && bikeParams()?.brand"
-        (ngModelChange)="bikeParams() && (bikeParams()!.brand = $event)"
-      />
-    </div>
-
-    <div class="col-12 col-sm-auto custom-toggle">
-      <mat-slide-toggle [(ngModel)]="bikeParams()!.isAvailable" name="isAvailable">Bike available                                                 
-      </mat-slide-toggle>
-    </div>
-
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Year: </label>
-      <select
-        name="year"
-        style="width: 130px"
-        class="form-select ml-1"
-        [ngModel]="bikeParams()?.year"
-        (ngModelChange)="bikeParams() && (bikeParams()!.year = $event)"
-      >
-        @for (bikeYear of bikeYears; track bikeYear.value) {
-        <option [ngValue]="bikeYear.value">
-          {{ bikeYear.value }}
-        </option>
-        }
-      </select> 
-    </div>
-
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Price from: </label>
-      <input
-        type="number"
-        class="form-control ms-1"
-        style="width: 70px"
-        name="minPrice"
-        [ngModel]="bikeParams() && bikeParams()?.minPrice"
-        (ngModelChange)="bikeParams() && (bikeParams()!.minPrice = $event)"
-      />
-    </div>
-    
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Price to: </label>
-      <input
-        type="number"
-        class="form-control ms-1"
-        style="width: 70px"
-        name="maxPrice"
-        [ngModel]="bikeParams() && bikeParams()?.maxPrice"
-        (ngModelChange)="bikeParams() && (bikeParams()!.maxPrice = $event)"
-      />
-    </div>      
-
-    <div class="col-12 col-sm-auto">
-      <button class="btn btn-primary me-2" type="submit">Apply Filters</button>
-      <button (click)="resetFilters()" class="btn btn-info ms-1" type="button">
-        Reset Filters
-      </button>
-    </div>
-    
-    <div class="col-12 col-sm-auto ms-auto">
-      <div class="btn-group float-end">
-        <button
-          type="button"
-          class="btn btn-primary"
-          name="orderBy"
-          (click)="setOrderBy('type')"
-          btnRadio="type"
-          [ngModel]="bikeParams()?.orderBy"
-        >
-          Type
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          name="orderBy"
-          (click)="setOrderBy('model')"
-          btnRadio="model"
-          [ngModel]="bikeParams()?.orderBy"
-        >
-          Model
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          name="orderBy"
-          (click)="setOrderBy('brand')"
-          btnRadio="brand"
-          [ngModel]="bikeParams()?.orderBy"
-        >
-          Brand
-        </button>
+<!-- Modern Header Section -->
+<div class="bikes-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="bikes-title">Available Bikes</h1>
+        <p class="bikes-subtitle">Explore our wide selection of bikes for rent. Find the perfect ride for your next adventure.</p>
+      </div>
+      <div class="bikes-count">
+        <span class="count-number">{{ pagination()?.totalItems || 0 }}</span>
+        <span class="count-label">Bikes Found</span>
       </div>
     </div>
-  </form>
+  </div>
+</div>
+
+<!-- Modern Filter Section -->
+@if (bikeParams() !== null && bikeParams() !== undefined) {
+<div class="filters-section">
+  <div class="container">
+    <div class="filters-card">
+      <form
+        #form="ngForm"
+        class="filters-form"
+        (ngSubmit)="applyFilters()"
+        autocomplete="off">
+
+        <div class="filters-grid">
+          <!-- Type Filter -->
+          <div class="filter-group">
+            <label class="filter-label">Type</label>
+            <div class="filter-input-wrapper">
+              <input
+                type="text"
+                class="filter-input"
+                name="type"
+                [ngModel]="bikeParams() && bikeParams()?.type"
+                (ngModelChange)="bikeParams() && (bikeParams()!.type = $event)"
+              />
+            </div>
+          </div>
+
+          <!-- Model Filter -->
+          <div class="filter-group">
+            <label class="filter-label">Model</label>
+            <div class="filter-input-wrapper">
+              <input
+                type="text"
+                class="filter-input"
+                name="model"
+                [ngModel]="bikeParams() && bikeParams()?.model"
+                (ngModelChange)="bikeParams() && (bikeParams()!.model = $event)" />
+            </div>
+          </div>
+
+          <!-- Brand Filter -->
+          <div class="filter-group">
+            <label class="filter-label">Brand</label>
+            <div class="filter-input-wrapper">
+              <input
+                type="text"
+                class="filter-input"
+                name="brand"
+                [ngModel]="bikeParams() && bikeParams()?.brand"
+                (ngModelChange)="bikeParams() && (bikeParams()!.brand = $event)" />
+            </div>
+          </div>
+
+          <!-- Year Filter -->
+          <div class="filter-group">
+            <label class="filter-label">Year</label>
+            <div class="filter-input-wrapper">
+              <select
+                name="year"
+                class="filter-select"
+                [ngModel]="bikeParams()?.year"
+                (ngModelChange)="bikeParams() && (bikeParams()!.year = $event)">
+                <option value="0">All Years</option>
+                @for (bikeYear of bikeYears; track bikeYear.value) {
+                <option [ngValue]="bikeYear.value">{{ bikeYear.value }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <!-- Price Range -->
+          <div class="filter-group">
+            <label class="filter-label">Price Range</label>
+            <div class="price-range">
+              <input
+                type="number"
+                class="filter-input price-input"
+                name="minPrice"
+                placeholder="Min"
+                [ngModel]="bikeParams() && bikeParams()?.minPrice"
+                (ngModelChange)="bikeParams() && (bikeParams()!.minPrice = $event)" />
+              <span class="price-separator">-</span>
+              <input
+                type="number"
+                class="filter-input price-input"
+                name="maxPrice"
+                placeholder="Max"
+                [ngModel]="bikeParams() && bikeParams()?.maxPrice"
+                (ngModelChange)="bikeParams() && (bikeParams()!.maxPrice = $event)" />
+            </div>
+          </div>
+
+          <!-- Availability Toggle -->
+          <div class="filter-group availability-group">
+            <label class="filter-label">Availability</label>
+            <div class="availability-toggle">
+              <mat-slide-toggle
+                [(ngModel)]="bikeParams()!.isAvailable"
+                name="isAvailable"
+                class="modern-toggle">
+                Available Only
+              </mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="filter-actions">
+          <button class="btn-apply" type="submit">Apply Filters</button>
+          <button class="btn-reset" type="button" (click)="resetFilters()">Reset</button>
+        </div>
+      </form>
+
+      <!-- Sort Options -->
+      <div class="sort-section">
+        <span class="sort-label">Sort by:</span>
+        <div class="sort-buttons">
+          <button
+            type="button"
+            class="sort-btn"
+            [class.active]="bikeParams()?.orderBy === 'type'"
+            (click)="setOrderBy('type')">
+            Type
+          </button>
+          <button
+            type="button"
+            class="sort-btn"
+            [class.active]="bikeParams()?.orderBy === 'model'"
+            (click)="setOrderBy('model')">
+            Model
+          </button>
+          <button
+            type="button"
+            class="sort-btn"
+            [class.active]="bikeParams()?.orderBy === 'brand'"
+            (click)="setOrderBy('brand')">
+            Brand
+          </button>
+          <button
+            type="button"
+            class="sort-btn"
+            [class.active]="bikeParams()?.orderBy === 'price'"
+            (click)="setOrderBy('price')">
+            Price
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 }
 
-<div class="row">
-  @for (bike of bikes() | paginate: { itemsPerPage: pagination()?.itemsPerPage , currentPage: pagination()?.currentPage, totalItems: pagination()?.totalItems }; track bike.id) {
-  <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
-    <app-bike-card [bike]="bike"></app-bike-card>
+<!-- Modern Bikes Grid -->
+<div class="bikes-section">
+  <div class="container">
+    <div class="bikes-grid">
+      @for (bike of bikes() | paginate: { itemsPerPage: pagination()?.itemsPerPage, currentPage: pagination()?.currentPage, totalItems: pagination()?.totalItems }; track bike.id) {
+        <app-bike-card [bike]="bike"></app-bike-card>
+      }
+    </div>
+
+    <!-- No Results Message -->
+    @if (bikes().length === 0) {
+      <div class="no-results">
+        <div class="no-results-icon">🚴‍♂️</div>
+        <h3>No bikes found</h3>
+        <p>Try adjusting your filters to see more results.</p>
+      </div>
+    }
   </div>
-  }
 </div>
 
+<!-- Modern Pagination -->
 @if (pagination()) {
-<div class="d-flex justify-content-center">
-  <pagination-controls    
-    (pageChange)="pageChanged($event)"
-  ></pagination-controls>
+<div class="pagination-section">
+  <div class="container">
+    <pagination-controls
+      class="modern-pagination"
+      (pageChange)="pageChanged($event)">
+    </pagination-controls>
+  </div>
 </div>
 }
