@@ -114,7 +114,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1.5rem;
-  margin-bottom: 2rem;
 }
 
 .filter-group {
@@ -205,12 +204,16 @@
   --mdc-switch-selected-pressed-track-color: var(--primary);
 }
 
+::ng-deep [data-theme="dark"] .mdc-label {
+  color: var(--text-primary);
+}
+
 /* Action Buttons */
 .filter-actions {
   display: flex;
   gap: 1rem;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .btn-apply,
@@ -256,7 +259,6 @@
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding-top: 2rem;
   border-top: 1px solid rgba(var(--border-color-rgb), 0.2);
 }
 

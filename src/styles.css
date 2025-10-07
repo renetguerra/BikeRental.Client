@@ -320,4 +320,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   .mat-form-field .mat-icon:hover {
     color: var(--primary) !important;
   }
+
+  /* Angular ng-star-inserted background for option elements in dark theme */
+  option.ng-star-inserted {
+    background: rgba(50, 52, 55, 0.95) !important;
+  }
 }

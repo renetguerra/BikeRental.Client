@@ -7,7 +7,7 @@
         <p class="bikes-subtitle">Explore our wide selection of bikes for rent. Find the perfect ride for your next adventure.</p>
       </div>
       <div class="bikes-count">
-        <span class="count-number">{{ pagination()?.totalItems || 0 }}</span>
+        <span class="count-number">{{ bikes()?.length || 0 }}</span>
         <span class="count-label">Bikes Found</span>
       </div>
     </div>
