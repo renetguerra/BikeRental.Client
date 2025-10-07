@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, inject, signal, computed } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, signal, computed, ViewEncapsulation } from '@angular/core';
 import { Member } from 'src/app/core/_models/member';
 import { environment } from 'src/environments/environment';
 import { NgClass, NgStyle, DecimalPipe } from '@angular/common';
@@ -36,6 +36,7 @@ import { AccountService } from 'src/app/core/_services/account.service';
     selector: 'app-photo-editor',
     templateUrl: './photo-editor.component.html',
     styleUrls: ['./photo-editor.component.css'],
+    encapsulation: ViewEncapsulation.None,
     imports: [MatDialogModule, MatButtonModule, MatProgressBarModule, MatIconModule]
 })
 export class PhotoEditorComponent<T> implements OnInit {
@@ -91,14 +92,9 @@ export class PhotoEditorComponent<T> implements OnInit {
     if (!input.files?.length) return;
 
     const files = Array.from(input.files);
-    const urlServerPath = this.data.urlServerPath;
-    const entityId = this.data.photoConfig.getEntityIdentifier(this.data.entity);
+    this.processFiles(files);
 
-    console.log(`Starting upload of ${files.length} files`);
-    this.progress.set(0);
-
-    // Procesar archivos secuencialmente para evitar problemas de concurrencia
-    this.uploadFilesSequentially(files, entityId, urlServerPath, 0);
+    // Clear the input to allow selecting the same file again
     input.value = '';
   }
 
@@ -267,4 +263,60 @@ export class PhotoEditorComponent<T> implements OnInit {
       this.dialogRef.close();
     };
   }*/
+
+  // Handle drag over
+  onDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.hasBaseDropzoneOver.set(true);
+  }
+
+  // Handle drag leave
+  onDragLeave(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.hasBaseDropzoneOver.set(false);
+  }
+
+  // Handle drag and drop
+  onFileDrop(event: DragEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.hasBaseDropzoneOver.set(false);
+
+    const files = event.dataTransfer?.files;
+    if (files && files.length > 0) {
+      this.processFiles(Array.from(files));
+    }
+  }
+
+  // Process selected or dropped files
+  private processFiles(files: File[]): void {
+    // Filter only image files
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+
+    if (imageFiles.length === 0) {
+      this.toastr.warning('Please select only image files');
+      return;
+    }
+
+    if (imageFiles.length !== files.length) {
+      this.toastr.info(`${files.length - imageFiles.length} non-image files were ignored`);
+    }
+
+    // Get upload configuration
+    const urlServerPath = this.data.urlServerPath;
+    const entityId = this.data.photoConfig.getEntityIdentifier(this.data.entity);
+
+    console.log(`Starting upload of ${imageFiles.length} files to ${urlServerPath}/${entityId}`);
+    this.progress.set(0);
+
+    // Process files sequentially to avoid concurrency issues
+    this.uploadFilesSequentially(imageFiles, entityId, urlServerPath, 0);
+  }
+
+  // Method to close dialog
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
 }

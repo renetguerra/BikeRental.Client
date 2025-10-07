@@ -19,14 +19,14 @@
       <div class="action-buttons">
         <button
           [routerLink]="['/bike', bike()!.id]"
-          class="action-btn view-btn"
+          class="action-btn"
           matTooltip="View Details">
           <mat-icon>visibility</mat-icon>
         </button>
 
         <button
           (click)="toggleLikeBike()"
-          class="action-btn like-btn"
+          class="action-btn"
           [class.liked]="hasLiked()"
           matTooltip="Add to Favorites">
           <mat-icon>{{ hasLiked() ? 'favorite' : 'favorite_border' }}</mat-icon>
@@ -35,7 +35,7 @@
         @if (bike()!.isAvailable) {
           <button
             (click)="rentBike()"
-            class="action-btn rent-btn"
+            class="action-btn"
             matTooltip="Rent Bike">
             <mat-icon>directions_bike</mat-icon>
           </button>

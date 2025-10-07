@@ -1,11 +1,41 @@
-<h3 mat-dialog-title>Manage Photos</h3>
-<mat-dialog-content class="photo-dialog-content">
-  <div class="photo-upload-container">
+<div class="photo-editor-container" (click)="$event.stopPropagation()">
+  <h3 mat-dialog-title>Manage Photos</h3>
+  <mat-dialog-content class="photo-dialog-content" (click)="$event.stopPropagation()">
+    <div class="photo-upload-container">
 
-    <h4>Select photos to upload</h4>
+      <h4>Select photos to upload</h4>
 
-    <input type="file" (change)="onFileSelected($event)" multiple class="file-input" />
+      <!-- Drag & Drop Zone with integrated file input -->
+      <div class="file-upload-zone"
+           [class.file-over]="hasBaseDropzoneOver()"
+           (dragover)="onDragOver($event)"
+           (dragleave)="onDragLeave($event)"
+           (drop)="onFileDrop($event)">
 
+        <div class="upload-content">
+          <mat-icon class="upload-icon">cloud_upload</mat-icon>
+          <h3 class="upload-title">Drag & drop files here</h3>
+          <p class="upload-subtitle">or</p>
+
+          <!-- File input integrated in the drag zone -->
+          <div class="file-input-container">
+            <input #fileInput
+                   id="photoFileInput"
+                   type="file"
+                   multiple
+                   accept="image/*"
+                   class="file-input-styled"
+                   (change)="onFileSelected($event)"
+                   title="Choose Image Files">
+            <label for="photoFileInput" class="file-input-overlay">
+              <mat-icon>upload_file</mat-icon>
+              Choose Image Files
+            </label>
+          </div>
+
+          <p class="upload-formats">Supported formats: JPG, PNG, GIF, WebP</p>
+        </div>
+      </div>      <!-- Fallback button in case hidden input doesn't work -->
     @if (progress() > 0) {
       <div class="progress-container">
         <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
@@ -56,7 +86,7 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end" class="photo-dialog-actions">
-  <button mat-stroked-button mat-dialog-close color="warn">Cancel</button>
-  <button mat-stroked-button mat-dialog-close color="primary">Done</button>
-</mat-dialog-actions>
+  <mat-dialog-actions align="end" class="photo-dialog-actions">
+    <button mat-stroked-button (click)="closeDialog()" color="warn">Cancel</button>
+  </mat-dialog-actions>
+</div> <!-- Close photo-editor-container -->

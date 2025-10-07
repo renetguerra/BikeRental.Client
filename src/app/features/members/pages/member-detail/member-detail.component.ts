@@ -1,14 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { TimeagoModule } from 'ngx-timeago';
 import { Member } from 'src/app/core/_models/member';
 import { PresenceService } from 'src/app/core/_services/presence.service';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { GalleryModule } from 'ng-gallery';
-import { MemberListComponent } from '../member-list/member-list.component';
-import { HasRoleDirective } from 'src/app/shared/_directives/has-role.directive';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -25,14 +22,11 @@ import { BikeFavoriteComponent } from 'src/app/features/like/bike-favorite/bike-
     selector: 'app-member-detail',
     templateUrl: './member-detail.component.html',
     styleUrls: ['./member-detail.component.css'],
-    imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule,
-        MemberListComponent, CustomerRentalHistoryComponent, BikeFavoriteComponent,
-        MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule,
-        HasRoleDirective]
+    imports: [CommonModule, GalleryModule, TimeagoModule,
+        CustomerRentalHistoryComponent, BikeFavoriteComponent,
+        MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule]
 })
 export class MemberDetailComponent {
-
-  memberTabs = viewChild<TabsetComponent>('memberTabs');
 
   private accountService = inject(AccountService);
   public presenceService = inject(PresenceService);
@@ -46,9 +40,9 @@ export class MemberDetailComponent {
   member = this.memberStore.member;
   members = this.memberStore.members;
 
-  activeTab?: TabDirective;
-
+  activeTab = signal<string>('info');
   userNameParam = signal<string>('');
+  showFullCard = signal<boolean>(false);
 
   galleryImages = this.photoStore.galleryImages;
 
@@ -75,7 +69,7 @@ export class MemberDetailComponent {
 
     this.route.queryParams.subscribe({
       next: params => {
-        params['tab'] && this.selectTab(params['tab'])
+        params['tab'] && this.setActiveTab(params['tab'])
       }
     })
   }
@@ -84,21 +78,33 @@ export class MemberDetailComponent {
     this.memberStore.setMember(member);
   }
 
-  selectTab(heading: string) {
-    if (this.memberTabs()) {
-      this.memberTabs()!.tabs.find(x => x.heading === heading)!.active = true;
-    }
+  setActiveTab(tab: string) {
+    this.activeTab.set(tab);
   }
 
-  onTabActivated(data: TabDirective) {
-    this.activeTab = data;
+  toggleCardNumber() {
+    this.showFullCard.update(current => !current);
+  }
+
+  getCardNumber(): string {
+    return this.showFullCard() ? '4532 1234 5678 9012' : '**** **** **** 1234';
+  }
+
+  getFullAddress(): string {
+    const address = this.member()?.address;
+    if (!address) return 'No especificado';
+
+    const parts = [
+      address.street,
+      address.houseNumber,
+      address.city,
+      address.country
+    ].filter(part => part && part.trim() !== '');
+
+    return parts.length > 0 ? parts.join(', ') : 'No especificado';
   }
 
   openDialogAddPhoto() {
-    // this.dialog.open(PhotoEditorComponent, {
-    //   data: this.member()
-    // });
-
     this.dialog.open(PhotoEditorComponent<Member>, {
       data: {
         entity: this.member(),
@@ -106,13 +112,9 @@ export class MemberDetailComponent {
         getEntityIdentifier: (m: Member) => m.username
       }
     });
-
   }
 
   openDialogDeletePhoto() {
-    // this.dialog.open(PhotoDeleteComponent, {
-    //   data: this.member()
-    // });
     this.dialog.open(PhotoDeleteComponent<Member>, {
       data: {
         entity: this.member(),

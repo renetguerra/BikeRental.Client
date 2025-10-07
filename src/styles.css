@@ -9,6 +9,7 @@
   --light-text-secondary: #6c757d;
   --light-border: #dee2e6;
   --light-shadow: rgba(0, 0, 0, 0.1);
+  --light-bg-dialog: rgb(27, 134, 255);
 
   /* Dark Theme Colors */
   --dark-bg-primary: #0f1923;
@@ -17,6 +18,7 @@
   --dark-text-secondary: #a8a8a8;
   --dark-border: #374151;
   --dark-shadow: rgba(0, 0, 0, 0.3);
+  --dark-bg-dialog: rgba(26, 37, 47, 0.95);
 
   /* Common Colors */
   --primary: #007ACC;
@@ -39,6 +41,7 @@
   --text-secondary: var(--light-text-secondary);
   --border-color: var(--light-border);
   --shadow-color: var(--light-shadow);
+  --bg-dialog: var(--light-bg-dialog);
   --btn-secondary: #6c757d;
 
   /* Navbar specific variables */
@@ -77,6 +80,7 @@
   --text-secondary: var(--dark-text-secondary);
   --border-color: var(--dark-border);
   --shadow-color: var(--dark-shadow);
+  --bg-dialog: var(--dark-bg-dialog);
   --btn-secondary: #4c4d4e;
 
   /* Navbar specific variables */

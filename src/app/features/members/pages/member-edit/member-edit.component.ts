@@ -49,8 +49,9 @@ export class MemberEditComponent implements OnInit  {
   galleryImages = this.photoStore.galleryImages;
 
   ngOnInit(): void {
+    const currentMember = this.member();
 
-    if (!this.member()! || this.member()!.id === 0) {
+    if (!currentMember || currentMember.id === 0) {
       this.userNameParam.set(this.accountService.currentUser()!.username);
       const member = this.memberStore.memberByUsername();
       if (member) {
@@ -86,6 +87,16 @@ export class MemberEditComponent implements OnInit  {
 
   openDialogAddPhoto() {
     this.dialog.open(PhotoEditorComponent<Member>, {
+      width: '800px',
+      maxWidth: '90vw',
+      height: 'auto',
+      maxHeight: '80vh',
+      panelClass: 'photo-editor-dialog',
+      disableClose: true, // CRÍTICO: Evitar cierre automático
+      hasBackdrop: true,
+      backdropClass: 'photo-editor-backdrop',
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         entity: this.member(),
         urlServerPath: 'user/add-photo/',
@@ -144,5 +155,87 @@ export class MemberEditComponent implements OnInit  {
         }
       }
     });
+  }
+
+  updatePersonalInfo() {
+    const formValue = this.editForm()?.value;
+    if (!formValue) return;
+
+    const current = this.member();
+    if (!current) return;
+
+    // Update only personal information fields
+    const updatedMember: Member = {
+      ...current,
+      knownAs: formValue.knownAs || current.knownAs,
+      surname: formValue.surname || current.surname,
+      email: formValue.email || current.email,
+      introduction: formValue.introduction || current.introduction
+    };
+
+    this.memberStore.updateMember(updatedMember).subscribe({
+      next: () => {
+        this.toastr.success('Información personal actualizada correctamente');
+        this.editForm()?.reset(updatedMember);
+      }
+    });
+  }
+
+  updateLocationInfo() {
+    const formValue = this.editForm()?.value;
+    if (!formValue) return;
+
+    const current = this.member();
+    if (!current || !current.address) return;
+
+    // Update only location information fields
+    const updatedMember: Member = {
+      ...current,
+      address: {
+        ...current.address,
+        street: formValue.street || current.address.street,
+        houseNumber: formValue.houseNumber || current.address.houseNumber,
+        zip: formValue.zip || current.address.zip,
+        city: formValue.city || current.address.city,
+        country: formValue.country || current.address.country
+      }
+    };
+
+    this.memberStore.updateMember(updatedMember).subscribe({
+      next: () => {
+        this.toastr.success('Información de ubicación confirmada correctamente');
+        this.editForm()?.reset(updatedMember);
+      }
+    });
+  }
+
+  updateBankingInfo() {
+    const formValue = this.editForm()?.value;
+    if (!formValue) return;
+
+    const current = this.member();
+    if (!current) return;
+
+    // Update only banking information fields
+    const updatedMember: Member = {
+      ...current,
+      cardNumber: formValue.cardNumber || current.cardNumber,
+      cardHolderName: formValue.cardholderName || current.cardHolderName,
+      expiryDate: formValue.expiryDate || current.expiryDate,
+      bankName: formValue.bankName || current.bankName,
+      accountNumber: formValue.accountNumber || current.accountNumber,
+      routingNumber: formValue.routingNumber || current.routingNumber
+    };
+
+    this.memberStore.updateMember(updatedMember).subscribe({
+      next: () => {
+        this.toastr.success('Datos bancarios confirmados correctamente');
+        this.editForm()?.reset(updatedMember);
+      }
+    });
+  }
+
+  resetForm() {
+    this.editForm()?.reset(this.member());
   }
 }

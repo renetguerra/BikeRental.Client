@@ -78,7 +78,7 @@ export class BikeEditComponent implements OnInit  {
 
     this.bikeStore.updateBike(updatedBike).subscribe({
       next: () => {
-        this.toastr.success('Profile updated successfully');
+        this.toastr.success('Bike updated successfully');
         this.editForm()?.reset(updatedBike);
       }
     });
