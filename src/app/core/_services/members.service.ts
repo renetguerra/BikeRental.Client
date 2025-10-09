@@ -14,14 +14,14 @@ export class MembersService {
   private http = inject(HttpClient);
   private accountService = inject(AccountService);
 
-  baseUrl = environment.apiUrl;  
+  baseUrl = environment.apiUrl;
   members = signal<Member[]>([]);
   memberCache = new Map();
   user = this.accountService.currentUser();
-  userParams = signal<UserParams | undefined>(undefined);  
+  userParams = signal<UserParams | undefined>(undefined);
 
-  constructor() { 
-    if (this.user) 
+  constructor() {
+    if (this.user)
       this.userParams.set(new UserParams(this.user));
   }
 
@@ -44,7 +44,7 @@ export class MembersService {
   getMembers(userParams: UserParams) {
     const cacheKey = Object.values(userParams).join('-');
     const cached = this.memberCache.get(cacheKey);
-    
+
     //const response = this.memberCache.get(Object.values(userParams).join('-'));
 
     if (cached) return of(cached);
@@ -69,13 +69,13 @@ export class MembersService {
         return response;
       }),
       catchError(error => {
-        console.error('Error al obtener miembros:', error);
+        console.error('❌ Error al obtener miembros:', error);
         return throwError(() => new Error('Error al obtener miembros'));
       })
     );
   }
 
-  /*getMembersWithoutCacheAndPagination() {        
+  /*getMembersWithoutCacheAndPagination() {
     return this.http.get<Member[]>(this.baseUrl + 'user/all-users').pipe(
       catchError(error => {
         console.error('Error en la petición HTTP:', error);
@@ -84,7 +84,7 @@ export class MembersService {
     )
   }*/
 
-  getMembersWithoutCacheAndPagination(): Observable<Member[]> {        
+  getMembersWithoutCacheAndPagination(): Observable<Member[]> {
     return this.http.get<Member[]>(this.baseUrl + 'user/all-users').pipe(
       map(members => {
         this.members.set(members);
@@ -103,7 +103,7 @@ export class MembersService {
     //   .find((member: Member) => member.username === username);
 
     // if (member) return of(member);
-    
+
     return this.http.get<Member>(this.baseUrl + 'user/' + username);
   }*/
   getMember(username: string): Observable<Member> {
@@ -138,5 +138,5 @@ export class MembersService {
 
   deletePhoto(username: string, photoId: number) {
     return this.http.delete(this.baseUrl + 'user/delete-photo/' + username + '?photoId=' + photoId);
-  }  
+  }
 }

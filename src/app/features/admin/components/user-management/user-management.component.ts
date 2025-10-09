@@ -1,8 +1,9 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -19,13 +20,14 @@ import { RolesModalComponent } from 'src/app/shared/components/modals/roles-moda
   imports: [
     CommonModule,
     MatTableModule,
+    MatPaginatorModule,
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,
     MatChipsModule
   ]
 })
-export class UserManagementComponent implements OnInit {
+export class UserManagementComponent implements OnInit, AfterViewInit {
 
   private adminUserStore = inject(AdminUserStore);
   private adminService = inject(AdminService);
@@ -36,14 +38,34 @@ export class UserManagementComponent implements OnInit {
   bsModalRef: BsModalRef<RolesModalComponent> = new BsModalRef<RolesModalComponent>();
   availableRoles = ['Admin','Moderator','Member'];
 
+  dataSource = new MatTableDataSource<User>([]);
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+  constructor() {
+    // Effect para sincronizar el signal users con el dataSource
+    effect(() => {
+      const users = this.users();
+      this.dataSource.data = users;
+    });
+  }
+
   ngOnInit(): void {
     this.getUsersWithRoles();
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
   }
 
   getUsersWithRoles() {
     this.adminService.getUsersWithRoles().subscribe({
       next: users => {
+        console.log('Users received from service:', users);
         this.adminUserStore.setUsers(users);
+      },
+      error: error => {
+        console.error('Error loading users:', error);
       }
     });
   }

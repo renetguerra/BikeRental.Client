@@ -20,6 +20,7 @@ img {
     position: static;
     top: 0;
     right: 20%;
+    gap: 1rem;
 }
 
 .dropdown-item:hover {

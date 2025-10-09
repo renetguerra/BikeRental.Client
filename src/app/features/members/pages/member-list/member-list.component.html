@@ -1,5 +1,5 @@
 <div class="text-center mt-3">
-  <h2>Your matches - {{ pagination()?.totalItems }} found</h2>
+  <h2>Customers - {{ pagination()?.totalItems }} found</h2>
 </div>
 
 @if (userParams() !== null && userParams() !== undefined) {
@@ -17,7 +17,7 @@
         class="form-control ms-1"
         style="width: 70px"
         name="minAge"
-        [ngModel]="userParams() && userParams()?.minAge"
+        [ngModel]="userParams() && userParams()!.minAge"
         (ngModelChange)="userParams() && (userParams()!.minAge = $event)"
       />
     </div>
@@ -28,7 +28,7 @@
         class="form-control ms-1"
         style="width: 70px"
         name="maxAge"
-        [ngModel]="userParams() && userParams()?.maxAge"
+        [ngModel]="userParams() && userParams()!.maxAge"
         (ngModelChange)="userParams() && (userParams()!.maxAge = $event)"
       />
     </div>
@@ -39,7 +39,7 @@
         name="gender"
         style="width: 130px"
         class="form-select ml-1"
-        [ngModel]="userParams()?.gender"
+        [ngModel]="userParams()!.gender"
         (ngModelChange)="userParams() && (userParams()!.gender = $event)"
       >
         @for (gender of genderList; track gender.value) {
@@ -56,7 +56,7 @@
         Reset Filters
       </button>
     </div>
-    
+
     <div class="col-12 col-sm-auto ms-auto">
       <div class="btn-group float-end">
         <button
@@ -65,7 +65,7 @@
           name="orderBy"
           (click)="setOrderBy('lastActive')"
           btnRadio="lastActive"
-          [ngModel]="userParams()?.orderBy"
+          [ngModel]="userParams()!.orderBy"
         >
           Last Active
         </button>
@@ -75,7 +75,7 @@
           name="orderBy"
           (click)="setOrderBy('created')"
           btnRadio="created"
-          [ngModel]="userParams()?.orderBy"
+          [ngModel]="userParams()!.orderBy"
         >
           Newest members
         </button>
@@ -86,17 +86,18 @@
 }
 
 <div class="row">
-  @for (member of members() | paginate: { itemsPerPage: pagination()?.itemsPerPage , currentPage: pagination()?.currentPage, totalItems: pagination()?.totalItems }; track member.id) {
+  @for (member of members(); track member.id) {
   <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
     <app-member-card [member]="member"></app-member-card>
   </div>
   }
 </div>
 
-@if (pagination()) {
-<div class="d-flex justify-content-center">
-  <pagination-controls    
-    (pageChange)="pageChanged($event)"
-  ></pagination-controls>
+<div class="d-flex justify-content-center mt-3">
+  <mat-paginator
+    [length]="pagination()!.totalItems || 0"
+    [pageSize]="pagination()?.itemsPerPage || 5"
+    [pageIndex]="(pagination()?.currentPage || 1) - 1"
+    [pageSizeOptions]="[5, 10, 20, 50]" >
+  </mat-paginator>
 </div>
-}

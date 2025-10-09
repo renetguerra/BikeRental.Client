@@ -11,7 +11,7 @@
       </div>
       <div class="header-stats">
         <div class="stat-card">
-          <div class="stat-value">{{ users().length }}</div>
+          <div class="stat-value">{{ dataSource.data.length }}</div>
           <div class="stat-label">Total Users</div>
         </div>
       </div>
@@ -30,7 +30,7 @@
       </div>
 
       <div class="table-container">
-        <table mat-table [dataSource]="users()" class="users-table">
+        <table mat-table [dataSource]="dataSource" class="users-table">
 
           <!-- Username Column -->
           <ng-container matColumnDef="username">
@@ -79,6 +79,12 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+        </mat-paginator>
+
       </div>
     </div>
   </div>
