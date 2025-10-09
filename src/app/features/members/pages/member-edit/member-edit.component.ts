@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -6,7 +7,6 @@ import { Photo } from 'src/app/core/_models/photo';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { TimeagoModule } from 'ngx-timeago';
 import { TabsModule } from 'ngx-bootstrap/tabs';
-import { DatePipe } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +22,7 @@ import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/pho
     selector: 'app-member-edit',
     templateUrl: './member-edit.component.html',
     styleUrls: ['./member-edit.component.css'],
-    imports: [TabsModule, FormsModule, DatePipe, TimeagoModule, GalleryModule,
+    imports: [TabsModule, FormsModule, TimeagoModule, GalleryModule,
       MatDialogModule, MatIconModule, MatButtonModule,
     ]
 })

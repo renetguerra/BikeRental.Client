@@ -2,18 +2,18 @@ import { inject } from '@angular/core';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+import { NotificationService } from '../_services/notification.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const toastr = inject(ToastrService);
+  const notificationService = inject(NotificationService);
 
   return next(req).pipe(
     catchError(error => {
       if (error) {
         switch (error.status) {
-          case 400:            
-            if (error.error.errors) {              
+          case 400:
+            if (error.error.errors) {
               const modelStateErrors = [];
               for (const key in error.error.errors) {
                 if (error.error.errors[key]) {
@@ -22,13 +22,13 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               }
               throw modelStateErrors.flat();
             } else {
-              toastr.error(error.error.message, error.status);
+              notificationService.error(`Error de validación: ${error.error.message}`);
             }
             break;
           case 401:
-            toastr.error('Unauthorised', error.status);
+            notificationService.error('No autorizado. Por favor, inicia sesión.');
             break;
-          case 404: 
+          case 404:
             router.navigateByUrl('/not-found');
             break;
           case 500:
@@ -36,7 +36,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             router.navigateByUrl('/server-error', navigationExtras);
             break;
           default:
-            toastr.error('Something unexpected went wrong');
+            notificationService.error('Algo inesperado ocurrió. Inténtalo de nuevo.');
             console.log(error);
             break;
         }

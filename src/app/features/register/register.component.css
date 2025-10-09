@@ -309,7 +309,8 @@
   color: var(--body-color);
 }
 
-::ng-deep .gender-option .mat-mdc-radio-button {
+/* Gender radio button styling */
+:host .gender-option .mat-mdc-radio-button {
   .mdc-radio {
     .mdc-radio__native-control:enabled:checked + .mdc-radio__background .mdc-radio__outer-circle {
       border-color: var(--primary);
@@ -331,7 +332,7 @@
 }
 
 /* Modern Material Form Field */
-::ng-deep .register-card .modern-field {
+:host .register-card .modern-field {
   .mat-mdc-text-field-wrapper {
     background: rgba(var(--body-bg-rgb), 0.85);
     border-radius: 14px;
@@ -516,7 +517,8 @@
   width: 100%;
 }
 
-::ng-deep .terms-checkbox .mat-mdc-checkbox-label {
+/* Terms checkbox styling */
+:host .terms-checkbox .mat-mdc-checkbox-label {
   font-size: 0.85rem;
   line-height: 1.4;
   color: var(--body-color);
@@ -854,7 +856,7 @@
   }
 
   /* Fix text overlap issues in dark theme */
-  ::ng-deep .modern-field {
+  :host .modern-field {
     .mat-mdc-form-field-label,
     .mdc-floating-label {
       color: rgba(255, 255, 255, 0.9) !important;

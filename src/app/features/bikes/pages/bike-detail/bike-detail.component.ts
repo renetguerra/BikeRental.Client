@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal, viewChild } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TabDirective, TabsModule, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { TimeagoModule } from 'ngx-timeago';
 import { PresenceService } from 'src/app/core/_services/presence.service';
 import { AccountService } from 'src/app/core/_services/account.service';
+import { BikeService } from 'src/app/core/_services/bike.service';
+import { NotificationService } from 'src/app/core/_services/notification.service';
 import { GalleryModule } from 'ng-gallery';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatDividerModule } from '@angular/material/divider';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { Bike } from 'src/app/core/_models/bike';
 import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/photo-editor.component';
@@ -22,16 +23,18 @@ import { RentStore } from 'src/app/core/_stores/rent.store';
     selector: 'app-bike-detail',
     templateUrl: './bike-detail.component.html',
     styleUrls: ['./bike-detail.component.css'],
-    imports: [CommonModule, TabsModule, GalleryModule, TimeagoModule,
+    imports: [CommonModule, GalleryModule, TimeagoModule,
         BikeRentalHistoryComponent,
         MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule]
 })
-export class BikeDetailComponent {
-
-  bikeTabs = viewChild<TabsetComponent>('bikeTabs');
+export class BikeDetailComponent implements OnInit {
 
   private accountService = inject(AccountService);
   public presenceService = inject(PresenceService);
+  private bikeService = inject(BikeService);
+  private notificationService = inject(NotificationService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
   readonly dialog = inject(MatDialog);
 
   private bikeStore = inject(BikeStore);
@@ -42,31 +45,43 @@ export class BikeDetailComponent {
   bike = this.bikeStore.bike;
   bikes = this.bikeStore.bikes;
 
-  activeTab?: TabDirective;
-
+  activeTab = signal<string>('info');
   userNameParam = signal<string>('');
 
   galleryImages = this.photoStore.galleryBikeImages;
 
   readonly bikeById = this.bikeStore.bikeById;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
-    this.user.set(this.accountService.currentUser()!);
-    const bikeValue = this.bike();
-    if (bikeValue) {
-      this.bikeStore.setBike(bikeValue);
-    }
+  // Computed property to check if there's rental history data
+  readonly hasRentalHistory = computed(() => {
+    const history = this.rentStore.bikeRentalHistory();
+    return history && history.length > 0;
+  });
+
+  // Effects must be in constructor or field initializers (injection context)
+  constructor() {
+    // Any effects should be placed here if needed in the future
   }
 
   ngOnInit(): void {
+    this.user.set(this.accountService.currentUser()!);
+
 
     this.route.data.subscribe({
-      next: data => this.bikeStore.setBike(data['bike'])
+      next: data => {
+        this.bikeStore.setBike(data['bike']);
+        // Load rental history for this bike
+        if (data['bike']?.id) {
+          this.rentStore.loadRentalsByBike(data['bike'].id);
+        }
+      }
     })
 
     this.route.queryParams.subscribe({
       next: params => {
-        params['tab'] && this.selectTab(params['tab'])
+        if (params['tab']) {
+          this.setActiveTab(params['tab']);
+        }
       }
     })
   }
@@ -75,14 +90,13 @@ export class BikeDetailComponent {
     this.bikeStore.setBike(bike);
   }
 
-  selectTab(heading: string) {
-    if (this.bikeTabs()) {
-      this.bikeTabs()!.tabs.find(x => x.heading === heading)!.active = true;
+  setActiveTab(tab: string) {
+    // Validate that the tab should be shown
+    if (tab === 'history' && !this.hasRentalHistory()) {
+      this.activeTab.set('info');
+      return;
     }
-  }
-
-  onTabActivated(data: TabDirective) {
-    this.activeTab = data;
+    this.activeTab.set(tab);
   }
 
   openDialogAddPhoto() {
@@ -106,14 +120,42 @@ export class BikeDetailComponent {
 
   rentBike() {
     if (!this.bike()) return;
-    this.rentStore.rentBike(this.bike()!.id).subscribe({
+    const bikeId = this.bike()!.id;
+    const bikeName = `${this.bike()!.brand} ${this.bike()!.model}`;
+
+    this.rentStore.rentBike(bikeId).subscribe({
       next: (response) => {
         console.log('OK', response);
+
+        // Mostrar notificación de éxito
+        this.notificationService.success(
+          `¡Bicicleta ${bikeName} alquilada exitosamente! 🚴‍♂️`,
+          5000
+        );
+
+        // Recargar el historial de alquileres después del alquiler exitoso
+        this.rentStore.loadRentalsByBike(bikeId);
+        // También recargar la bicicleta para actualizar su estado
+        this.bikeService.getBike(bikeId).subscribe(updatedBike => {
+          this.bikeStore.setBike(updatedBike);
+        });
       },
       error: (err) => {
         console.error(err);
+
+        // Mostrar notificación de error
+        const errorMessage = err?.error?.message || 'Error al alquilar la bicicleta';
+        this.notificationService.error(
+          `Error: ${errorMessage}`,
+          6000
+        );
       },
     });
+  }
+
+  editBike() {
+    if (!this.bike()) return;
+    this.router.navigateByUrl(`/bike/edit/${this.bike()!.id}`);
   }
 
 }

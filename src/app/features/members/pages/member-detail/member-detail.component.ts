@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, computed, effect, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
 import { Member } from 'src/app/core/_models/member';
@@ -12,6 +12,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
+import { LikeStore } from 'src/app/core/_stores/like.store';
+import { RentStore } from 'src/app/core/_stores/rent.store';
 import {MatDividerModule} from '@angular/material/divider';
 import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/photo-editor.component';
 import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/photo-delete.component';
@@ -26,7 +28,7 @@ import { BikeFavoriteComponent } from 'src/app/features/like/bike-favorite/bike-
         CustomerRentalHistoryComponent, BikeFavoriteComponent,
         MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule]
 })
-export class MemberDetailComponent {
+export class MemberDetailComponent implements OnInit {
 
   private accountService = inject(AccountService);
   public presenceService = inject(PresenceService);
@@ -35,6 +37,8 @@ export class MemberDetailComponent {
 
   private memberStore = inject(MemberStore);
   private photoStore = inject(PhotoStore);
+  private likeStore = inject(LikeStore);
+  private rentStore = inject(RentStore);
 
   readonly user = signal(this.accountService.currentUser());
   member = this.memberStore.member;
@@ -48,12 +52,33 @@ export class MemberDetailComponent {
 
   readonly memberByUser = this.memberStore.memberByUsername;
 
+  // Computed properties to check if there's data for tabs
+  readonly hasFavorites = computed(() => {
+    const favorites = this.likeStore.bikeFavoritesResponse();
+    return favorites && favorites.result && favorites.result.length > 0;
+  });
+
+  readonly hasRentalHistory = computed(() => {
+    const history = this.rentStore.customerRentalHistory();
+    return history && history.length > 0;
+  });
+
   constructor(private router: Router, private route: ActivatedRoute) {
     this.user.set(this.accountService.currentUser()!);
     const memberValue = this.member();
     if (memberValue) {
       this.memberStore.setMember(memberValue);
     }
+
+    // Effect to validate active tab when data changes
+    effect(() => {
+      const currentTab = this.activeTab();
+      if (currentTab === 'favorites' && !this.hasFavorites()) {
+        this.activeTab.set('info');
+      } else if (currentTab === 'history' && !this.hasRentalHistory()) {
+        this.activeTab.set('info');
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -67,6 +92,9 @@ export class MemberDetailComponent {
       next: data => this.memberStore.setMember(data['member'])
     })
 
+    // Load favorites and rental history data
+    this.loadUserData();
+
     this.route.queryParams.subscribe({
       next: params => {
         params['tab'] && this.setActiveTab(params['tab'])
@@ -74,11 +102,31 @@ export class MemberDetailComponent {
     })
   }
 
+  private loadUserData(): void {
+    // Load favorites data
+    this.likeStore.triggerLoad.set(true);
+
+    // Load rental history data
+    const user = this.user();
+    if (user?.username) {
+      this.rentStore.loadCustomerRentals(user.username);
+    }
+  }
+
   setMember(member: Member) {
     this.memberStore.setMember(member);
   }
 
   setActiveTab(tab: string) {
+    // Validate that the tab should be shown
+    if (tab === 'favorites' && !this.hasFavorites()) {
+      this.activeTab.set('info');
+      return;
+    }
+    if (tab === 'history' && !this.hasRentalHistory()) {
+      this.activeTab.set('info');
+      return;
+    }
     this.activeTab.set(tab);
   }
 

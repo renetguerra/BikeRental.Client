@@ -12,26 +12,28 @@
             (click)="setActiveTab('info')">
             Información
           </button>
-          <button
-            class="tab-button"
-            [class.active]="activeTab() === 'favorites'"
-            (click)="setActiveTab('favorites')">
-            Bicicletas Favoritas
-          </button>
-          <button
-            class="tab-button"
-            [class.active]="activeTab() === 'history'"
-            (click)="setActiveTab('history')">
-            Historial de Alquileres
-          </button>
+          @if (hasFavorites()) {
+            <button
+              class="tab-button"
+              [class.active]="activeTab() === 'favorites'"
+              (click)="setActiveTab('favorites')">
+              Bicicletas Favoritas
+            </button>
+          }
+          @if (hasRentalHistory()) {
+            <button
+              class="tab-button"
+              [class.active]="activeTab() === 'history'"
+              (click)="setActiveTab('history')">
+              Historial de Alquileres
+            </button>
+          }
         </div>
 
         <!-- Tab Content -->
         <div class="tab-content">
           <!-- Info Tab -->
           @if (activeTab() === 'info') {
-          <div class="tab-panel">
-
             <!-- Información Personal Card -->
             <div class="info-card">
               <h2 class="card-title">Información Personal</h2>
@@ -113,7 +115,7 @@
               <div class="banking-details">
                 <div class="detail-row">
                   <div class="detail-group">
-                    <label class="detail-label">Número de tarjeta:</label>
+                    <span class="detail-label">Número de tarjeta:</span>
                     <div class="card-number-display">
                       <svg class="card-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM4 6h16v2H4V6zm16 12H4v-8h16v8z"></path>
@@ -132,17 +134,17 @@
                     </div>
                   </div>
                   <div class="detail-group">
-                    <label class="detail-label">Titular de la tarjeta:</label>
+                    <span class="detail-label">Titular de la tarjeta:</span>
                     <span class="detail-value">{{ member()?.knownAs || 'No especificado' }}</span>
                   </div>
                 </div>
                 <div class="detail-row">
                   <div class="detail-group">
-                    <label class="detail-label">Fecha de vencimiento:</label>
+                    <span class="detail-label">Fecha de vencimiento:</span>
                     <span class="detail-value">MM/YY</span>
                   </div>
                   <div class="detail-group">
-                    <label class="detail-label">CVC:</label>
+                    <span class="detail-label">CVC:</span>
                     <span class="detail-value">***</span>
                   </div>
                 </div>
@@ -173,69 +175,42 @@
 
               <div class="member-stats">
                 <div class="stat-item">
-                  <label class="stat-label">Edad:</label>
+                  <span class="stat-label">Edad:</span>
                   <span class="stat-value">{{ member()?.age || 'N/A' }}</span>
                 </div>
                 <div class="stat-item">
-                  <label class="stat-label">Último acceso:</label>
+                  <span class="stat-label">Último acceso:</span>
                   <span class="stat-value">{{ member()?.lastActive | timeago }}</span>
                 </div>
                 <div class="stat-item">
-                  <label class="stat-label">Miembro desde:</label>
+                  <span class="stat-label">Miembro desde:</span>
                   <span class="stat-value">{{ member()?.created | date : "dd MMM yyyy" }}</span>
                 </div>
                 @if ((presenceService.onlineUsers$ | async)?.includes(user()!.username)) {
                 <div class="stat-item">
-                  <label class="stat-label">Estado:</label>
+                  <span class="stat-label">Estado:</span>
                   <span class="stat-value online">🟢 En línea</span>
                 </div>
                 }
               </div>
             </div>
 
-          </div>
           }          <!-- Favorites Tab -->
           @if (activeTab() === 'favorites') {
-          <div class="tab-panel">
             <div class="info-card">
               <h3 class="section-title">Bicicletas Favoritas</h3>
               <app-bike-favorite></app-bike-favorite>
             </div>
-          </div>
           }
 
           <!-- History Tab -->
           @if (activeTab() === 'history') {
-          <div class="tab-panel">
             <div class="info-card">
-              <h3 class="section-title">Historial de Alquileres</h3>
               <app-customer-rental-history></app-customer-rental-history>
             </div>
-          </div>
           }
         </div>
-      </div>
-
-      <!-- Photos Section (Admin only) -->
-      @if (user()?.roles?.includes('Admin')) {
-      <div class="info-card">
-        <h2 class="card-title">Galería de Fotos</h2>
-        <div class="photos-section">
-          <div class="photo-actions">
-            <button class="primary-btn" (click)="openDialogAddPhoto()">
-              📷 Agregar fotos
-            </button>
-            <button class="secondary-btn" (click)="openDialogDeletePhoto()">
-              🗑️ Eliminar fotos
-            </button>
-          </div>
-          <div class="gallery-container">
-            <gallery [items]="galleryImages()" class="modern-gallery"></gallery>
-          </div>
-        </div>
-      </div>
-      }
-
     </div>
   </div>
 </div>
+

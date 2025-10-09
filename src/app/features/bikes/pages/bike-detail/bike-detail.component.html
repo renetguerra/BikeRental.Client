@@ -1,81 +1,135 @@
-<div class="row">
-    <div class="col-12 col-md-4 mb-3">
-        <div class="card">
-            <img src="{{bike()?.photoUrl || './assets/user.png'}}" alt="{{bike()?.model}}"
-                class="card-img-top img-thumbnail">
-            <div class="card-body">
-                @if (bike()!.isAvailable) {
-                    <div class="mb-2">
-                        <i class="fa fa-bicycle text-success"></i> Available now
-                    </div>
-                } @else {
-                    <div class="mb-2">
-                        <i class="fa fa-bicycle text-danger"></i> Not available
-                    </div>
-                }
-                <div>
-                    <strong>Brand:</strong>
-                    <p>{{bike()!.brand}}</p>
-                </div>
-                <div>
-                    <strong>Model:</strong>
-                    <p>{{bike()!.model}}</p>
-                </div>
-                <div>
-                    <strong>Year:</strong>
-                    <p>{{bike()!.year}}</p>
-                </div>
-                <div>
-                    <strong>Price:</strong> 
-                    <p>{{bike()!.price | currency}}</p>
-                </div>
-                <div>
-                    <strong>Type:</strong>
-                    <p>{{bike()!.type }}</p>
-                </div>                
-            </div>
-            <div class="card-footer">
-                <div class="btn-group d-flex">                    
-                    <button (click)="rentBike()" class="btn btn-primary" [disabled]="!bike()?.isAvailable">RENT</button>
-                </div>
-            </div>
+<div class="modern-bike-detail">
+  <div class="container">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="page-title">{{ bike()?.brand }} {{ bike()?.model }}</h1>
+
+      <!-- Tabs Section -->
+      <div class="tabs-container">
+        <div class="tab-buttons">
+          <button
+            class="tab-button"
+            [class.active]="activeTab() === 'info'"
+            (click)="setActiveTab('info')">
+            Información
+          </button>
+          @if (hasRentalHistory()) {
+            <button
+              class="tab-button"
+              [class.active]="activeTab() === 'history'"
+              (click)="setActiveTab('history')">
+              Historial de Alquileres
+            </button>
+          }
         </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+          <!-- Info Tab -->
+          @if (activeTab() === 'info') {
+            <!-- Información de la Bicicleta Card -->
+            <div class="info-card">
+              <div class="card-header">
+                <h2 class="card-title">Información de la Bicicleta</h2>
+                @if (user()?.roles?.includes('Admin')) {
+                  <button class="secondary-btn" (click)="editBike()">
+                    <mat-icon>edit</mat-icon>
+                    Editar Información
+                  </button>
+                }
+              </div>
+
+              <!-- Layout de dos columnas: Galería + Info -->
+              <div class="bike-info-layout">
+                <!-- Columna izquierda: Galería compacta -->
+                <div class="gallery-column">
+                  @if (galleryImages() && galleryImages().length > 0) {
+                    <div class="mini-gallery-container">
+                      <gallery [items]="galleryImages()" class="mini-gallery"></gallery>
+                    </div>
+                  } @else {
+                    <div class="no-images-mini">
+                      <mat-icon class="no-images-icon-mini">photo</mat-icon>
+                      <span>Solo imagen principal</span>
+                      @if (user()?.roles?.includes('Admin')) {
+                        <button class="mini-btn" (click)="openDialogAddPhoto()">
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      }
+                    </div>
+                  }
+                </div>
+
+                <!-- Columna derecha: Información técnica -->
+                <div class="details-column">
+                  <div class="bike-details-single-column">
+                    <div class="detail-item">
+                      <span class="detail-text">
+                        <span class="detail-label">Marca:</span>
+                        <span class="detail-value">{{ bike()?.brand || 'No especificado' }}</span>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-text">
+                        <span class="detail-label">Modelo:</span>
+                        <span class="detail-value">{{ bike()?.model || 'No especificado' }}</span>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-text">
+                        <span class="detail-label">Año:</span>
+                        <span class="detail-value">{{ bike()?.year || 'N/A' }}</span>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-text">
+                        <span class="detail-label">Tipo:</span>
+                        <span class="detail-value">{{ bike()?.type || 'No especificado' }}</span>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-text">
+                        <span class="detail-label">Precio por día:</span>
+                        <span class="detail-value price-highlight">{{ bike()?.price | currency }}</span>
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="detail-text">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value" [class.available]="bike()?.isAvailable" [class.unavailable]="!bike()?.isAvailable">
+                          <mat-icon class="status-icon">{{ bike()?.isAvailable ? 'check_circle' : 'cancel' }}</mat-icon>
+                          {{ bike()?.isAvailable ? 'Disponible' : 'No disponible' }}
+                        </span>
+                      </span>
+                    </div>
+
+                    <!-- Botón de alquiler integrado -->
+                    <div class="rent-action">
+                      <button
+                        class="primary-btn rent-btn-integrated"
+                        [disabled]="!bike()?.isAvailable"
+                        (click)="rentBike()">
+                        <mat-icon>pedal_bike</mat-icon>
+                        @if (bike()?.isAvailable) {
+                          Alquilar Bicicleta
+                        } @else {
+                          No Disponible
+                        }
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- History Tab -->
+          @if (activeTab() === 'history') {
+            <div class="info-card">
+              <app-bike-rental-history></app-bike-rental-history>
+            </div>
+          }
+        </div>
+      </div>
     </div>
-    <div class="col-12 col-md-8 mb-3">
-        <tabset class="member-tabset" #memberTabs>
-            <tab heading="History {{bike()!.model}}" (selectTab)="onTabActivated($event)">                                                                                
-                @if (bike()?.brand) {
-                    <h4>Brand</h4>
-                    <p>{{bike()!.brand}}</p>
-                }  
-                <mat-divider></mat-divider>
-                @if (bike()?.model) {
-                    <h4>Model</h4>
-                    <p>{{bike()!.model}}</p>
-                }        
-                <app-bike-rental-history></app-bike-rental-history>                                                 
-            </tab>            
-            <tab heading="Photos" #photoTab="tab" (selectTab)="onTabActivated($event)">                                
-                 @if(photoTab.active){                     
-                     @if (user()?.roles?.includes('Admin')) {                                                              
-                        <div class="row mt-3">  
-                            <div class="d-flex flex-wrap justify-content-end gap-2 mb-2">
-                                <button mat-fab extended (click)="openDialogAddPhoto()">
-                                    <mat-icon>add_a_photo</mat-icon>
-                                    Add photos
-                                </button>
-                                <button mat-fab extended (click)="openDialogDeletePhoto()">
-                                    <mat-icon>delete</mat-icon>
-                                    Delete photos
-                                </button>
-                            </div>                                                                 
-                        </div>                                           
-                     }
-                     <div class="flex mb-2 d-flex-row justify-content-center">
-                        <gallery [items]="galleryImages()" class="gallery"></gallery>                    
-                    </div> 
-                 }
-            </tab>            
-        </tabset>
-    </div>
+  </div>
 </div>

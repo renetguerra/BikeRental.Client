@@ -274,7 +274,7 @@
 }
 
 /* Modern Material Form Field */
-::ng-deep .signin-card .modern-field {
+:host .signin-card .modern-field {
   .mat-mdc-text-field-wrapper {
     background: rgba(var(--body-bg-rgb), 0.8);
     border-radius: 12px;
@@ -618,7 +618,7 @@
     border-color: rgba(255, 255, 255, 0.2);
   }
 
-  ::ng-deep .signin-card .modern-field {
+  :host .signin-card .modern-field {
     .mat-mdc-text-field-wrapper {
       background: rgba(33, 37, 41, 0.8);
     }

@@ -28,6 +28,22 @@
   --warning: #ffc107;
   --danger: #dc3545;
   --info: #17a2b8;
+
+  /* RGB Values for transparency usage */
+  --primary-rgb: 0, 122, 204;
+  --accent-rgb: 255, 64, 129;
+  --danger-rgb: 220, 53, 69;
+  --warning-rgb: 255, 193, 7;
+  --info-rgb: 23, 162, 184;
+  --success-rgb: 40, 167, 69;
+  --text-muted-rgb: 108, 117, 125;
+
+  /* HSL Values for advanced color manipulation */
+  --primary-hsl: 205, 100%, 40%;
+  --accent-hsl: 337, 100%, 63%;
+  --success-hsl: 134, 61%, 41%;
+  --warning-hsl: 45, 100%, 51%;
+  --danger-hsl: 354, 70%, 54%;
 }
 
 /* Light Theme */
@@ -48,6 +64,7 @@
   --navbar-bg: #007ACC;
   --nav-text-color: #ffffff;
   --card-bg: #ffffff;
+  --card-bg-rgb: 255, 255, 255;
   --text-color: var(--light-text-primary);
   --text-muted: #6c757d;
   --hover-bg: #f8f9fa;
@@ -56,6 +73,12 @@
   --success-hover: #218838;
   --primary-rgb: 0, 122, 204;
   --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+  /* Component specific variables */
+  --bike-header-gradient: #c4d6e7;
+  --filters-card-bg: #c4d6e7;
+  --filter-input-bg: #ffffff;
+  --admin-header-gradient: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #e8f5e8 100%);
 
   /* Footer specific variables */
   --footer-bg: #f8f9fa;
@@ -87,6 +110,7 @@
   --navbar-bg: #1a252f;
   --nav-text-color: #e3e5e4;
   --card-bg: var(--dark-bg-secondary);
+  --card-bg-rgb: 26, 37, 47;
   --text-color: var(--dark-text-primary);
   --text-muted: #a8a8a8;
   --hover-bg: #374151;
@@ -95,6 +119,18 @@
   --success-hover: #005a9e;
   --primary-rgb: 0, 122, 204;
   --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+
+  /* Component specific variables */
+  --bike-header-gradient: linear-gradient(135deg,
+    var(--primary-bg-subtle) 0%,
+    var(--info-bg-subtle) 50%,
+    var(--success-bg-subtle) 100%);
+  --filters-card-bg: rgba(50, 52, 55, 0.95);
+  --filter-input-bg: #3a3838;
+  --admin-header-gradient: linear-gradient(135deg,
+    rgba(0, 122, 204, 0.15) 0%,
+    rgba(23, 162, 184, 0.15) 50%,
+    rgba(40, 167, 69, 0.15) 100%);
 
   /* Footer specific variables */
   --footer-bg: #1a252f;
@@ -141,28 +177,43 @@
 }
 
 .tab-panel {
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 4px;
+    border: none !important;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background: transparent;
+  }
+
+  /* Member Tabset Base Styles */
+  .member-tabset {
+    margin-bottom: 2rem;
   }
 
   .nav-tabs > li.open, .member-tabset > .nav-tabs > li:hover {
-    border-bottom: 4px solid #1f8dd6;
+    border-bottom: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
   }
 
   .inactive-tab:hover {
-    border-bottom: 4px solid gray !important;
-    opacity: 0.5 !important;
+    border-bottom: 4px solid rgba(var(--body-color-rgb), 0.5) !important;
+    opacity: 0.7 !important;
+    transition: all 0.3s ease;
   }
 
   .member-tabset > .nav-tabs > li.open > a, .member-tabset > .nav-tabs > li:hover > a {
     border: 0 !important;
-    background: none !important;
-    color: #333333;
+    background: rgba(var(--primary-rgb), 0.05) !important;
+    color: var(--body-color) !important;
+    transition: all 0.3s ease;
+  }
+
+  .member-tabset > .nav-tabs > li > a {
+    color: var(--body-color) !important;
+    transition: all 0.3s ease;
   }
 
   .member-tabset > .nav-tabs > li.open > a > i, .member-tabset > .nav-tabs > li:hover > a > i {
-    color: #a6a6a6;
+    color: var(--primary-color);
+    transition: all 0.3s ease;
   }
 
   .member-tabset > .nav-tabs > li.open .dropdown-menu, .member-tabset > .nav-tabs > li:hover .dropdown-menu {
@@ -170,25 +221,73 @@
   }
 
   .member-tabset > .nav-tabs > li.active {
-    border-bottom: 4px solid #1f8dd6;
+    border-bottom: 4px solid var(--primary-color);
     position: relative;
   }
 
   .member-tabset > .nav-tabs > li.active > a {
     border: 0 !important;
-    color: #333333;
+    color: var(--primary-color) !important;
+    font-weight: 600;
+    background: transparent !important;
   }
 
   .member-tabset > .nav-tabs > li.active > a > i {
-    color: #404040;
+    color: var(--primary-color);
   }
 
   .member-tabset > .tab-content {
     margin-top: -3px;
-    background-color: #fff;
-    border: 0;
-    border-top: 1px solid #eee;
-    padding: 15px 0;
+    background: transparent !important;
+    border: none !important;
+    padding: 1.5rem 0;
+  }
+
+  /* Dark theme specific styles for member-tabset */
+  [data-theme="dark"] .member-tabset > .nav-tabs > li > a {
+    color: #e3e5e4 !important;
+  }
+
+  [data-theme="dark"] .member-tabset > .nav-tabs > li.open > a,
+  [data-theme="dark"] .member-tabset > .nav-tabs > li:hover > a {
+    color: #e3e5e4 !important;
+    background: rgba(0, 122, 204, 0.1) !important;
+  }
+
+  [data-theme="dark"] .member-tabset > .nav-tabs > li.active > a {
+    color: #007ACC !important;
+    background: transparent !important;
+  }
+
+  [data-theme="dark"] .member-tabset > .nav-tabs > li.open > a > i,
+  [data-theme="dark"] .member-tabset > .nav-tabs > li:hover > a > i,
+  [data-theme="dark"] .member-tabset > .nav-tabs > li.active > a > i {
+    color: #007ACC !important;
+  }
+
+  [data-theme="dark"] .member-tabset > .tab-content {
+    background: transparent !important;
+    border-top-color: rgba(255, 255, 255, 0.1) !important;
+    color: #e3e5e4 !important;
+  }
+
+  [data-theme="dark"] .member-tabset .tab-pane {
+    color: #e3e5e4 !important;
+  }
+
+  /* Light theme specific styles for member-tabset */
+  [data-theme="light"] .member-tabset > .nav-tabs > li.open > a,
+  [data-theme="light"] .member-tabset > .nav-tabs > li:hover > a {
+    color: #212529 !important;
+  }
+
+  [data-theme="light"] .member-tabset > .nav-tabs > li.active > a {
+    color: #007ACC !important;
+  }
+
+  [data-theme="light"] .member-tabset > .tab-content {
+    background: transparent !important;
+    border-top-color: rgba(0, 0, 0, 0.1) !important;
   }
 
   .nav-tabs {
@@ -329,4 +428,334 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   option.ng-star-inserted {
     background: rgba(50, 52, 55, 0.95) !important;
   }
+}
+
+/* ===== NOTIFICATION STYLES (Angular Material Snackbar) ===== */
+
+/* Base notification styles */
+.mat-mdc-snack-bar-container {
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid transparent !important;
+  min-width: 300px !important;
+  max-width: 500px !important;
+}
+
+/* Light Theme Notifications */
+.light-theme.notification-success {
+  background: rgba(40, 167, 69, 0.95) !important;
+  color: white !important;
+  border-color: rgba(40, 167, 69, 0.2) !important;
+}
+
+.light-theme.notification-error {
+  background: rgba(220, 53, 69, 0.95) !important;
+  color: white !important;
+  border-color: rgba(220, 53, 69, 0.2) !important;
+}
+
+.light-theme.notification-warning {
+  background: rgba(255, 193, 7, 0.95) !important;
+  color: #212529 !important;
+  border-color: rgba(255, 193, 7, 0.2) !important;
+}
+
+.light-theme.notification-info {
+  background: rgba(0, 122, 204, 0.95) !important;
+  color: white !important;
+  border-color: rgba(0, 122, 204, 0.2) !important;
+}
+
+/* Dark Theme Notifications */
+.dark-theme.notification-success {
+  background: rgba(40, 167, 69, 0.9) !important;
+  color: white !important;
+  border-color: rgba(40, 167, 69, 0.3) !important;
+}
+
+.dark-theme.notification-error {
+  background: rgba(220, 53, 69, 0.9) !important;
+  color: white !important;
+  border-color: rgba(220, 53, 69, 0.3) !important;
+}
+
+.dark-theme.notification-warning {
+  background: rgba(255, 193, 7, 0.9) !important;
+  color: #1a252f !important;
+  border-color: rgba(255, 193, 7, 0.3) !important;
+}
+
+.dark-theme.notification-info {
+  background: rgba(0, 122, 204, 0.9) !important;
+  color: white !important;
+  border-color: rgba(0, 122, 204, 0.3) !important;
+}
+
+/* Notification button styles */
+.mat-mdc-snack-bar-action {
+  color: inherit !important;
+  font-weight: 600 !important;
+  opacity: 0.9 !important;
+}
+
+.mat-mdc-snack-bar-action:hover {
+  opacity: 1 !important;
+}
+
+/* ===== LOADER STYLES (NgxSpinner) ===== */
+
+/* Custom loader text styling */
+.ngx-spinner-container {
+  text-align: center;
+}
+
+.ngx-spinner-container div {
+  color: #007ACC !important;
+  font-weight: 600 !important;
+  font-size: 16px !important;
+  font-family: 'Roboto', sans-serif !important;
+  margin-top: 20px !important;
+}
+
+/* Dark theme adjustments for loader text */
+.dark-theme .ngx-spinner-container div {
+  color: #007ACC !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Light theme adjustments for loader text */
+.light-theme .ngx-spinner-container div {
+  color: #007ACC !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Photo Editor Modal Styles */
+.photo-editor-dialog .mat-mdc-dialog-container {
+  padding: 0 !important;
+  border-radius: 1rem !important;
+  overflow: hidden !important;
+  background: var(--bg-primary) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3) !important;
+}
+
+.photo-editor-backdrop {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+/* Dark theme adjustments for photo editor modal */
+.dark-theme .photo-editor-dialog .mat-mdc-dialog-container {
+  background: var(--dark-bg-primary) !important;
+  border: 1px solid var(--dark-border) !important;
+}
+
+/* Light theme adjustments for photo editor modal */
+.light-theme .photo-editor-dialog .mat-mdc-dialog-container {
+  background: var(--light-bg-primary) !important;
+  border: 1px solid var(--light-border) !important;
+}
+
+/* Global Select and Input Improvements */
+/* Dark theme select dropdown improvements */
+.dark-theme select {
+  background-color: #1a252f !important;
+  color: #e3e5e4 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme select option {
+  background-color: #1a252f !important;
+  color: #e3e5e4 !important;
+  padding: 8px 12px;
+}
+
+.dark-theme select option:checked,
+.dark-theme select option:hover {
+  background-color: #007ACC !important;
+  color: #ffffff !important;
+}
+
+/* Light theme select dropdown improvements */
+.light-theme select {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light-theme select option {
+  background-color: #ffffff !important;
+  color: #212529 !important;
+  padding: 8px 12px;
+}
+
+.light-theme select option:checked,
+.light-theme select option:hover {
+  background-color: #007ACC !important;
+  color: #ffffff !important;
+}
+
+/* Textarea improvements for dark theme */
+.dark-theme textarea {
+  background-color: rgba(26, 37, 47, 0.9) !important;
+  color: #e3e5e4 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme textarea:focus {
+  background-color: rgba(26, 37, 47, 1) !important;
+  border-color: #007ACC !important;
+  box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.3) !important;
+}
+
+.dark-theme textarea::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Input improvements for dark theme */
+.dark-theme input[type="text"],
+.dark-theme input[type="number"],
+.dark-theme input[type="email"] {
+  background-color: rgba(26, 37, 47, 0.9) !important;
+  color: #e3e5e4 !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme input[type="text"]:focus,
+.dark-theme input[type="number"]:focus,
+.dark-theme input[type="email"]:focus {
+  background-color: rgba(26, 37, 47, 1) !important;
+  border-color: #007ACC !important;
+  box-shadow: 0 0 0 3px rgba(0, 122, 204, 0.3) !important;
+}
+
+.dark-theme input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* Global Angular Material Table Theme Support */
+/* Dark theme Angular Material table overrides */
+.dark-theme .mat-mdc-table {
+  background: rgba(26, 37, 47, 0.95) !important;
+  color: #e3e5e4 !important;
+}
+
+.dark-theme .mat-mdc-header-row {
+  background: rgba(0, 122, 204, 0.15) !important;
+}
+
+.dark-theme .mat-mdc-header-cell {
+  background: transparent !important;
+  color: #007ACC !important;
+  border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.dark-theme .mat-mdc-row {
+  background: transparent !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark-theme .mat-mdc-cell {
+  background: transparent !important;
+  color: #e3e5e4 !important;
+  border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Light theme Angular Material table overrides */
+.light-theme .mat-mdc-table {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: #212529 !important;
+}
+
+.light-theme .mat-mdc-header-row {
+  background: rgba(0, 122, 204, 0.1) !important;
+}
+
+.light-theme .mat-mdc-header-cell {
+  background: transparent !important;
+  color: #007ACC !important;
+  border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+}
+
+.light-theme .mat-mdc-row {
+  background: transparent !important;
+  border-bottom-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+.light-theme .mat-mdc-cell {
+  background: transparent !important;
+  color: #212529 !important;
+  border-bottom-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Global text color fixes for dark theme */
+.dark-theme .nav-tabs .nav-link {
+  color: #e3e5e4 !important;
+}
+
+.dark-theme .tab-content {
+  color: #e3e5e4 !important;
+}
+
+.dark-theme .tab-pane {
+  color: #e3e5e4 !important;
+}
+
+/* Bootstrap tab overrides for dark theme */
+.dark-theme .nav-tabs .nav-link.active {
+  color: #007ACC !important;
+  background-color: transparent !important;
+  border-color: transparent transparent #007ACC !important;
+}
+
+.dark-theme .nav-tabs .nav-link:hover,
+.dark-theme .nav-tabs .nav-link:focus {
+  color: #e3e5e4 !important;
+  background-color: rgba(0, 122, 204, 0.1) !important;
+}
+
+/* Global table styling using theme variables */
+.mat-mdc-table {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.mat-mdc-header-row {
+  background-color: var(--bg-secondary);
+}
+
+.mat-mdc-header-cell {
+  color: var(--primary-color);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mat-mdc-row {
+  background-color: var(--card-bg);
+}
+
+.mat-mdc-row:hover {
+  background-color: var(--hover-bg);
+}
+
+.mat-mdc-cell {
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Standard table elements */
+table {
+  color: var(--text-primary);
+}
+
+table th,
+table td {
+  color: var(--text-primary);
+}
+
+table th span,
+table td span,
+table th div,
+table td div {
+  color: var(--text-primary);
 }

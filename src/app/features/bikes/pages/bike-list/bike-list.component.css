@@ -19,15 +19,11 @@
   background-size: cover;
 }
 
-::ng-deep [data-theme="dark"] .bikes-header {
-  background: linear-gradient(135deg,
+.bikes-header {
+  background: var(--bike-header-gradient, linear-gradient(135deg,
     var(--primary-bg-subtle) 0%,
     var(--info-bg-subtle) 50%,
-    var(--success-bg-subtle) 100%);
-}
-
-::ng-deep [data-theme="light"] .bikes-header {
-   background-color: #c4d6e7 !important;
+    var(--success-bg-subtle) 100%));
 }
 
 .header-content {
@@ -101,13 +97,9 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
 }
 
-/* Dark theme override for filters card */
-::ng-deep [data-theme="dark"] .filters-card {
-  background: rgba(50, 52, 55, 0.95) !important;
-}
-
-::ng-deep [data-theme="light"] .filters-card {
-  background: #c4d6e7 !important;
+/* Filters card theming */
+.filters-card {
+  background: var(--filters-card-bg) !important;
 }
 
 .filters-grid {
@@ -149,9 +141,10 @@
   box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.15);
 }
 
-::ng-deep [data-theme="dark"] .filter-input,
-::ng-deep [data-theme="dark"] .filter-select {
-  background: #3a3838;
+/* Filter inputs and selects will use CSS variables for theming */
+.filter-input,
+.filter-select {
+  background: var(--filter-input-bg);
   color: var(--body-color);
 }
 
@@ -204,7 +197,8 @@
   --mdc-switch-selected-pressed-track-color: var(--primary);
 }
 
-::ng-deep [data-theme="dark"] .mdc-label {
+/* MDC label styling will use global theme variables */
+.mdc-label {
   color: var(--text-primary);
 }
 
@@ -336,21 +330,22 @@
   background: var(--body-bg);
 }
 
-::ng-deep .modern-pagination {
+/* Modern Pagination Styles */
+:host .modern-pagination {
   display: flex;
   justify-content: center;
 }
 
-::ng-deep .modern-pagination .pagination {
+:host .modern-pagination .pagination {
   display: flex;
   gap: 0.5rem;
 }
 
-::ng-deep .modern-pagination .pagination li {
+:host .modern-pagination .pagination li {
   list-style: none;
 }
 
-::ng-deep .modern-pagination .pagination li a {
+:host .modern-pagination .pagination li a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -364,13 +359,13 @@
   transition: all 0.3s ease;
 }
 
-::ng-deep .modern-pagination .pagination li a:hover {
+:host .modern-pagination .pagination li a:hover {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
 }
 
-::ng-deep .modern-pagination .pagination li.current a {
+:host .modern-pagination .pagination li.current a {
   background: var(--primary);
   color: white;
   border-color: var(--primary);

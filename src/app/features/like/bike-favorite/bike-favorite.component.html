@@ -1,23 +1,24 @@
-<div class="row">      
+<div class="row">
   <div class="tab-panel">
     <tabset class="member-tabset">
-      <tab heading="Bike favorites">
-        <div class="container">
-          <div class="flex-row">
-            <div class="col-12">
-              <div class="container">        
-                <div class="flex-row">                                 
-                  <app-common-table
-                    [serviceApiUrl]="serviceApiUrl()"
-                    [columnsInput]="columns"        
-                    [dataSourceInput]="dataSource()">
-                  </app-common-table>
-                </div>                    
-              </div>                  
-            </div>   
+      <div class="container">
+        <div class="flex-row">
+          <div class="col-12">
+            <div class="container">
+              <div class="flex-row">
+                <app-common-table
+                  [serviceApiUrl]="serviceApiUrl()"
+                  [columnsInput]="columns"
+                  [dataSourceInput]="dataSource()"
+                  [navigateUrlBase]="'/bike'"
+                  [navigateUrlProperty]="'bikeId'"
+                  [isRowClickable]="true">
+                </app-common-table>
+              </div>
+            </div>
           </div>
         </div>
-      </tab>
+      </div>
     </tabset>
-  </div>    
-</div>   
+  </div>
+</div>

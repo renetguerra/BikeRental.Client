@@ -1,22 +1,85 @@
-<div class="container mt-4">
-    <div class="table-responsive">
-        <table class="table">
-            <thead class="table-light">
-                <tr>
-                    <th style="width: 30%;">Username</th>                                              
-                    <th style="width: 30%;"></th>
-                    <th style="width: 40%;">Active Roles</th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (user of users(); track $index) {
-                    <tr>
-                        <td>{{user.username}}</td>                                                     
-                        <td><button (click)="openRolesModal(user)" class="btn btn-info">Edit roles</button></td>
-                        <td>{{user.roles}}</td>
-                    </tr>
-                }                
-            </tbody>
+<div class="modern-admin-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="admin-title">
+          <mat-icon class="title-icon">admin_panel_settings</mat-icon>
+          User Management
+        </h1>
+        <p class="admin-subtitle">Manage user roles and permissions</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-card">
+          <div class="stat-value">{{ users().length }}</div>
+          <div class="stat-label">Total Users</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="admin-content">
+    <!-- Users Table Card -->
+    <div class="users-table-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <mat-icon class="card-icon">people</mat-icon>
+          Users & Roles
+        </h2>
+      </div>
+
+      <div class="table-container">
+        <table mat-table [dataSource]="users()" class="users-table">
+
+          <!-- Username Column -->
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef>Username</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="username-cell">
+                <mat-icon class="user-icon">person</mat-icon>
+                {{ user.username }}
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Roles Column -->
+          <ng-container matColumnDef="roles">
+            <th mat-header-cell *matHeaderCellDef>Roles</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="user-roles">
+                @for (role of user.roles; track role) {
+                  <span class="role-badge" [class]="'role-' + role.toLowerCase()">
+                    {{ role }}
+                  </span>
+                }
+                @if (user.roles.length === 0) {
+                  <span class="role-badge role-none">No roles assigned</span>
+                }
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let user">
+              <div class="user-actions">
+                <button
+                  class="edit-roles-btn"
+                  (click)="openRolesModal(user)"
+                  [title]="'Edit roles for ' + user.username">
+                  <mat-icon>edit</mat-icon>
+                  Edit Roles
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
         </table>
-    </div>      
+      </div>
+    </div>
+  </div>
 </div>

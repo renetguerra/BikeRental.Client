@@ -1,23 +1,22 @@
-<div class="row">      
-  <div class="tab-panel">
+<div class="row">
     <tabset class="member-tabset">
-      <tab heading="History customer rentals">
-        <div class="container">
-          <div class="flex-row">
-            <div class="col-12">
-              <div class="container">        
-                <div class="flex-row">                                 
-                  <app-common-table
-                    [serviceApiUrl]="serviceApiUrl()"
-                    [columnsInput]="columns"        
-                    [dataSourceInput]="dataSource()">
-                  </app-common-table>
-                </div>                    
-              </div>                  
-            </div>   
+      <div class="container">
+        <div class="flex-row">
+          <div class="col-12">
+            <div class="container">
+              <div class="flex-row">
+                <app-common-table
+                  [serviceApiUrl]="serviceApiUrl()"
+                  [columnsInput]="columns"
+                  [dataSourceInput]="dataSource()"
+                  [navigateUrlBase]="'/bike'"
+                  [navigateUrlProperty]="'idBike'"
+                  [isRowClickable]="true">
+                </app-common-table>
+              </div>
+            </div>
           </div>
         </div>
-      </tab>
+      </div>
     </tabset>
-  </div>    
-</div>   
+</div>

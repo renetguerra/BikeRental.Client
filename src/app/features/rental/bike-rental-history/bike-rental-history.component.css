@@ -1,0 +1,153 @@
+/* ===== BIKE RENTAL HISTORY COMPONENT STYLES ===== */
+
+.row {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container improvements */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.col-12 {
+  width: 100%;
+  padding: 0;
+}
+
+/* Tab content styling */
+.member-tabset .tab-content {
+  background: transparent !important;
+  border: none !important;
+  padding: 1rem 0;
+}
+
+/* Tab pane styling */
+.member-tabset .tab-pane {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* ===== BIKE RENTAL HISTORY COMPONENT STYLES ===== */
+
+.row {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container improvements */
+.container {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.col-12 {
+  width: 100%;
+  padding: 0;
+}
+
+/* Tab content styling */
+.member-tabset .tab-content {
+  background: transparent !important;
+  border: none !important;
+  padding: 1rem 0;
+  color: var(--text-primary);
+}
+
+/* Tab pane styling */
+.member-tabset .tab-pane {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: var(--text-primary);
+}
+
+/* Table styling using theme variables */
+.mat-mdc-table {
+  background-color: var(--card-bg);
+  color: var(--text-primary);
+}
+
+.mat-mdc-header-row {
+  background-color: var(--bg-secondary);
+}
+
+.mat-mdc-header-cell {
+  color: var(--primary-color);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.mat-mdc-row {
+  background-color: var(--card-bg);
+}
+
+.mat-mdc-row:hover {
+  background-color: var(--hover-bg);
+}
+
+.mat-mdc-cell {
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Ensure all text elements use theme colors */
+table {
+  color: var(--text-primary);
+}
+
+table th,
+table td {
+  color: var(--text-primary);
+}
+
+table th span,
+table td span,
+table th div,
+table td div {
+  color: var(--text-primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .member-tabset .tab-content {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .member-tabset .tab-content {
+    padding: 0.5rem 0;
+  }
+}

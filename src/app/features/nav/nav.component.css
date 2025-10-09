@@ -49,7 +49,8 @@ mat-icon {
     height: 55px;
 }
 
-::ng-deep .search-field .mat-mdc-form-field-wrapper {
+/* Search field styling */
+:host .search-field .mat-mdc-form-field-wrapper {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 25px;
     backdrop-filter: blur(10px);
@@ -58,35 +59,35 @@ mat-icon {
     transition: all 0.3s ease;
 }
 
-::ng-deep .search-field:hover .mat-mdc-form-field-wrapper {
+:host .search-field:hover .mat-mdc-form-field-wrapper {
     border-color: #0b5ed7;
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
     transform: translateY(-1px);
 }
 
-::ng-deep .search-field:focus-within .mat-mdc-form-field-wrapper {
+:host .search-field:focus-within .mat-mdc-form-field-wrapper {
     border-color: #0d6efd;
     box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.3);
     transform: translateY(-1px);
 }
 
-::ng-deep .search-field .mat-mdc-text-field-wrapper {
+:host .search-field .mat-mdc-text-field-wrapper {
     border-radius: 25px;
 }
 
-::ng-deep .search-field .mdc-notched-outline {
+:host .search-field .mdc-notched-outline {
     border: none;
 }
 
-::ng-deep .search-field .mat-mdc-form-field-label {
+:host .search-field .mat-mdc-form-field-label {
     color: rgba(0, 0, 0, 0.6);
 }
 
-::ng-deep .search-field .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
+:host .search-field .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-floating-label {
     color: #ffffff !important;
 }
 
-::ng-deep .search-field .mat-mdc-input-element {
+:host .search-field .mat-mdc-input-element {
     color: #333;
     padding: 0 1rem;
 }
@@ -115,29 +116,29 @@ mat-icon {
         width: 150px;
     }
 
-    ::ng-deep .search-field .mat-mdc-form-field-label {
+    :host .search-field .mat-mdc-form-field-label {
         font-size: 0.8rem;
     }
 }
 
 /* Fix for Material Tooltip positioning */
-::ng-deep .mat-mdc-tooltip {
+:host .mat-mdc-tooltip {
     z-index: 99999 !important;
     white-space: nowrap !important;
     font-size: 0.75rem !important;
     padding: 0.5rem 0.75rem !important;
 }
 
-::ng-deep .mat-mdc-tooltip-panel {
+:host .mat-mdc-tooltip-panel {
     z-index: 99999 !important;
     max-width: none !important;
 }
 
-::ng-deep .cdk-overlay-container {
+:host .cdk-overlay-container {
     z-index: 99999 !important;
 }
 
-::ng-deep .cdk-overlay-backdrop {
+:host .cdk-overlay-backdrop {
     z-index: 99998 !important;
 }
 

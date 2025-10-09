@@ -1,43 +1,41 @@
 import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { Member } from 'src/app/core/_models/member';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotificationService } from 'src/app/core/_services/notification.service';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { TimeagoModule } from 'ngx-timeago';
-import { TabsModule } from 'ngx-bootstrap/tabs';
-import { DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { GalleryModule } from 'ng-gallery';
-import { MemberStore } from 'src/app/core/_stores/member.store';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
-// import { PhotoEditorComponent } from '../../components/bike-photo/photo-editor/photo-editor.component';
-// import { PhotoDeleteComponent } from '../../components/bike-photo/photo-delete/photo-delete.component';
 import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/photo-editor.component';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { Bike } from 'src/app/core/_models/bike';
-import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/photo-delete.component';
+import { Photo } from 'src/app/core/_models/photo';
 
 @Component({
     selector: 'app-bike-edit',
     templateUrl: './bike-edit.component.html',
     styleUrls: ['./bike-edit.component.css'],
-    imports: [TabsModule, FormsModule, DatePipe, TimeagoModule, GalleryModule,
+    imports: [CommonModule, FormsModule, TimeagoModule, GalleryModule,
       MatDialogModule, MatIconModule, MatButtonModule,
     ]
 })
 export class BikeEditComponent implements OnInit  {
 
   private accountService = inject(AccountService);
-  private toastr = inject(ToastrService);
+  private notificationService = inject(NotificationService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
   readonly dialog = inject(MatDialog);
 
   private bikeStore = inject(BikeStore);
   private photoStore = inject(PhotoStore);
 
   editForm = viewChild<NgForm>('editForm');
-  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: BeforeUnloadEvent) {
     if (this.editForm()?.dirty) {
       $event.returnValue = true;
     }
@@ -50,17 +48,18 @@ export class BikeEditComponent implements OnInit  {
   galleryImages = this.photoStore.galleryBikeImages;
 
   ngOnInit(): void {
-    // if (!this.bike()! || this.bike()!.id === 0) {
-    //   this.bikeIdParam.set(this.route.snapshot.paramMap.get('id'));
-    //   const bike = this.bikeStore.bikeById();
-    //   if (bike) {
-    //     this.bikeStore.setBike(bike);
-    //   }
-    // }
+    this.route.data.subscribe({
+      next: data => {
+        this.bikeStore.setBike(data['bike']);
+      }
+    });
 
-    const bikeValue = this.bike();
-    if (bikeValue) {
-      this.bikeStore.setBike(bikeValue);
+    // Verificar si el usuario es administrador
+    const user = this.accountService.currentUser();
+    if (!user?.roles?.includes('Admin')) {
+      this.notificationService.error('No tienes permisos para editar bicicletas');
+      this.router.navigateByUrl('/bikes');
+      return;
     }
   }
 
@@ -78,35 +77,41 @@ export class BikeEditComponent implements OnInit  {
 
     this.bikeStore.updateBike(updatedBike).subscribe({
       next: () => {
-        this.toastr.success('Bike updated successfully');
+        this.notificationService.success('Bicicleta actualizada exitosamente');
         this.editForm()?.reset(updatedBike);
+        // Redirigir a la página de detalle de la bicicleta
+        this.router.navigateByUrl(`/bike/${current.id}`);
+      },
+      error: () => {
+        this.notificationService.error('Error al actualizar la bicicleta');
       }
     });
   }
 
   openDialogAddPhoto() {
-    // this.dialog.open(PhotoEditorComponent, {
-    //   data: this.member()
-    // });
-
     this.dialog.open(PhotoEditorComponent<Bike>, {
+      width: '800px',
+      maxWidth: '90vw',
+      height: 'auto',
+      maxHeight: '80vh',
+      panelClass: 'photo-editor-dialog',
+      disableClose: true, // CRÍTICO: Evitar cierre automático
+      hasBackdrop: true,
+      backdropClass: 'photo-editor-backdrop',
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         entity: this.bike(),
         urlServerPath: 'bike/add-photo/',
-        getEntityIdentifier: (b: Bike) => b.id.toString()
-      }
-    });
-
-  }
-
-  openDialogDeletePhoto() {
-    // this.dialog.open(PhotoDeleteComponent, {
-    //   data: this.bike()
-    // });
-    this.dialog.open(PhotoDeleteComponent<Bike>, {
-      data: {
-        entity: this.bike(),
-        getEntityIdentifier: (b: Bike) => b.id.toString()
+        photoConfig: {
+          photosProperty: 'bikePhotos',
+          photoUrlProperty: 'photoUrl',
+          getEntityIdentifier: (b: Bike) => b.id.toString()
+        },
+        onPhotoAdded: (photo: Photo, updatedBike: Bike) => {
+          // Update the store with the new bike data
+          this.bikeStore.setBike(updatedBike);
+        }
       }
     });
   }

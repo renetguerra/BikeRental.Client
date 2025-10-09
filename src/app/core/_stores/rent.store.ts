@@ -15,11 +15,10 @@ import { User } from '../_models/user';
 
 @Injectable({ providedIn: 'root' })
 export class RentStore {
-  private accountService = inject(AccountService);
-  private rentService = inject(RentService);
-  private bikeService = inject(BikeService);
-
-  private bikeStore = inject(BikeStore);
+  private accountService: AccountService;
+  private rentService: RentService;
+  private bikeService: BikeService;
+  private bikeStore: BikeStore;
 
   readonly user = computed(() => this.accountService.currentUser());
 
@@ -38,11 +37,9 @@ export class RentStore {
 
   //   readonly customerRentalHistory = signal<Rental[]>([]);
 
-  readonly bike = this.bikeStore.bike;
-
   private readonly _userCache = signal(new Map<number, User>());
   readonly userCache = this._userCache.asReadonly();
-  
+
   private readonly _bikeCache = signal(new Map<number, Bike>());
   readonly bikeCache = this._bikeCache.asReadonly();
 
@@ -73,12 +70,18 @@ export class RentStore {
   readonly customerRentalHistory = computed<RentalHistory[]>(() => {
     return this.customerRentals()?.rentals ?? [];
   });
-  
 
-  constructor() {    
+
+  constructor() {
+    // Initialize services using inject() in constructor
+    this.accountService = inject(AccountService);
+    this.rentService = inject(RentService);
+    this.bikeService = inject(BikeService);
+    this.bikeStore = inject(BikeStore);
+
     // getRentalsByBike
     effect(() => {
-      const bike = this.bike();
+      const bike = this.bikeStore.bike();
       if (!bike || bike.id <= 0) return;
 
       this.rentService.getRentalsByBike(bike.id).subscribe((bikeRentals) => {
@@ -101,6 +104,11 @@ export class RentStore {
         this.updateBikeCache(customerRentals.rentals.map((r) => r.bikeId));
       });
     });
+  }
+
+  // Getter for bike property (must be after bikeStore initialization)
+  get bike() {
+    return this.bikeStore.bike;
   }
 
   private updateBikeCache(missingIds: number[]) {
