@@ -42,6 +42,12 @@ export class MemberListComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onPageChanged(event: PageEvent) {
+    this.memberStore.changePage(event.pageIndex + 1);
+    this.memberStore.changePageSize(event.pageSize);
+  }
+
+
   // onPageChange(event: PageEvent) {
   //   const currentParams = this.userParams();
   //   if (currentParams) {

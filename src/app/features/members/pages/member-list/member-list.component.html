@@ -1,103 +1,146 @@
-<div class="text-center mt-3">
-  <h2>Customers - {{ pagination()?.totalItems }} found</h2>
-</div>
-
-@if (userParams() !== null && userParams() !== undefined) {
-<div class="container mt-3">
-  <form
-    #form="ngForm"
-    class="row gy-2 gx-3 align-items-center mb-3"
-    (ngSubmit)="applyFilters()"
-    autocomplete="off"
-  >
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Age from: </label>
-      <input
-        type="number"
-        class="form-control ms-1"
-        style="width: 70px"
-        name="minAge"
-        [ngModel]="userParams() && userParams()!.minAge"
-        (ngModelChange)="userParams() && (userParams()!.minAge = $event)"
-      />
-    </div>
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Age to: </label>
-      <input
-        type="number"
-        class="form-control ms-1"
-        style="width: 70px"
-        name="maxAge"
-        [ngModel]="userParams() && userParams()!.maxAge"
-        (ngModelChange)="userParams() && (userParams()!.maxAge = $event)"
-      />
-    </div>
-
-    <div class="col-12 col-sm-auto">
-      <label class="form-label me-2">Show: </label>
-      <select
-        name="gender"
-        style="width: 130px"
-        class="form-select ml-1"
-        [ngModel]="userParams()!.gender"
-        (ngModelChange)="userParams() && (userParams()!.gender = $event)"
-      >
-        @for (gender of genderList; track gender.value) {
-        <option [ngValue]="gender.value">
-          {{ gender.display }}
-        </option>
-        }
-      </select>
-    </div>
-
-    <div class="col-12 col-sm-auto">
-      <button class="btn btn-primary me-2" type="submit">Apply Filters</button>
-      <button (click)="resetFilters()" class="btn btn-info ms-1" type="button">
-        Reset Filters
-      </button>
-    </div>
-
-    <div class="col-12 col-sm-auto ms-auto">
-      <div class="btn-group float-end">
-        <button
-          type="button"
-          class="btn btn-primary"
-          name="orderBy"
-          (click)="setOrderBy('lastActive')"
-          btnRadio="lastActive"
-          [ngModel]="userParams()!.orderBy"
-        >
-          Last Active
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          name="orderBy"
-          (click)="setOrderBy('created')"
-          btnRadio="created"
-          [ngModel]="userParams()!.orderBy"
-        >
-          Newest members
-        </button>
+<!-- Modern Header Section -->
+<div class="members-header">
+  <div class="container">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="members-title">Our Community</h1>
+        <p class="members-subtitle">Discover and connect with our amazing community of bike enthusiasts. Meet fellow riders and find your perfect adventure partners.</p>
+      </div>
+      <div class="members-count">
+        <span class="count-number">{{ members().length || 0 }}</span>
+        <span class="count-label">Members Found</span>
       </div>
     </div>
-  </form>
+  </div>
+</div>
+
+<!-- Modern Filter Section -->
+@if (userParams() !== null && userParams() !== undefined) {
+<div class="filters-section">
+  <div class="container">
+    <div class="filters-card">
+      <form
+        #form="ngForm"
+        class="filters-form"
+        (ngSubmit)="applyFilters()"
+        autocomplete="off">
+
+        <div class="filters-grid">
+          <!-- Age From Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Age From</span>
+            <div class="filter-input-wrapper">
+              <input
+                type="number"
+                class="filter-input"
+                name="minAge"
+                placeholder="Min age"
+                [ngModel]="userParams() && userParams()!.minAge"
+                (ngModelChange)="userParams() && (userParams()!.minAge = $event)"
+              />
+            </div>
+          </div>
+
+          <!-- Age To Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Age To</span>
+            <div class="filter-input-wrapper">
+              <input
+                type="number"
+                class="filter-input"
+                name="maxAge"
+                placeholder="Max age"
+                [ngModel]="userParams() && userParams()!.maxAge"
+                (ngModelChange)="userParams() && (userParams()!.maxAge = $event)"
+              />
+            </div>
+          </div>
+
+          <!-- Gender Filter -->
+          <div class="filter-group">
+            <span class="filter-label">Gender</span>
+            <div class="filter-input-wrapper">
+              <select
+                name="gender"
+                class="filter-select"
+                [ngModel]="userParams()!.gender"
+                (ngModelChange)="userParams() && (userParams()!.gender = $event)">
+                <option value="">All Genders</option>
+                @for (gender of genderList; track gender.value) {
+                <option [ngValue]="gender.value">{{ gender.display }}</option>
+                }
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="filter-actions">
+          <button class="btn-apply" type="submit">Apply Filters</button>
+          <button class="btn-reset" type="button" (click)="resetFilters()">Reset</button>
+        </div>
+      </form>
+
+      <!-- Sort Options -->
+      <div class="sort-section">
+        <span class="sort-label">Sort by:</span>
+        <div class="sort-buttons">
+          <button
+            type="button"
+            class="sort-btn"
+            [class.active]="userParams()!.orderBy === 'lastActive'"
+            (click)="setOrderBy('lastActive')">
+            Last Active
+          </button>
+          <button
+            type="button"
+            class="sort-btn"
+            [class.active]="userParams()!.orderBy === 'created'"
+            (click)="setOrderBy('created')">
+            Newest Members
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 }
 
-<div class="row">
-  @for (member of members(); track member.id) {
-  <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
-    <app-member-card [member]="member"></app-member-card>
+<!-- Modern Members Grid -->
+<div class="members-section">
+  <div class="container">
+    <div class="members-grid">
+      @for (member of members(); track member.id) {
+        <app-member-card [member]="member"></app-member-card>
+      }
+    </div>
+
+    <!-- No Results Message -->
+    @if (members().length === 0) {
+      <div class="no-results">
+        <div class="no-results-icon">👥</div>
+        <h3>No members found</h3>
+        <p>Try adjusting your filters to see more results.</p>
+      </div>
+    }
   </div>
-  }
 </div>
 
-<div class="d-flex justify-content-center mt-3">
-  <mat-paginator
-    [length]="pagination()!.totalItems || 0"
-    [pageSize]="pagination()?.itemsPerPage || 5"
-    [pageIndex]="(pagination()?.currentPage || 1) - 1"
-    [pageSizeOptions]="[5, 10, 20, 50]" >
-  </mat-paginator>
+<!-- Modern Pagination -->
+@if (pagination()) {
+<div class="pagination-section">
+  <div class="container">
+    <div class="d-flex justify-content-center">
+      <mat-paginator
+        [length]="pagination()!.totalItems || 0"
+        [pageSize]="pagination()?.itemsPerPage || 5"
+        [pageIndex]="(pagination()?.currentPage || 1) - 1"
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        [showFirstLastButtons]="true"
+        (page)="onPageChanged($event)"
+        class="modern-mat-paginator">
+      </mat-paginator>
+    </div>
+  </div>
 </div>
+}

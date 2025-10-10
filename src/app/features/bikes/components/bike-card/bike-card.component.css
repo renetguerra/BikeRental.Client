@@ -163,13 +163,13 @@
   justify-content: space-between;
 }
 
-::ng-deep [data-theme="dark"] .bike-info {
+/* ::ng-deep [data-theme="dark"] .bike-info {
   background: rgba(50, 52, 55, 0.95) !important;
 }
 
 ::ng-deep [data-theme="light"] .bike-info {
   background: #c4d6e7 !important;
-}
+} */
 
 .bike-header {
   display: flex;

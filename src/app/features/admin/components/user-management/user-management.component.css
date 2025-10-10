@@ -12,7 +12,10 @@
   position: relative;
   overflow: hidden;
   border-radius: 25px;
-  background: var(--filters-card-bg);
+  background: var(--header-gradient, linear-gradient(135deg,
+    var(--primary-bg-subtle) 0%,
+    var(--info-bg-subtle) 50%,
+    var(--success-bg-subtle) 100%));
   border: 1px solid var(--border-color);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
 }

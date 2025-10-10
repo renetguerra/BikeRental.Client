@@ -20,7 +20,7 @@
 }
 
 .bikes-header {
-  background: var(--bike-header-gradient, linear-gradient(135deg,
+  background: var(--header-gradient, linear-gradient(135deg,
     var(--primary-bg-subtle) 0%,
     var(--info-bg-subtle) 50%,
     var(--success-bg-subtle) 100%));
@@ -98,9 +98,9 @@
 }
 
 /* Filters card theming */
-.filters-card {
+/* .filters-card {
   background: var(--filters-card-bg) !important;
-}
+} */
 
 .filters-grid {
   display: grid;
@@ -235,9 +235,8 @@
 }
 
 .btn-reset {
-  background: rgba(var(--secondary), 0.1);
-  background-color: var(--btn-secondary);
-  color: var(--secondary);
+  background: var(--btn-secondary, rgba(var(--secondary), 0.1));
+  color: var(--text-primary);
   border: 2px solid rgba(var(--secondary), 0.3);
 }
 
@@ -369,6 +368,10 @@
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+
+.switch-text {
+  color: var(--text-primary) !important;
 }
 
 /* Responsive Design */

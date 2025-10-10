@@ -28,6 +28,7 @@
   --warning: #ffc107;
   --danger: #dc3545;
   --info: #17a2b8;
+  --bg-paginator:#4090c5;
 
   /* RGB Values for transparency usage */
   --primary-rgb: 0, 122, 204;
@@ -37,6 +38,17 @@
   --info-rgb: 23, 162, 184;
   --success-rgb: 40, 167, 69;
   --text-muted-rgb: 108, 117, 125;
+  --secondary: #6c757d;
+  --body-bg-rgb: 255, 255, 255;
+  --border-color-rgb: 222, 226, 230;
+
+  /* Bootstrap subtle background colors */
+  --primary-bg-subtle: #cce5ff;
+  --secondary-bg-subtle: #e2e3e5;
+  --success-bg-subtle: #d1e7dd;
+  --info-bg-subtle: #d1ecf1;
+  --warning-bg-subtle: #fff3cd;
+  --danger-bg-subtle: #f8d7da;
 
   /* HSL Values for advanced color manipulation */
   --primary-hsl: 205, 100%, 40%;
@@ -73,9 +85,21 @@
   --success-hover: #218838;
   --primary-rgb: 0, 122, 204;
   --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --body-bg-rgb: 255, 255, 255;
+  --border-color-rgb: 222, 226, 230;
+  --body-color: #212529;
+
+  /* Bootstrap subtle background colors for light theme */
+  --primary-bg-subtle: #cce5ff;
+  --secondary-bg-subtle: #e2e3e5;
+  --success-bg-subtle: #d1e7dd;
+  --info-bg-subtle: #d1ecf1;
+  --warning-bg-subtle: #fff3cd;
+  --danger-bg-subtle: #f8d7da;
 
   /* Component specific variables */
-  --bike-header-gradient: #c4d6e7;
+  --header-gradient: #c4d6e7;
+  --member-header-gradient: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #e8f5e8 100%);
   --filters-card-bg: #c4d6e7;
   --filter-input-bg: #ffffff;
   --admin-header-gradient: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 50%, #e8f5e8 100%);
@@ -119,12 +143,27 @@
   --success-hover: #005a9e;
   --primary-rgb: 0, 122, 204;
   --shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.3);
+  --body-bg-rgb: 15, 25, 35;
+  --border-color-rgb: 55, 65, 81;
+  --body-color: #e3e5e4;
+
+  /* Bootstrap subtle background colors for dark theme */
+  --primary-bg-subtle: rgba(0, 122, 204, 0.15);
+  --secondary-bg-subtle: rgba(108, 117, 125, 0.15);
+  --success-bg-subtle: rgba(40, 167, 69, 0.15);
+  --info-bg-subtle: rgba(23, 162, 184, 0.15);
+  --warning-bg-subtle: rgba(255, 193, 7, 0.15);
+  --danger-bg-subtle: rgba(220, 53, 69, 0.15);
 
   /* Component specific variables */
-  --bike-header-gradient: linear-gradient(135deg,
+  --header-gradient: linear-gradient(135deg,
     var(--primary-bg-subtle) 0%,
     var(--info-bg-subtle) 50%,
     var(--success-bg-subtle) 100%);
+  --member-header-gradient: linear-gradient(135deg,
+    rgba(0, 122, 204, 0.15) 0%,
+    rgba(156, 39, 176, 0.15) 50%,
+    rgba(40, 167, 69, 0.15) 100%);
   --filters-card-bg: rgba(50, 52, 55, 0.95);
   --filter-input-bg: #3a3838;
   --admin-header-gradient: linear-gradient(135deg,
@@ -758,4 +797,31 @@ table td span,
 table th div,
 table td div {
   color: var(--text-primary);
+}
+
+/* ===== Global MatPaginator Select Value Visibility Fixes ===== */
+/* Ensure selected value text in paginator's page-size select is readable in both themes */
+.mat-mdc-paginator .mat-mdc-select-value,
+.mat-mdc-paginator .mat-mdc-select-value-text,
+.mat-mdc-paginator .mat-mdc-select-min-line,
+.mat-mdc-paginator .mat-mdc-select-trigger,
+.mat-mdc-paginator .mdc-select__selected-text,
+.mat-mdc-paginator .mdc-text-field__input {
+  color: var(--body-color) !important;
+  opacity: 1 !important;
+}
+
+/* Handle disabled state to remain legible in dark theme */
+.mat-mdc-paginator .mat-mdc-paginator-page-size-select.mat-mdc-select-disabled .mat-mdc-select-trigger,
+.mat-mdc-paginator .mat-mdc-paginator-page-size-select.mdc-select--disabled .mat-mdc-select-trigger {
+  color: var(--text-muted, #a8a8a8) !important;
+  opacity: 0.9 !important;
+}
+
+/* Provide token-based overrides as fallback for MDC components */
+.mat-mdc-paginator {
+  --mat-select-enabled-trigger-text-color: var(--body-color);
+  --mat-select-disabled-trigger-text-color: var(--text-muted, #a8a8a8);
+  --mat-select-enabled-arrow-color: var(--primary);
+  --mat-select-disabled-arrow-color: var(--text-muted, #a8a8a8);
 }

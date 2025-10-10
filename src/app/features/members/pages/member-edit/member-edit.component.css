@@ -52,13 +52,13 @@
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-::ng-deep [data-theme="dark"] .info-card {
+/* ::ng-deep [data-theme="dark"] .info-card {
   background: rgba(50, 52, 55, 0.95) !important;
 }
 
 ::ng-deep [data-theme="light"] .info-card {
   background: var(--blue-light) !important;
-}
+} */
 
 .info-card:hover {
   transform: translateY(-2px);

@@ -34,7 +34,8 @@ export class MemberStore {
           )
         )
       ),
-      { initialValue: { result: [], pagination: undefined } }
+      { initialValue: { result: [], pagination: { currentPage: 1, totalPages: 1, itemsPerPage: 3, totalItems: 0 } } }
+      // { initialValue: { result: [], pagination: undefined } }
     );
 
   readonly members = computed(() => this.membersResponse().result);

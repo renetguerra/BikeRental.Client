@@ -4,11 +4,11 @@
         <img src="{{ member()!.photoUrl || './assets/user.png' }}" alt="{{ member()!.knownAs }}" class="card-img-top">
         <ul class="d-flex-row justify-content-center list-inline member-icons animate text-center">
             <li class="list-inline-item">
-                <button [routerLink]="['/members', member()!.username]" class="btn btn-primary"><i class="fa fa-user"></i></button>
-            </li>            
+                <button [routerLink]="['/member', member()!.username]" class="btn btn-primary"><i class="fa fa-user"></i></button>
+            </li>
             <li class="list-inline-item">
-                <button 
-                    [routerLink]="['/members', member()!.username]"
+                <button
+                    [routerLink]="['/member', member()!.username]"
                     [queryParams]="{tab: 'History'}"
                     class="btn btn-primary"
                 >
@@ -17,7 +17,7 @@
             </li>
             <li class="list-inline-item">
                 <button class="btn btn-primary"><i class="fa fa-bell"></i></button>
-            </li> 
+            </li>
         </ul>
     </div>
     <div class="card-body p-1">

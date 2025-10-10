@@ -9,9 +9,9 @@ export class UserParams extends Params {
 
     constructor(user: User) {
         super();
-        // if (user?.roles.includes('Admin'))
-        //     this.gender = '';
-        // else
-        this.gender = user?.gender === 'female' ? 'male' : 'female';
+        if (user?.roles.includes('Admin'))
+            this.gender = '';
+        else
+          this.gender = user?.gender === 'female' ? 'male' : 'female';
     }
 }
