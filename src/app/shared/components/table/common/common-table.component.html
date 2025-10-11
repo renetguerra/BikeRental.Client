@@ -1,7 +1,7 @@
 <div class="row">
   <table
     mat-table
-    [dataSource]="dataSource()"
+    [dataSource]="tableData"
     class="mat-elevation-z8 demo-table"
   >
     @for (column of columns(); track column) {
@@ -21,7 +21,6 @@
             />
           </ng-container>
         </ng-container>
-
         <span *ngSwitchDefault>
           {{ column.cell ? column.cell(row) : (row[column.columnDef] ?? '') }}
         </span>
@@ -36,4 +35,11 @@
       (click)="isRowClickable() ? onRowClicked(row) : null"
     ></tr>
   </table>
+  <mat-paginator
+    class="modern-mat-paginator mt-3"
+    [length]="dataSource().length"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5,10,20,50]"
+    [showFirstLastButtons]="true">
+  </mat-paginator>
 </div>

@@ -52,7 +52,7 @@ export class BikeDetailComponent implements OnInit {
 
   readonly bikeById = this.bikeStore.bikeById;
 
-  // Computed property to check if there's rental history data
+  // Computed property to check whether rental history data exists
   readonly hasRentalHistory = computed(() => {
     const history = this.rentStore.bikeRentalHistory();
     return history && history.length > 0;
@@ -60,7 +60,7 @@ export class BikeDetailComponent implements OnInit {
 
   // Effects must be in constructor or field initializers (injection context)
   constructor() {
-    // Any effects should be placed here if needed in the future
+    // Placeholder: effects could be added here if needed in the future
   }
 
   ngOnInit(): void {
@@ -70,7 +70,7 @@ export class BikeDetailComponent implements OnInit {
     this.route.data.subscribe({
       next: data => {
         this.bikeStore.setBike(data['bike']);
-        // Load rental history for this bike
+  // Load rental history for this bike
         if (data['bike']?.id) {
           this.rentStore.loadRentalsByBike(data['bike'].id);
         }
@@ -91,7 +91,7 @@ export class BikeDetailComponent implements OnInit {
   }
 
   setActiveTab(tab: string) {
-    // Validate that the tab should be shown
+  // Validate that the tab should be shown
     if (tab === 'history' && !this.hasRentalHistory()) {
       this.activeTab.set('info');
       return;
@@ -127,15 +127,15 @@ export class BikeDetailComponent implements OnInit {
       next: (response) => {
         console.log('OK', response);
 
-        // Mostrar notificación de éxito
+  // Show success notification
         this.notificationService.success(
           `¡Bicicleta ${bikeName} alquilada exitosamente! 🚴‍♂️`,
           5000
         );
 
-        // Recargar el historial de alquileres después del alquiler exitoso
+  // Reload rental history after a successful rental
         this.rentStore.loadRentalsByBike(bikeId);
-        // También recargar la bicicleta para actualizar su estado
+  // Also reload the bike to update its state
         this.bikeService.getBike(bikeId).subscribe(updatedBike => {
           this.bikeStore.setBike(updatedBike);
         });
@@ -143,7 +143,7 @@ export class BikeDetailComponent implements OnInit {
       error: (err) => {
         console.error(err);
 
-        // Mostrar notificación de error
+  // Show error notification
         const errorMessage = err?.error?.message || 'Error al alquilar la bicicleta';
         this.notificationService.error(
           `Error: ${errorMessage}`,

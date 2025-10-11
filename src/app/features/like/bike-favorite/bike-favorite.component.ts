@@ -69,7 +69,6 @@ const BIKEFAVORITE_COLUMNS: TableColumn<BikeFavorite>[] = [
   styleUrl: './bike-favorite.component.css',
 })
 export class BikeFavoriteComponent implements OnInit {
-  private likeService = inject(LikeService);
 
   readonly likeStore = inject(LikeStore);
 

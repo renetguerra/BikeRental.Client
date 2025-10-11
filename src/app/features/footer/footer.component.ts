@@ -5,12 +5,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 
 /**
- * FooterComponent - Footer principal de la aplicación
+ * FooterComponent - Main application footer
  *
  * Features:
- * - Links de navegación principales
- * - Enlaces de redes sociales
- * - Información de copyright
+ * - Primary navigation links
+ * - Social media links
+ * - Copyright information
  * - Responsive design
  * - Theme-aware styling
  */

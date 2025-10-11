@@ -20,7 +20,7 @@ const RENTALHISTORY_COLUMNS: TableColumn<RentalHistory>[] = [
     columnDef: 'photoUrl',
     header: 'Photo',
     cell: (row: RentalHistory) => row.photoUrl,
-    isCustomRender: true, // aquí indicas que esa columna tiene template propio
+  isCustomRender: true, // indicates this column uses its own template
   },
   {
     columnDef: 'model',
@@ -57,7 +57,7 @@ const RENTALHISTORY_COLUMNS: TableColumn<RentalHistory>[] = [
     CommonModule,
     RouterModule,
     FormsModule,
-    TabsModule,    
+    TabsModule,
     MatTableModule,
     MatIconModule,
     MatButtonModule,
@@ -69,7 +69,7 @@ const RENTALHISTORY_COLUMNS: TableColumn<RentalHistory>[] = [
 })
 export class CustomerRentalHistoryComponent {
   private rentalService = inject(RentService);
-  
+
   readonly rentalStore = inject(RentStore);
 
   user = this.rentalStore.user;
@@ -82,7 +82,7 @@ export class CustomerRentalHistoryComponent {
   params = new Params();
   pagination = this.rentalStore.pagination;
 
-  columns = RENTALHISTORY_COLUMNS;  
+  columns = RENTALHISTORY_COLUMNS;
 
   defaultColDef = {
     sortable: true,
@@ -94,7 +94,7 @@ export class CustomerRentalHistoryComponent {
   dataSource = this.rentalStore.customerRentalHistory;
 
   ngOnInit(): void {
-    this.rentalStore.loadCustomerRentals(this.rentalStore.user()!.username);   
+    this.rentalStore.loadCustomerRentals(this.rentalStore.user()!.username);
   }
 
   public refresh(customerRentals: CustomerRentalHistory) {

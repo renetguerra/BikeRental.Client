@@ -13,15 +13,15 @@ import { Photo } from "../_models/photo";
 @Injectable({ providedIn: 'root' })
 export class BikeStore {
 
-  private accountService = inject(AccountService);  
+  private accountService = inject(AccountService);
   private bikeService = inject(BikeService);
 
   readonly user = signal(this.accountService.currentUser());
 
   private _bike = signal<Bike | null>(null);
-  readonly bike = this._bike.asReadonly()  
+  readonly bike = this._bike.asReadonly()
 
-  readonly bikeParams = signal<BikeParams | null>(this.bikeService.getBikeParams()! ?? new BikeParams(this.bike()!));
+  readonly bikeParams = signal<BikeParams>(this.bikeService.getBikeParams() ?? new BikeParams(this.bike()!));
 
   private triggerLoad = signal(false);
 
@@ -30,16 +30,16 @@ export class BikeStore {
         filter(load => load === true),
         switchMap(params =>
           this.bikeService.getBikes(this.bikeParams()!).pipe(
-            tap(res => {              
+            tap(res => {
               this.bikeService.setBikeParams(this.bikeParams()!);
               this.triggerLoad.set(false);
             })
           )
         )
       ),
-      { initialValue: { result: [], pagination: undefined } }
+      { initialValue: { result: [], pagination: { currentPage: 1, totalPages: 1, itemsPerPage: 3, totalItems: 0 } } }
     );
-    
+
   readonly bikes = computed(() => this.bikesResponse().result);
   readonly pagination = computed(() => this.bikesResponse().pagination);
 
@@ -49,66 +49,56 @@ export class BikeStore {
           switchMap(id => this.bikeService.getBike(id))
       ),
       { initialValue: null }
-  );  
-  
+  );
+
   readonly updateBike = (bike: Bike) => {
       return this.bikeService.updateBike(bike).pipe(
           tap(() => this.setBike(bike))
       );
-  };  
+  };
 
-  constructor() {           
+  constructor() {
     effect(() => {
       const value = this.bikeById();
       if (value) this._bike.set(value);
     });
-  }    
-
-  loadBikes() {
-    this.triggerLoad.set(true);
   }
 
-  setBikeParams(params: BikeParams) {    
+  loadBikes() {
+    // this.triggerLoad.set(true);
+    this.triggerLoad.update(v => !v);
+  }
+
+  setBikeParams(params: BikeParams) {
     this.bikeParams.set(params);
     this.bikeService.setBikeParams(params);
     this.loadBikes();
   }
 
   resetFilters() {
-      const resetParams = this.bikeService.resetBikeParams();      
+      const resetParams = this.bikeService.resetBikeParams();
       this.bikeParams.set(resetParams!);
   }
 
   changePage(page: number) {
-      const current = this.bikeParams();
-      if (current && current.pageNumber() !== page) {          
-          const updated = current;
-          updated.pageNumber.set(page);
-          this.setBikeParams(updated);
-      }
-  }        
+    const current = this.bikeParams();
+    if (current && current.pageNumber() !== page) {
+        current.pageNumber.set(page);
+        this.setBikeParams(current);
+    }
+  }
+
+  changePageSize(pageSize: number) {
+    const current = this.bikeParams();
+    if (current && current.pageSize !== pageSize) {
+        current.pageSize = pageSize;
+        current.pageNumber.set(1);
+        this.setBikeParams(current);
+    }
+  }
 
   setBike(bike: Bike) {
       this._bike.set(bike);
-  } 
-
-  /*addPhotoLocal(photo: Photo) {
-    this._bike.update(bike => bike ? { ...bike, photos: [...bike.bikePhotos, photo] } : bike);
   }
-  
-  setMainPhotoLocal(photo: Photo) {
-    this._bike.update(bike => {
-      if (!bike) return bike;
-      return {
-        ...bike,
-        photoUrl: photo.url,
-        photos: bike.bikePhotos.map(p => ({ ...p, isMain: p.id === photo.id }))
-      };
-    });
-  }
-  
-  deletePhotoLocal(photoId: number) {
-    this._bike.update(bike => bike ? { ...bike, photos: bike.bikePhotos.filter(p => p.id !== photoId) } : bike);
-  }*/
 
 }

@@ -1,5 +1,20 @@
-.mat-mdc-dialog-content {
-  max-height: 75vh !important;
+
+.mat-mdc-dialog-content,
+.photo-editor-container .photo-dialog-content {
+  max-height: 90vh !important;
+  min-height: 500px;
+  overflow-y: auto !important;
+  padding-bottom: 1rem;
+}
+
+.photo-editor-container {
+  min-height: 700px;
+  max-height: 98vh;
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .photo-editor-container {
@@ -38,8 +53,9 @@
 }
 
 .photo-editor-container .photo-dialog-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
+  max-height: 85vh;
 }
 
 .photo-editor-container .file-input-container {
@@ -250,6 +266,9 @@
 
 .photo-editor-container .existing-photos {
   margin-top: 20px;
+  max-height: 350px;
+  overflow-y: auto;
+  padding-right: 8px;
 }
 
 .photo-editor-container .existing-photos h5 {

@@ -1,5 +1,5 @@
 <!-- Modern Header Section -->
-<div class="members-header">
+<div class="members-header mb-4">
   <div class="container">
     <div class="header-content">
       <div class="header-text">
@@ -7,7 +7,7 @@
         <p class="members-subtitle">Discover and connect with our amazing community of bike enthusiasts. Meet fellow riders and find your perfect adventure partners.</p>
       </div>
       <div class="members-count">
-        <span class="count-number">{{ members().length || 0 }}</span>
+        <span class="count-number">{{ members()?.length || 0 }}</span>
         <span class="count-label">Members Found</span>
       </div>
     </div>
@@ -16,7 +16,7 @@
 
 <!-- Modern Filter Section -->
 @if (userParams() !== null && userParams() !== undefined) {
-<div class="filters-section">
+<div class="section p-2 mb-4">
   <div class="container">
     <div class="filters-card">
       <form
@@ -107,7 +107,7 @@
 }
 
 <!-- Modern Members Grid -->
-<div class="members-section">
+<div class="section">
   <div class="container">
     <div class="members-grid">
       @for (member of members(); track member.id) {
@@ -123,24 +123,26 @@
         <p>Try adjusting your filters to see more results.</p>
       </div>
     }
+
+    <!-- Modern Pagination -->
+    @if (pagination()) {
+    <div class="pagination-section">
+      <div class="container">
+        <div class="d-flex justify-content-center">
+          <mat-paginator
+            [length]="pagination()!.totalItems || 0"
+            [pageSize]="pagination()?.itemsPerPage || 5"
+            [pageIndex]="(pagination()?.currentPage || 1) - 1"
+            [pageSizeOptions]="[5, 10, 20, 50]"
+            [showFirstLastButtons]="true"
+            (page)="onPageChanged($event)"
+            class="modern-mat-paginator">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+    }
   </div>
 </div>
 
-<!-- Modern Pagination -->
-@if (pagination()) {
-<div class="pagination-section">
-  <div class="container">
-    <div class="d-flex justify-content-center">
-      <mat-paginator
-        [length]="pagination()!.totalItems || 0"
-        [pageSize]="pagination()?.itemsPerPage || 5"
-        [pageIndex]="(pagination()?.currentPage || 1) - 1"
-        [pageSizeOptions]="[5, 10, 20, 50]"
-        [showFirstLastButtons]="true"
-        (page)="onPageChanged($event)"
-        class="modern-mat-paginator">
-      </mat-paginator>
-    </div>
-  </div>
-</div>
-}
+

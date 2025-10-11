@@ -1,26 +1,43 @@
 <h3 mat-dialog-title> {{ data.item.id > 0 ? 'Edit' : 'Add' }}</h3>
-<mat-dialog-content >
+<mat-dialog-content class="dialog-content">
   <div class="card-body">
     <form #editForm="ngForm" id="editForm" (ngSubmit)="save()">
-        <ng-container *ngFor="let field of data.columnDefs">        
+        <ng-container *ngFor="let field of data.columnDefs">
             <div *ngIf="field.columnDef !== 'id'">
-              <mat-form-field appearance="fill">                
-                <mat-label>{{ field.header }}</mat-label>
-
-                <ng-container *ngIf="field.columnDef === 'description'; else defaultInput">
-                  <textarea matInput [(ngModel)]="item[field.columnDef]" [name]="field.columnDef" rows="4"></textarea>
-                </ng-container>
-
-                <ng-template #defaultInput>
-                  <input matInput type="text" [(ngModel)]="item[field.columnDef]" [name]="field.columnDef" required>
-                </ng-template>
-              </mat-form-field>              
-            </div>        
-        </ng-container>          
+              <ng-container *ngIf="field.columnDef === 'photoUrl'; else otherField">
+                <div class="info-card">
+                  <h2 class="card-title">Imagen Principal</h2>
+                  <div class="profile-upload-section">
+                    <div class="profile-avatar">
+                      <img [src]="item[field.columnDef] || './assets/user.png'" [alt]="'photo'" class="avatar-image"/>
+                    </div>
+                    <div class="upload-controls">
+                      <button type="button" class="primary-btn" (click)="openDialogAddPhoto()">
+                        <mat-icon>add_a_photo</mat-icon>
+                        Gestionar Fotos
+                      </button>
+                      <p class="upload-hint">PNG, JPG, GIF hasta 10MB.</p>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #otherField>
+                <mat-form-field appearance="fill">
+                  <mat-label>{{ field.header }}</mat-label>
+                  <ng-container *ngIf="field.columnDef === 'description'; else defaultInput">
+                    <textarea matInput [(ngModel)]="item[field.columnDef]" [name]="field.columnDef" rows="4"></textarea>
+                  </ng-container>
+                  <ng-template #defaultInput>
+                    <input matInput type="text" [(ngModel)]="item[field.columnDef]" [name]="field.columnDef" required>
+                  </ng-template>
+                </mat-form-field>
+              </ng-template>
+            </div>
+        </ng-container>
     </form>
-  </div>  
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button [disabled]="!editForm.dirty" (click)="save()" >Save</button>  
-    <button mat-button mat-dialog-close>Cancel</button>    
+  <button mat-button class="primary-btn" [disabled]="!editForm.dirty" (click)="save()" >Save</button>
+  <button mat-button mat-dialog-close color="warn">Cancel</button>
 </mat-dialog-actions>

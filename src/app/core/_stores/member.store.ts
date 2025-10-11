@@ -95,7 +95,7 @@ export class MemberStore {
     const current = this.userParams();
     if (current && current.pageSize !== pageSize) {
         current.pageSize = pageSize;
-        current.pageNumber.set(1); // Resetear a página 1 cuando cambia el tamaño
+        current.pageNumber.set(1);
         this.setUserParams(current);
     }
   }

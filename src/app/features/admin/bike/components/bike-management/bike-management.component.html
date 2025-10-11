@@ -1,0 +1,52 @@
+<div class="modern-admin-container">
+  <!-- Header Section -->
+  <div class="admin-header">
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="admin-title">
+          <mat-icon class="title-icon">admin_panel_settings</mat-icon>
+          Bike Management
+        </h1>
+        <p class="admin-subtitle">Manage bike listings and details</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-card">
+          <div class="stat-value">{{ dataSource().length }}</div>
+          <div class="stat-label">Total Bikes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="admin-content">
+    <!-- Bikes Table Card -->
+    <div class="bikes-table-card">
+      <div class="card-header">
+        <h2 class="card-title">
+          <mat-icon class="card-icon">directions_bike</mat-icon>
+          Bikes & Details
+        </h2>
+      </div>
+
+      <!-- <div class="table-container">
+        <app-common-table
+          [serviceApiUrl]="serviceApiUrl()"
+          [columnsInput]="columns"
+          [dataSourceInput]="dataSource()"
+          [navigateUrlBase]="'/bike'"
+          [navigateUrlProperty]="'bikeId'"
+          [isRowClickable]="true">
+        </app-common-table>
+      </div> -->
+
+      <div class="table-container">
+        <app-crud-table
+          [serviceApiUrl]="serviceApiUrl()"
+          [columnsInput]="columns"
+          [dataSourceInput]="dataSource()">
+        </app-crud-table>
+      </div>
+    </div>
+  </div>
+</div>

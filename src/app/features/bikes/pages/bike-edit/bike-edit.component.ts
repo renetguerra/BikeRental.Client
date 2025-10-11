@@ -54,7 +54,7 @@ export class BikeEditComponent implements OnInit  {
       }
     });
 
-    // Verificar si el usuario es administrador
+  // Verify if the current user is an administrator
     const user = this.accountService.currentUser();
     if (!user?.roles?.includes('Admin')) {
       this.notificationService.error('No tienes permisos para editar bicicletas');
@@ -79,7 +79,7 @@ export class BikeEditComponent implements OnInit  {
       next: () => {
         this.notificationService.success('Bicicleta actualizada exitosamente');
         this.editForm()?.reset(updatedBike);
-        // Redirigir a la página de detalle de la bicicleta
+  // Redirect to the bike detail page
         this.router.navigateByUrl(`/bike/${current.id}`);
       },
       error: () => {
@@ -95,7 +95,7 @@ export class BikeEditComponent implements OnInit  {
       height: 'auto',
       maxHeight: '80vh',
       panelClass: 'photo-editor-dialog',
-      disableClose: true, // CRÍTICO: Evitar cierre automático
+      disableClose: true,
       hasBackdrop: true,
       backdropClass: 'photo-editor-backdrop',
       autoFocus: false,

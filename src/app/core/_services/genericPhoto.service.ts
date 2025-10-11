@@ -10,30 +10,30 @@ import { AccountService } from './account.service';
 import { MemberStore } from '../_stores/member.store';
 
 /**
- * GenericPhotoService - Servicio completamente genérico para manejo de fotos
+ * GenericPhotoService - Fully generic service for photo management
  *
- * Este servicio funciona con CUALQUIER entidad sin necesidad de crear estrategias específicas.
+ * This service works with ANY entity without creating entity-specific strategies.
  *
- * Ejemplo de uso:
+ * Usage example:
  *
- * // Para Member
+ * // For Member
  * photoConfig: {
  *   photosProperty: 'userPhotos',
  *   photoUrlProperty: 'photoUrl',
  *   getEntityIdentifier: (m: Member) => m.username
  * }
  *
- * // Para Bike
+ * // For Bike
  * photoConfig: {
  *   photosProperty: 'bikePhotos',
  *   photoUrlProperty: 'photoUrl',
  *   getEntityIdentifier: (b: Bike) => b.id.toString()
  * }
  *
- * // Para CUALQUIER nueva entidad (ej: Moto)
+ * // For ANY new entity (e.g., Moto)
  * photoConfig: {
- *   photosProperty: 'fotos',           // ← nombre de la propiedad de fotos
- *   photoUrlProperty: 'imagenPrincipal', // ← nombre de la imagen principal
+ *   photosProperty: 'photos',              // ← name of the photos property
+ *   photoUrlProperty: 'mainImage',         // ← name of the main image property
  *   getEntityIdentifier: (m: Moto) => m.id.toString()
  * }
  */
@@ -121,7 +121,7 @@ export class GenericPhotoService {
     return (entity as any)[photoConfig.photosProperty] || [];
   }
 
-  // Métodos privados para manipular entidades genéricamente
+  // Private methods to manipulate entities generically
   private addPhotoToEntity<T>(entity: T, photo: Photo, config: PhotoConfig<T>): T {
     const currentPhotos = this.getPhotos(entity, config);
     const updatedPhotos = [...currentPhotos, photo];
@@ -141,7 +141,7 @@ export class GenericPhotoService {
       [config.photosProperty]: updatedPhotos
     };
 
-    // Actualizar photoUrl si está configurado
+  // Update photoUrl if configured in the config object
     if (config.photoUrlProperty) {
       updateData[config.photoUrlProperty] = photo.url;
     }

@@ -1,23 +1,21 @@
-import { Component, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { MemberStore } from 'src/app/core/_stores/member.store';
 import { BikeCardComponent } from '../../components/bike-card/bike-card.component';
-import { Bike } from 'src/app/core/_models/bike';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FocusTrapModule } from "ngx-bootstrap/focus-trap";
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
     selector: 'app-bike-list',
     templateUrl: './bike-list.component.html',
     styleUrls: ['./bike-list.component.css'],
-    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, NgxPaginationModule, MatSlideToggleModule, ButtonsModule, FocusTrapModule]
+    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, MatPaginatorModule, MatSlideToggleModule, ButtonsModule, FocusTrapModule]
 })
-export class BikeListComponent {
+export class BikeListComponent implements OnInit, AfterViewInit {
 
   public bikeStore = inject(BikeStore);
 
@@ -36,8 +34,23 @@ export class BikeListComponent {
     { value: 2015 }
   ];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   ngOnInit(): void {
     this.bikeStore.loadBikes();
+  }
+
+  ngAfterViewInit() {
+    this.paginator.page.subscribe(event => {
+      const { pageIndex, pageSize } = event;
+      this.bikeStore.changePage(pageIndex + 1);
+      this.bikeStore.changePageSize(pageSize);
+    });
+  }
+
+  onPageChanged(event: PageEvent) {
+    this.bikeStore.changePage(event.pageIndex + 1);
+    this.bikeStore.changePageSize(event.pageSize);
   }
 
   applyFilters() {

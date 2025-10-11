@@ -92,7 +92,7 @@ export class MemberEditComponent implements OnInit  {
       height: 'auto',
       maxHeight: '80vh',
       panelClass: 'photo-editor-dialog',
-      disableClose: true, // CRÍTICO: Evitar cierre automático
+      disableClose: true, // CRITICAL: Prevent automatic close
       hasBackdrop: true,
       backdropClass: 'photo-editor-backdrop',
       autoFocus: false,

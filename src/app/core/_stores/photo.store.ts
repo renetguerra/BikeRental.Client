@@ -14,22 +14,22 @@ import { GenericPhotoService } from "../_services/genericPhoto.service";
 import { tap, of, map, Observable, EMPTY, filter } from "rxjs";
 
 /**
- * PhotoStore - Store centralizado para manejo de fotos genéricas
+ * PhotoStore - Centralized store for generic photo management
  *
- * ARQUITECTURA ACTUAL:
+ * CURRENT ARCHITECTURE:
  * PhotoEditorComponent → PhotoStore → GenericPhotoService → PhotoService → HTTP Client
  *
- * MÉTODOS RECOMENDADOS (usan GenericPhotoService):
- * - uploadAndAddPhoto<T>() - Upload + agregar foto en una operación
- * - setMainPhotoAndUpdate<T>() - Establecer foto principal + actualizar entidad
- * - deletePhotoAndUpdate<T>() - Eliminar foto + actualizar entidad
+ * RECOMMENDED METHODS (use GenericPhotoService):
+ * - uploadAndAddPhoto<T>() - Upload + add photo in a single operation
+ * - setMainPhotoAndUpdate<T>() - Set main photo + update entity
+ * - deletePhotoAndUpdate<T>() - Delete photo + update entity
  *
- * MÉTODOS LEGACY (compatibilidad hacia atrás):
- * - addPhoto() - Solo para Member
- * - addPhotoToBike() - Solo para Bike
- * - uploadPhoto(), setMainPhoto(), deletePhoto() - Métodos básicos deprecados
+ * LEGACY METHODS (backwards compatibility):
+ * - addPhoto() - Member only
+ * - addPhotoToBike() - Bike only
+ * - uploadPhoto(), setMainPhoto(), deletePhoto() - Basic deprecated methods
  *
- * USO RECOMENDADO:
+ * RECOMMENDED USAGE:
  * photoStore.uploadAndAddPhoto(entity, config, urlServerPath, file, updateCallback);
  */
 @Injectable({ providedIn: 'root' })
@@ -93,7 +93,7 @@ export class PhotoStore {
     const currentPhotos = (entity[config.photosProperty] as Photo[]) || [];
     const updatedPhotos = [...currentPhotos, photo];
 
-    // Marcar solo la nueva foto como principal si es main
+  // Mark only the new photo as main when applicable
     const processedPhotos = updatedPhotos.map(p => ({
       ...p,
       isMain: p.id === photo.id ? photo.isMain : (photo.isMain ? false : p.isMain)
@@ -109,7 +109,7 @@ export class PhotoStore {
 
     config.updateEntityFn(updatedEntity);
 
-    // Actualizar usuario actual si es necesario (solo para Member)
+  // Update current user if needed (Member only)
     if (config.updateCurrentUser && photo.isMain) {
       const currentUser = this.user();
       if (currentUser) {
@@ -120,7 +120,7 @@ export class PhotoStore {
     }
   }
 
-  // Método específico para Member (mantener compatibilidad)
+  // Member-specific method (maintain compatibility)
   addPhoto(photo: Photo) {
     const current = this.member();
     if (!current) return;
@@ -133,7 +133,7 @@ export class PhotoStore {
     });
   }
 
-  // Método específico para Bike
+  // Bike-specific method
   addPhotoToBike(photo: Photo) {
     const current = this.bike();
     if (!current) return;
@@ -173,7 +173,7 @@ export class PhotoStore {
 
     config.updateEntityFn(updatedEntity);
 
-    // Actualizar usuario actual si es necesario (solo para Member)
+  // Update current user if needed (Member only)
     if (config.updateCurrentUser) {
       const currentUser = this.user();
       if (currentUser) {
@@ -328,8 +328,8 @@ export class PhotoStore {
     const formData = new FormData();
     formData.append('file', file);
 
-    // Delegamos al GenericPhotoService
-    // Como no tenemos la entidad aquí, usamos el PhotoService legacy
+  // Delegate to GenericPhotoService
+  // Since the entity is not available here, use the legacy PhotoService
     return this.genericPhotoService['photoService'].uploadPhoto(entityId, urlServerPath, formData, token).pipe(
       map((event: HttpEvent<Photo>) => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
@@ -351,7 +351,7 @@ export class PhotoStore {
   setMainPhoto(entityId: string, urlServerPath: string, photo: Photo): Observable<Photo> {
     if (!entityId) return of(photo);
 
-    // Delegamos al GenericPhotoService
+  // Delegate to GenericPhotoService
     return this.genericPhotoService['photoService'].setMainPhoto(entityId, urlServerPath, photo.id).pipe(
       map(() => photo)
     );
@@ -362,7 +362,7 @@ export class PhotoStore {
    * Legacy method kept for compatibility
    */
   deletePhoto(entityId: string, urlServerPath: string, photoId: number) {
-    // Delegamos al GenericPhotoService
+  // Delegate to GenericPhotoService
     this.genericPhotoService['photoService'].deletePhoto(entityId, urlServerPath, photoId).subscribe({
       next: () => {
         this.toastr.success('Photo deleted');
@@ -371,7 +371,7 @@ export class PhotoStore {
     });
   }
 
-  // Método que elimina foto y actualiza entidad usando GenericPhotoService
+  // Delete photo and update entity using GenericPhotoService
   deletePhotoAndUpdate<T>(
     entity: T,
     photoId: number,

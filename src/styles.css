@@ -799,29 +799,96 @@ table td div {
   color: var(--text-primary);
 }
 
-/* ===== Global MatPaginator Select Value Visibility Fixes ===== */
-/* Ensure selected value text in paginator's page-size select is readable in both themes */
-.mat-mdc-paginator .mat-mdc-select-value,
-.mat-mdc-paginator .mat-mdc-select-value-text,
-.mat-mdc-paginator .mat-mdc-select-min-line,
-.mat-mdc-paginator .mat-mdc-select-trigger,
-.mat-mdc-paginator .mdc-select__selected-text,
-.mat-mdc-paginator .mdc-text-field__input {
+/* Section Styles */
+.section {
+  border-radius: 25px;
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  position: relative;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  opacity: 0.8;
+}
+
+.section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary);
+}
+
+/* Pagination */
+/* Modern MatPaginator Styles - theme aware */
+.modern-mat-paginator {
+  border-radius: 15px;
+  background: transparent !important;
   color: var(--body-color) !important;
+}
+
+.modern-mat-paginator .mat-mdc-paginator-container {
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  background: rgba(var(--body-bg-rgb), 0.9) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(var(--border-color-rgb), 0.2);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  color: var(--body-color) !important;
+}
+
+/* Material Select token overrides for better dark theme contrast */
+.modern-mat-paginator .mat-mdc-paginator-page-size-select {
+  --mdc-theme-text-primary-on-background: var(--body-color);
+  --mat-select-enabled-trigger-text-color: var(--body-color);
+  --mat-select-disabled-trigger-text-color: var(--text-muted, #a8a8a8);
+  --mat-select-trigger-text-color: var(--body-color);
+  --mat-select-enabled-arrow-color: var(--primary);
+  --mat-select-disabled-arrow-color: var(--text-muted, #a8a8a8);
+  --mdc-outlined-text-field-outline-color: rgba(var(--border-color-rgb), 0.3);
+  --mdc-outlined-text-field-hover-outline-color: var(--primary);
+  --mdc-outlined-text-field-focus-outline-color: var(--primary);
+}
+
+/* Range Label */
+.modern-mat-paginator .mat-mdc-paginator-range-label {
+  color: var(--body-color) !important;
+  font-weight: 500 !important;
+  margin: 0 1rem !important;
+  font-size: 0.9rem !important;
+  opacity: 0.8 !important;
+}
+
+/* Navigation Buttons */
+.modern-mat-paginator .mat-mdc-icon-button {
+  color: var(--body-color) !important;
+  transition: all 0.3s ease !important;
+  border-radius: 8px !important;
+  margin: 0 0.25rem !important;
+  background: rgba(var(--body-bg-rgb), 0.5) !important;
+  border: 1px solid rgba(var(--border-color-rgb), 0.3) !important;
+}
+
+.modern-mat-paginator .mat-mdc-icon-button .mat-icon,
+.modern-mat-paginator .mat-mdc-icon-button mat-icon,
+.modern-mat-paginator .mat-mdc-icon-button svg {
+  color: var(--body-color) !important;
+  fill: var(--body-color) !important;
   opacity: 1 !important;
 }
 
-/* Handle disabled state to remain legible in dark theme */
-.mat-mdc-paginator .mat-mdc-paginator-page-size-select.mat-mdc-select-disabled .mat-mdc-select-trigger,
-.mat-mdc-paginator .mat-mdc-paginator-page-size-select.mdc-select--disabled .mat-mdc-select-trigger {
-  color: var(--text-muted, #a8a8a8) !important;
-  opacity: 0.9 !important;
-}
-
-/* Provide token-based overrides as fallback for MDC components */
-.mat-mdc-paginator {
-  --mat-select-enabled-trigger-text-color: var(--body-color);
-  --mat-select-disabled-trigger-text-color: var(--text-muted, #a8a8a8);
-  --mat-select-enabled-arrow-color: var(--primary);
-  --mat-select-disabled-arrow-color: var(--text-muted, #a8a8a8);
+.modern-mat-paginator .mat-mdc-icon-button:hover:not(:disabled) {
+  background: rgba(var(--primary-rgb), 0.1) !important;
+  color: var(--primary) !important;
+  transform: translateY(-1px);
+  border-color: var(--primary) !important;
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.2) !important;
 }

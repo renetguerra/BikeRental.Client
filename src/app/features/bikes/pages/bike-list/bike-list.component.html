@@ -1,5 +1,5 @@
 <!-- Modern Header Section -->
-<div class="bikes-header">
+<div class="bikes-header mb-4">
   <div class="container">
     <div class="header-content">
       <div class="header-text">
@@ -16,7 +16,7 @@
 
 <!-- Modern Filter Section -->
 @if (bikeParams() !== null && bikeParams() !== undefined) {
-<div class="filters-section">
+<div class="section mb-4">
   <div class="container">
     <div class="filters-card">
       <form
@@ -34,7 +34,7 @@
                 type="text"
                 class="filter-input"
                 name="type"
-                [ngModel]="bikeParams() && bikeParams()?.type"
+                [ngModel]="bikeParams() && bikeParams()!.type"
                 (ngModelChange)="bikeParams() && (bikeParams()!.type = $event)"
               />
             </div>
@@ -48,7 +48,7 @@
                 type="text"
                 class="filter-input"
                 name="model"
-                [ngModel]="bikeParams() && bikeParams()?.model"
+                [ngModel]="bikeParams() && bikeParams()!.model"
                 (ngModelChange)="bikeParams() && (bikeParams()!.model = $event)" />
             </div>
           </div>
@@ -61,7 +61,7 @@
                 type="text"
                 class="filter-input"
                 name="brand"
-                [ngModel]="bikeParams() && bikeParams()?.brand"
+                [ngModel]="bikeParams() && bikeParams()!.brand"
                 (ngModelChange)="bikeParams() && (bikeParams()!.brand = $event)" />
             </div>
           </div>
@@ -73,7 +73,7 @@
               <select
                 name="year"
                 class="filter-select"
-                [ngModel]="bikeParams()?.year"
+                [ngModel]="bikeParams()!.year"
                 (ngModelChange)="bikeParams() && (bikeParams()!.year = $event)">
                 <option value="0">All Years</option>
                 @for (bikeYear of bikeYears; track bikeYear.value) {
@@ -92,7 +92,7 @@
                 class="filter-input price-input"
                 name="minPrice"
                 placeholder="Min"
-                [ngModel]="bikeParams() && bikeParams()?.minPrice"
+                [ngModel]="bikeParams() && bikeParams()!.minPrice"
                 (ngModelChange)="bikeParams() && (bikeParams()!.minPrice = $event)" />
               <span class="price-separator">-</span>
               <input
@@ -100,7 +100,7 @@
                 class="filter-input price-input"
                 name="maxPrice"
                 placeholder="Max"
-                [ngModel]="bikeParams() && bikeParams()?.maxPrice"
+                [ngModel]="bikeParams() && bikeParams()!.maxPrice"
                 (ngModelChange)="bikeParams() && (bikeParams()!.maxPrice = $event)" />
             </div>
           </div>
@@ -133,28 +133,28 @@
           <button
             type="button"
             class="sort-btn"
-            [class.active]="bikeParams()?.orderBy === 'type'"
+            [class.active]="bikeParams()!.orderBy === 'type'"
             (click)="setOrderBy('type')">
             Type
           </button>
           <button
             type="button"
             class="sort-btn"
-            [class.active]="bikeParams()?.orderBy === 'model'"
+            [class.active]="bikeParams()!.orderBy === 'model'"
             (click)="setOrderBy('model')">
             Model
           </button>
           <button
             type="button"
             class="sort-btn"
-            [class.active]="bikeParams()?.orderBy === 'brand'"
+            [class.active]="bikeParams()!.orderBy === 'brand'"
             (click)="setOrderBy('brand')">
             Brand
           </button>
           <button
             type="button"
             class="sort-btn"
-            [class.active]="bikeParams()?.orderBy === 'price'"
+            [class.active]="bikeParams()!.orderBy === 'price'"
             (click)="setOrderBy('price')">
             Price
           </button>
@@ -166,10 +166,10 @@
 }
 
 <!-- Modern Bikes Grid -->
-<div class="bikes-section">
+<div class="section">
   <div class="container">
     <div class="bikes-grid">
-      @for (bike of bikes() | paginate: { itemsPerPage: pagination()?.itemsPerPage, currentPage: pagination()?.currentPage, totalItems: pagination()?.totalItems }; track bike.id) {
+      @for (bike of bikes(); track bike.id) {
         <app-bike-card [bike]="bike"></app-bike-card>
       }
     </div>
@@ -182,11 +182,30 @@
         <p>Try adjusting your filters to see more results.</p>
       </div>
     }
+
+    <!-- Modern Pagination -->
+    @if (pagination()) {
+    <div class="pagination-section">
+      <div class="container">
+        <div class="d-flex justify-content-center">
+          <mat-paginator
+            [length]="pagination()!.totalItems || 0"
+            [pageSize]="pagination()?.itemsPerPage || 5"
+            [pageIndex]="(pagination()?.currentPage || 1) - 1"
+            [pageSizeOptions]="[5, 10, 20, 50]"
+            [showFirstLastButtons]="true"
+            (page)="onPageChanged($event)"
+            class="modern-mat-paginator">
+          </mat-paginator>
+        </div>
+      </div>
+    </div>
+    }
   </div>
 </div>
 
 <!-- Modern Pagination -->
-@if (pagination()) {
+<!-- @if (pagination()) {
 <div class="pagination-section">
   <div class="container">
     <pagination-controls
@@ -195,4 +214,4 @@
     </pagination-controls>
   </div>
 </div>
-}
+} -->

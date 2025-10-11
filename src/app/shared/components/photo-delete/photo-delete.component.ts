@@ -31,7 +31,7 @@ export class PhotoDeleteComponent<T> implements OnInit {
   user = signal<User>(this.accountService.currentUser()!);
   entity = signal(this.data.entity);
 
-  // Fotos genéricas basadas en la configuración
+  // Generic photos based on configuration
   photos = computed(() => {
     const currentEntity = this.entity();
     if (!currentEntity) return [];
@@ -40,10 +40,10 @@ export class PhotoDeleteComponent<T> implements OnInit {
     return (currentEntity as any)[photosProperty] as Photo[] || [];
   });
 
-  // Para compatibilidad hacia atrás con el template
+  // Backwards compatibility with the template
   userPhotos = this.photos;
 
-  // Verificar si el usuario actual puede editar esta entidad
+  // Verify if the current user can edit this entity
   canEdit = computed(() => {
     const currentUser = this.user();
     const currentEntity = this.entity();
@@ -61,7 +61,7 @@ export class PhotoDeleteComponent<T> implements OnInit {
   ngOnInit(): void { }
 
   setMainPhoto(photo: Photo) {
-    const entity = this.data.urlServerPath.split('/')[0]; // 'user' o 'bike'
+  const entity = this.data.urlServerPath.split('/')[0]; // 'user' or 'bike'
     const urlServerPath = entity + '/set-main-photo/';
 
     this.photoStore.setMainPhotoAndUpdate(
@@ -105,7 +105,7 @@ export class PhotoDeleteComponent<T> implements OnInit {
     ).subscribe({
       next: () => {
         this.toastr.success('Photo deleted successfully');
-        // Cerrar el diálogo si no quedan fotos
+  // Close the dialog if there are no photos left
         if (this.photos().length === 0) {
           this.dialogRef.close();
         }

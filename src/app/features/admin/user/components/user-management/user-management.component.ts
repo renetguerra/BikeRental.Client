@@ -34,6 +34,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
   private modalService = inject(BsModalService);
 
   users = this.adminUserStore.users;
+
   displayedColumns: string[] = ['username', 'roles', 'actions'];
   bsModalRef: BsModalRef<RolesModalComponent> = new BsModalRef<RolesModalComponent>();
   availableRoles = ['Admin','Moderator','Member'];

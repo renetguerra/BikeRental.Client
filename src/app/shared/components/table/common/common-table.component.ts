@@ -7,12 +7,16 @@ import {
   input,
   effect,
   computed,
+  ViewChild,
+  AfterViewInit,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { User } from 'src/app/core/_models/user';
 import { TableColumn } from 'src/app/core/_models/generic';
@@ -30,11 +34,12 @@ import { Router } from '@angular/router';
     MatDialogModule,
     MatIconModule,
     MatTableModule,
+    MatPaginatorModule,
   ],
   templateUrl: './common-table.component.html',
   styleUrls: ['./common-table.component.css'],
 })
-export class CommonTableComponent<T> {
+export class CommonTableComponent<T> implements AfterViewInit {
   private accountService = inject(AccountService);
   readonly dialog = inject(MatDialog);
 
@@ -60,10 +65,15 @@ export class CommonTableComponent<T> {
   itemData = signal<T>({} as T);
 
   dataSourceInput = input<T[]>([]);
+  // Raw data signal (optional for other logic)
   dataSource = signal<T[]>([]);
+  // MatTableDataSource for client-side pagination/sort
+  tableData = new MatTableDataSource<T>([]);
 
   displayedColumns: string[] = [];
   columnsToDisplayWithExpand: string[] = [];
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor() {
     effect(() => {
@@ -83,7 +93,10 @@ export class CommonTableComponent<T> {
     effect(() => {
       const newDataSource = this.dataSourceInput();
       if (newDataSource) {
+        // keep raw signal for external uses
         this.dataSource.set(newDataSource);
+        // update MatTableDataSource for pagination
+        this.tableData.data = newDataSource;
       }
     });
   }
@@ -132,6 +145,12 @@ export class CommonTableComponent<T> {
 
         this.router.navigateByUrl(navigationUrl);
       }
+    }
+  }
+
+  ngAfterViewInit(): void {
+    if (this.paginator) {
+      this.tableData.paginator = this.paginator;
     }
   }
 }

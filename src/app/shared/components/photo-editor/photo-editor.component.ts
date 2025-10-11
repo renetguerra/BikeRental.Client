@@ -13,22 +13,22 @@ import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { AccountService } from 'src/app/core/_services/account.service';
 
 /**
- * PhotoEditorComponent - Componente genérico para editar fotos de CUALQUIER entidad
+ * PhotoEditorComponent - Generic component to edit photos for ANY entity
  *
- * Este componente sigue el patrón de arquitectura Angular:
+ * Architecture flow (Angular best practices):
  * Component → PhotoStore → GenericPhotoService → HTTP Client
  *
- * Uso:
- * this.dialog.open(PhotoEditorComponent<MiEntidad>, {
+ * Usage example:
+ * this.dialog.open(PhotoEditorComponent<MyEntity>, {
  *   data: {
- *     entity: this.miEntidad,
- *     urlServerPath: 'mi-entidad/add-photo',
+ *     entity: this.myEntity,
+ *     urlServerPath: 'my-entity/add-photo',
  *     photoConfig: {
- *       photosProperty: 'misImagenes',      // ← nombre de la propiedad de fotos
- *       photoUrlProperty: 'imagenPrincipal', // ← nombre de la imagen principal
- *       getEntityIdentifier: (e) => e.id.toString()  // ← cómo obtener el ID
+ *       photosProperty: 'images',            // ← name of the photos property
+ *       photoUrlProperty: 'mainImage',       // ← name of the main image property
+ *       getEntityIdentifier: (e) => e.id.toString()  // ← how to get the ID
  *     },
- *     onPhotoAdded: (photo, updated) => this.miStore.setEntidad(updated)
+ *     onPhotoAdded: (photo, updated) => this.myStore.setEntity(updated)
  *   }
  * });
  */
@@ -55,24 +55,19 @@ export class PhotoEditorComponent<T> implements OnInit {
 
   updatedEntity = signal<T>(this.data.entity);
 
-  // Fotos existentes de la entidad
+  // Existing photos from the entity
   existingPhotos = computed(() => {
     const entity = this.updatedEntity();
-    console.log('existingPhotos computed - current entity:', entity);
-
-    if (!entity) {
-      console.log('existingPhotos computed - no entity, returning empty array');
+    if (!entity || !this.data.photoConfig) {
+      console.warn('PhotoEditorComponent: photoConfig is missing or entity is undefined.');
       return [];
     }
-
     const photosProperty = this.data.photoConfig.photosProperty;
     const photos = (entity as any)[photosProperty] as Photo[] || [];
-    console.log(`existingPhotos computed - found ${photos.length} photos in property '${photosProperty.toString()}':`, photos);
-
     return photos;
   });
 
-  // Todas las fotos (existentes + nuevas)
+  // All photos (existing + newly uploaded)
   allPhotos = computed(() => {
     return [...this.existingPhotos(), ...this.uploadedPhotos()];
   });
@@ -115,21 +110,21 @@ export class PhotoEditorComponent<T> implements OnInit {
       (updatedEntity, photo) => {
         console.log(`File ${index + 1} uploaded successfully:`, photo);
 
-        // Actualizar la entidad
+  // Update the entity
         this.updatedEntity.set(updatedEntity);
 
-        // Añadir a uploadedPhotos
+  // Add to uploadedPhotos
         this.uploadedPhotos.update(list => [...list, photo]);
 
-        // Callback
+  // Callback
         if (this.data.onPhotoAdded) {
           this.data.onPhotoAdded(photo, updatedEntity);
         }
 
-        // Continuar con el siguiente archivo
+  // Continue with the next file
         setTimeout(() => {
           this.uploadFilesSequentially(files, entityId, urlServerPath, index + 1);
-        }, 100); // Pequeño delay para evitar problemas de concurrencia
+  }, 100); // Small delay to avoid concurrency issues
       }
     ).subscribe({
       error: (error) => {
@@ -154,10 +149,10 @@ export class PhotoEditorComponent<T> implements OnInit {
         console.log('Photo uploaded successfully:', photo);
         console.log('Updated entity received:', updatedEntity);
 
-        // Actualizar la entidad primero
+  // Update the entity first
         this.updatedEntity.set(updatedEntity);
 
-        // Añadir a uploadedPhotos para mostrar en la sección de "Recently Uploaded"
+  // Add to uploadedPhotos to display in the "Recently Uploaded" section
         this.uploadedPhotos.update(list => {
           console.log('Current uploadedPhotos before update:', list);
           const newList = [...list, photo];
@@ -179,8 +174,8 @@ export class PhotoEditorComponent<T> implements OnInit {
   }
 
   setMainPhoto(photo: Photo) {
-    // Para setMainPhoto, usar urlServerPath (que debe ser add-photo)
-    const entity = this.data.urlServerPath.split('/')[0]; // 'user' o 'bike'
+  // For setMainPhoto, derive base path from urlServerPath (must be add-photo)
+  const entity = this.data.urlServerPath.split('/')[0]; // 'user' or 'bike'
     const setMainPhotoPath = entity + '/set-main-photo/';
 
     this.photoStore.setMainPhotoAndUpdate(
@@ -191,7 +186,7 @@ export class PhotoEditorComponent<T> implements OnInit {
       (updatedEntity) => {
         this.updatedEntity.set(updatedEntity);
 
-        // Call the callback if provided
+  // Call the callback if provided
         if (this.data.onMainPhotoSet) {
           this.data.onMainPhotoSet(photo, updatedEntity);
         }
@@ -203,8 +198,8 @@ export class PhotoEditorComponent<T> implements OnInit {
   }
 
   deletePhoto(photo: Photo) {
-    // Para deletePhoto, usar urlServerPath
-    const entity = this.data.urlServerPath.split('/')[0]; // 'user' o 'bike'
+  // For deletePhoto, derive base path from urlServerPath
+  const entity = this.data.urlServerPath.split('/')[0]; // 'user' or 'bike'
     const deletePhotoPath = entity + '/delete-photo/';
 
     this.photoStore.deletePhotoAndUpdate(
@@ -213,10 +208,10 @@ export class PhotoEditorComponent<T> implements OnInit {
       this.data.photoConfig,
       deletePhotoPath,
       (updatedEntity) => {
-        // Actualizar la entidad (esto actualiza automáticamente existingPhotos)
+  // Update the entity (this automatically refreshes existingPhotos)
         this.updatedEntity.set(updatedEntity);
 
-        // Quitar de uploadedPhotos si estaba ahí también
+  // Remove from uploadedPhotos if it was there as well
         this.uploadedPhotos.update(list => list.filter(p => p.id !== photo.id));
 
         // Call the callback if provided
@@ -292,6 +287,7 @@ export class PhotoEditorComponent<T> implements OnInit {
 
   // Process selected or dropped files
   private processFiles(files: File[]): void {
+
     // Filter only image files
     const imageFiles = files.filter(file => file.type.startsWith('image/'));
 
