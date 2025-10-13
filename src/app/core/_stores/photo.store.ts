@@ -330,7 +330,13 @@ export class PhotoStore {
 
   // Delegate to GenericPhotoService
   // Since the entity is not available here, use the legacy PhotoService
-    return this.genericPhotoService['photoService'].uploadPhoto(entityId, urlServerPath, formData, token).pipe(
+    // Build full upload URL
+    let fullUploadUrl = urlServerPath;
+    if (!urlServerPath.endsWith('/') && entityId) {
+      fullUploadUrl += '/';
+    }
+    fullUploadUrl += entityId;
+    return this.genericPhotoService['photoService'].uploadPhoto(fullUploadUrl, formData, token).pipe(
       map((event: HttpEvent<Photo>) => {
         if (event.type === HttpEventType.UploadProgress && event.total) {
           this.progress.set(Math.round((100 * event.loaded) / event.total));

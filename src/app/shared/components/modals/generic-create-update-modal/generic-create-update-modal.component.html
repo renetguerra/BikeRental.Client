@@ -1,43 +1,78 @@
-<h3 mat-dialog-title> {{ data.item.id > 0 ? 'Edit' : 'Add' }}</h3>
+<h3 mat-dialog-title>{{ data.item.id > 0 ? "Edit" : "Add" }}</h3>
 <mat-dialog-content class="dialog-content">
-  <div class="card-body">
-    <form #editForm="ngForm" id="editForm" (ngSubmit)="save()">
-        <ng-container *ngFor="let field of data.columnDefs">
-            <div *ngIf="field.columnDef !== 'id'">
-              <ng-container *ngIf="field.columnDef === 'photoUrl'; else otherField">
-                <div class="info-card">
-                  <h2 class="card-title">Imagen Principal</h2>
-                  <div class="profile-upload-section">
-                    <div class="profile-avatar">
-                      <img [src]="item[field.columnDef] || './assets/user.png'" [alt]="'photo'" class="avatar-image"/>
-                    </div>
-                    <div class="upload-controls">
-                      <button type="button" class="primary-btn" (click)="openDialogAddPhoto()">
-                        <mat-icon>add_a_photo</mat-icon>
-                        Gestionar Fotos
-                      </button>
-                      <p class="upload-hint">PNG, JPG, GIF hasta 10MB.</p>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-template #otherField>
-                <mat-form-field appearance="fill">
-                  <mat-label>{{ field.header }}</mat-label>
-                  <ng-container *ngIf="field.columnDef === 'description'; else defaultInput">
-                    <textarea matInput [(ngModel)]="item[field.columnDef]" [name]="field.columnDef" rows="4"></textarea>
-                  </ng-container>
-                  <ng-template #defaultInput>
-                    <input matInput type="text" [(ngModel)]="item[field.columnDef]" [name]="field.columnDef" required>
-                  </ng-template>
-                </mat-form-field>
-              </ng-template>
+  <mat-tab-group>
+    <mat-tab label="Información">
+      <form #editForm="ngForm" id="editForm">
+        <div class="info-card mb-4">
+          <div class="row">
+            <ng-container *ngFor="let field of data.columnDefs">
+              <div *ngIf="field.columnDef !== 'id' && field.columnDef !== 'photoUrl' && field.columnDef !== 'isAvailable'" class="col-md-6 mb-3">
+                <span class="detail-label">{{ field.header }}</span>
+                <ng-container *ngIf="field.columnDef === 'description'; else defaultInput">
+                  <textarea
+                    name="notes"
+                    class="detail-input detail-textarea-large"
+                    [(ngModel)]="item[field.columnDef]"
+                    placeholder="Notas adicionales..."
+                    rows="4"
+                  ></textarea>
+                </ng-container>
+                <ng-template #defaultInput>
+                  <input
+                    [type]="field.columnDef === 'year' ? 'number' : 'text'"
+                    [name]="field.columnDef"
+                    class="detail-input"
+                    [(ngModel)]="item[field.columnDef]"
+                    [placeholder]="field.columnDef === 'year' ? '2024' : ''"
+                    [attr.min]="field.columnDef === 'year' ? 1990 : null"
+                    [attr.max]="field.columnDef === 'year' ? 2030 : null"
+                  />
+                </ng-template>
+              </div>
+            </ng-container>
+          </div>
+          <!-- Availability Switch -->
+          <div class="filter-group availability-group">
+            <span class="detail-label">Availability</span>
+            <div class="availability-toggle">
+              <mat-slide-toggle
+                [(ngModel)]="item.isAvailable"
+                name="isAvailable"
+                class="modern-toggle">
+                <span class="detail-text">Available Only</span>
+              </mat-slide-toggle>
             </div>
-        </ng-container>
-    </form>
-  </div>
+          </div>
+          <!-- Save Button Row -->
+          <div class="row mt-4">
+            <div class="col-12 d-flex justify-content-end">
+              <button type="button" class="primary-btn" [disabled]="!editForm.dirty || editForm.invalid" (click)="save()">
+                <mat-icon>save</mat-icon>
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </mat-tab>
+    <mat-tab label="Imagen Principal">
+      <div class="info-card">
+        <div class="profile-upload-section">
+          <div class="profile-avatar">
+            <img [src]="item.photoUrl || './assets/user.png'" alt="photo" class="avatar-image"/>
+          </div>
+          <div class="upload-controls">
+            <button type="button" class="primary-btn" [disabled]="item.id === 0" (click)="openDialogAddPhoto()">
+              <mat-icon>add_a_photo</mat-icon>
+              Gestionar Fotos
+            </button>
+            <p class="upload-hint">PNG, JPG, GIF hasta 10MB.</p>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button mat-button class="primary-btn" [disabled]="!editForm.dirty" (click)="save()" >Save</button>
   <button mat-button mat-dialog-close color="warn">Cancel</button>
 </mat-dialog-actions>

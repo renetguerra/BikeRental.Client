@@ -54,7 +54,7 @@ export class BikeEditComponent implements OnInit  {
       }
     });
 
-  // Verify if the current user is an administrator
+    // Verify if the current user is an administrator
     const user = this.accountService.currentUser();
     if (!user?.roles?.includes('Admin')) {
       this.notificationService.error('No tienes permisos para editar bicicletas');
@@ -79,7 +79,6 @@ export class BikeEditComponent implements OnInit  {
       next: () => {
         this.notificationService.success('Bicicleta actualizada exitosamente');
         this.editForm()?.reset(updatedBike);
-  // Redirect to the bike detail page
         this.router.navigateByUrl(`/bike/${current.id}`);
       },
       error: () => {
@@ -109,7 +108,9 @@ export class BikeEditComponent implements OnInit  {
           getEntityIdentifier: (b: Bike) => b.id.toString()
         },
         onPhotoAdded: (photo: Photo, updatedBike: Bike) => {
-          // Update the store with the new bike data
+          this.bikeStore.setBike(updatedBike);
+        },
+        onPhotoDeleted: (photoId: string, updatedBike: Bike) => {
           this.bikeStore.setBike(updatedBike);
         }
       }

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from "@angular/common";
 import { Component, WritableSignal, signal, inject, input, effect, computed } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -79,11 +77,24 @@ export class CrudTableComponent<T> implements AfterViewInit {
   }
 
   openDialogEdit(item?: T): void {
-    const data: any = {
-      item: item != undefined ? { ...item } : { id: 0 },
-      columnDefs: this.columns().filter(c => c.header !== 'Actions'),
-      url: this.serviceApiUrl()!,
-    };
+      // Use correct endpoint for create or update
+      let url = this.serviceApiUrl();
+      const isEdit = item && typeof (item as any).id !== 'undefined' && (item as any).id > 0;
+      if (isEdit) {
+        url = `bike/update`;
+      }
+      const data: any = {
+        item: item != undefined ? { ...item } : { id: 0 },
+        columnDefs: this.columns().filter(c => c.header !== 'Actions'),
+        url,
+        onSaved: (result: any) => {
+          if (result) {
+            this.refreshDataSource(result);
+          }
+        },
+        onPhotoAdded: (photo: any, updatedEntity: any) => { this.updateItemInDataSource(updatedEntity); },
+        onPhotoDeleted: (photoId: string, updatedEntity: any) => { this.updateItemInDataSource(updatedEntity); }
+      };
     // Pass photoConfig and urlServerPath only if present
     if (this.photoConfigInput()) {
       data.photoConfig = this.photoConfigInput();
@@ -95,7 +106,7 @@ export class CrudTableComponent<T> implements AfterViewInit {
       class: 'modal-dialog-centered',
       width: '800px',
       maxWidth: '90vw',
-      height: '800px !important',
+      height: '75vh !important',
       maxHeight: '80vh',
       panelClass: 'photo-editor-dialog',
       hasBackdrop: true,
@@ -114,12 +125,12 @@ export class CrudTableComponent<T> implements AfterViewInit {
   }
 
   private refreshDataSource(item: any) {
-  const exists = this.tableData.data.some( (n: any) => n.id === item.id);
-    if (!exists) {
-      this.addItemToDataSource(item);
-    }
-    else {
-      this.updateItemInDataSource(item);
+    // Always update in place by id; never add duplicate
+    if (item && typeof item.id !== 'undefined') {
+      const updatedData = this.tableData.data.map((n: any) => n.id === item.id ? item : n);
+      // If not found, add as new
+      const found = this.tableData.data.some((n: any) => n.id === item.id);
+      this.tableData.data = found ? updatedData : [...this.tableData.data, item];
     }
   }
 
@@ -137,19 +148,21 @@ export class CrudTableComponent<T> implements AfterViewInit {
 
   openDialogDelete(item: any): void {
     console.log('onDelete called with item:', item);
+    // Build correct delete URL: 'bike/remove-bike/id'
+    const deleteUrl = item && typeof item.id !== 'undefined' ? `bike/remove-bike/${item.id}` : 'bike/remove-bike';
     const config = {
-        class: 'modal-dialog-centered modal-lg',
-        data: {
-            item: { ...item },
-            columnDefs: this.columns().filter(c => c.header !== 'actions'),
-            url: this.serviceApiUrl()!,
-        }
+      class: 'modal-dialog-centered modal-lg',
+      data: {
+        item: { ...item },
+        columnDefs: this.columns().filter(c => c.header !== 'actions'),
+        url: deleteUrl,
       }
+    }
       const dialogRef = this.dialog.open(GenericDeleteModalComponent, config );
 
       dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-      this.tableData.data = this.tableData.data.filter((i: any) => i.id !== result.id);
+        if (result) {
+          this.tableData.data = this.tableData.data.filter((i: any) => i.id !== result.id);
         }
       });
   }

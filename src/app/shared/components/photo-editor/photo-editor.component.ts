@@ -12,26 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { AccountService } from 'src/app/core/_services/account.service';
 
-/**
- * PhotoEditorComponent - Generic component to edit photos for ANY entity
- *
- * Architecture flow (Angular best practices):
- * Component → PhotoStore → GenericPhotoService → HTTP Client
- *
- * Usage example:
- * this.dialog.open(PhotoEditorComponent<MyEntity>, {
- *   data: {
- *     entity: this.myEntity,
- *     urlServerPath: 'my-entity/add-photo',
- *     photoConfig: {
- *       photosProperty: 'images',            // ← name of the photos property
- *       photoUrlProperty: 'mainImage',       // ← name of the main image property
- *       getEntityIdentifier: (e) => e.id.toString()  // ← how to get the ID
- *     },
- *     onPhotoAdded: (photo, updated) => this.myStore.setEntity(updated)
- *   }
- * });
- */
 @Component({
     selector: 'app-photo-editor',
     templateUrl: './photo-editor.component.html',
@@ -39,7 +19,7 @@ import { AccountService } from 'src/app/core/_services/account.service';
     encapsulation: ViewEncapsulation.None,
     imports: [MatDialogModule, MatButtonModule, MatProgressBarModule, MatIconModule]
 })
-export class PhotoEditorComponent<T> implements OnInit {
+export class PhotoEditorComponent<T> {
 
   readonly dialogRef = inject(MatDialogRef<PhotoEditorComponent<T>>);
   readonly data = inject<PhotoEditorDialogData<T>>(MAT_DIALOG_DATA);
@@ -63,20 +43,13 @@ export class PhotoEditorComponent<T> implements OnInit {
       return [];
     }
     const photosProperty = this.data.photoConfig.photosProperty;
-    const photos = (entity as any)[photosProperty] as Photo[] || [];
-    return photos;
+    return (entity as any)[photosProperty] as Photo[] || [];
   });
 
   // All photos (existing + newly uploaded)
-  allPhotos = computed(() => {
-    return [...this.existingPhotos(), ...this.uploadedPhotos()];
-  });
-
-  constructor() {}
-
-  ngOnInit(): void {
-    // this.initializeUploader();
-  }
+  // allPhotos = computed(() => {
+  //   return [...this.existingPhotos(), ...this.uploadedPhotos()];
+  // });
 
   fileOverBase(e: any) {
     this.hasBaseDropzoneOver.set(e);
@@ -108,37 +81,46 @@ export class PhotoEditorComponent<T> implements OnInit {
       urlServerPath,
       file,
       (updatedEntity, photo) => {
-        console.log(`File ${index + 1} uploaded successfully:`, photo);
 
-  // Update the entity
-        this.updatedEntity.set(updatedEntity);
+        // Ensure updatedEntity always has the latest photos array
+        const photosProperty = this.data.photoConfig.photosProperty;
+        const currentEntity = { ...updatedEntity };
+        // If the backend did not return the full photo array, append the new photo
+        if (!Array.isArray((currentEntity as any)[photosProperty])) {
+          (currentEntity as any)[photosProperty] = [photo];
+        } else {
+          // Avoid duplicates
+          const existing = (currentEntity as any)[photosProperty] as Photo[];
+          if (!existing.some(p => p.id === photo.id)) {
+            (currentEntity as any)[photosProperty] = [...existing, photo];
+          }
+        }
+        this.updatedEntity.set(currentEntity);
 
-  // Add to uploadedPhotos
+        // Add to uploadedPhotos
         this.uploadedPhotos.update(list => [...list, photo]);
 
-  // Callback
+        // Callback
         if (this.data.onPhotoAdded) {
-          this.data.onPhotoAdded(photo, updatedEntity);
+          this.data.onPhotoAdded(photo, currentEntity);
         }
 
-  // Continue with the next file
+        // Continue with the next file
         setTimeout(() => {
           this.uploadFilesSequentially(files, entityId, urlServerPath, index + 1);
-  }, 100); // Small delay to avoid concurrency issues
+        }, 100); // Small delay to avoid concurrency issues
       }
     ).subscribe({
       error: (error) => {
         console.error(`Upload failed for file ${file.name}:`, error);
         this.toastr.error(`Upload failed for ${file.name}`);
-        // Continuar con el siguiente archivo a pesar del error
+        // Continue with the next file despite the error
         this.uploadFilesSequentially(files, entityId, urlServerPath, index + 1);
       }
     });
   }
 
   uploadPhoto(entityId: string, urlServerPath: string, file: File) {
-    console.log('Starting upload for file:', file.name);
-    console.log('Current entity before upload:', this.updatedEntity());
 
     this.photoStore.uploadAndAddPhoto(
       this.updatedEntity(),
@@ -146,17 +128,13 @@ export class PhotoEditorComponent<T> implements OnInit {
       urlServerPath,
       file,
       (updatedEntity, photo) => {
-        console.log('Photo uploaded successfully:', photo);
-        console.log('Updated entity received:', updatedEntity);
 
-  // Update the entity first
+        // Update the entity first
         this.updatedEntity.set(updatedEntity);
 
-  // Add to uploadedPhotos to display in the "Recently Uploaded" section
+        // Add to uploadedPhotos to display in the "Recently Uploaded" section
         this.uploadedPhotos.update(list => {
-          console.log('Current uploadedPhotos before update:', list);
           const newList = [...list, photo];
-          console.log('New uploadedPhotos after update:', newList);
           return newList;
         });
 
@@ -174,8 +152,8 @@ export class PhotoEditorComponent<T> implements OnInit {
   }
 
   setMainPhoto(photo: Photo) {
-  // For setMainPhoto, derive base path from urlServerPath (must be add-photo)
-  const entity = this.data.urlServerPath.split('/')[0]; // 'user' or 'bike'
+    // For setMainPhoto, derive base path from urlServerPath (must be add-photo)
+    const entity = this.data.urlServerPath.split('/')[0];
     const setMainPhotoPath = entity + '/set-main-photo/';
 
     this.photoStore.setMainPhotoAndUpdate(
@@ -186,7 +164,7 @@ export class PhotoEditorComponent<T> implements OnInit {
       (updatedEntity) => {
         this.updatedEntity.set(updatedEntity);
 
-  // Call the callback if provided
+        // Call the callback if provided
         if (this.data.onMainPhotoSet) {
           this.data.onMainPhotoSet(photo, updatedEntity);
         }
@@ -198,8 +176,8 @@ export class PhotoEditorComponent<T> implements OnInit {
   }
 
   deletePhoto(photo: Photo) {
-  // For deletePhoto, derive base path from urlServerPath
-  const entity = this.data.urlServerPath.split('/')[0]; // 'user' or 'bike'
+    // For deletePhoto, derive base path from urlServerPath
+    const entity = this.data.urlServerPath.split('/')[0];
     const deletePhotoPath = entity + '/delete-photo/';
 
     this.photoStore.deletePhotoAndUpdate(
@@ -208,15 +186,18 @@ export class PhotoEditorComponent<T> implements OnInit {
       this.data.photoConfig,
       deletePhotoPath,
       (updatedEntity) => {
-  // Update the entity (this automatically refreshes existingPhotos)
-        this.updatedEntity.set(updatedEntity);
 
-  // Remove from uploadedPhotos if it was there as well
+        const currentEntity = { ...updatedEntity };
+
+        // Update the entity (this automatically refreshes existingPhotos)
+        this.updatedEntity.set(currentEntity);
+
+        // Remove from uploadedPhotos if it was there as well
         this.uploadedPhotos.update(list => list.filter(p => p.id !== photo.id));
 
         // Call the callback if provided
         if (this.data.onPhotoDeleted) {
-          this.data.onPhotoDeleted(photo.id, updatedEntity);
+          this.data.onPhotoDeleted(photo.id, currentEntity);
         }
       }
     ).subscribe({
@@ -224,40 +205,6 @@ export class PhotoEditorComponent<T> implements OnInit {
       error: () => this.toastr.error('Could not delete photo')
     });
   }
-
-  /*initializeUploader() {
-    const currentUser = this.user();
-    const entityId = this.data.photoConfig.getEntityIdentifier(this.data.entity);
-
-    this.uploader.set(
-      new FileUploader({
-        url: `${this.baseUrl}${this.data.urlServerPath}/${entityId}`,
-        authToken: 'Bearer ' + currentUser!.token,
-        isHTML5: true,
-        allowedFileType: ['image'],
-        removeAfterUpload: true,
-        autoUpload: false,
-        maxFileSize: 10 * 1024 * 1024
-      })
-  );
-
-    this.uploader()!.onAfterAddingFile = (file) => {
-      file.withCredentials = false;
-    }
-
-    this.uploader()!.onSuccessItem = (item, response, status, headers) => {
-      if (!response) return;
-      const photo: Photo = JSON.parse(response);
-      this.uploadedPhotos.push(photo);
-    };
-
-    this.uploader()!.onCompleteAll = () => {
-      this.uploadedPhotos.forEach(photo => {
-        this.photoStore.addPhoto(photo);
-      });
-      this.dialogRef.close();
-    };
-  }*/
 
   // Handle drag over
   onDragOver(event: DragEvent): void {
@@ -301,17 +248,26 @@ export class PhotoEditorComponent<T> implements OnInit {
     }
 
     // Get upload configuration
-    const urlServerPath = this.data.urlServerPath;
+    let urlServerPath = this.data.urlServerPath;
     const entityId = this.data.photoConfig.getEntityIdentifier(this.data.entity);
+    let fullUploadUrl: string;
+    // Prevent double entityId (e.g., '.../add-photo/1016' + '1016')
+    if (urlServerPath.endsWith(`/${entityId}`) || urlServerPath.endsWith(entityId)) {
+      fullUploadUrl = urlServerPath;
+    } else {
+      if (!urlServerPath.endsWith('/')) {
+        urlServerPath += '/';
+      }
+      fullUploadUrl = `${urlServerPath}${entityId}`;
+    }
 
-    console.log(`Starting upload of ${imageFiles.length} files to ${urlServerPath}/${entityId}`);
+    console.log(`Starting upload of ${imageFiles.length} files to ${fullUploadUrl}`);
     this.progress.set(0);
 
     // Process files sequentially to avoid concurrency issues
-    this.uploadFilesSequentially(imageFiles, entityId, urlServerPath, 0);
+    this.uploadFilesSequentially(imageFiles, entityId, fullUploadUrl, 0);
   }
 
-  // Method to close dialog
   closeDialog(): void {
     this.dialogRef.close();
   }

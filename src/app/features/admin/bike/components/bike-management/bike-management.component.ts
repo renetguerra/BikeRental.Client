@@ -1,16 +1,12 @@
-import { AfterViewInit, Component, computed, effect, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { User } from 'src/app/core/_models/user';
-import { AdminService } from 'src/app/core/_services/admin.service';
 import { AdminUserStore } from 'src/app/core/_stores/adminUser.store';
-import { RolesModalComponent } from 'src/app/shared/components/modals/roles-modal/roles-modal.component';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { Params } from 'src/app/core/_models/params';
 import { Bike } from 'src/app/core/_models/bike';
@@ -22,7 +18,7 @@ const BIKEFAVORITE_COLUMNS: TableColumn<Bike>[] = [
   {
     columnDef: 'photoUrl',
     header: 'Photo',
-    cell: (row: Bike) => row.photoUrl,
+    cell: (row: Bike) => row.photoUrl ?? 'assets/placeholder-bike.png',
     isCustomRender: true,
   },
   {
@@ -46,9 +42,14 @@ const BIKEFAVORITE_COLUMNS: TableColumn<Bike>[] = [
     cell: (row: Bike) => row.year,
   },
   {
+    columnDef: 'price',
+    header: 'Price',
+    cell: (row: Bike) => row.price,
+  },
+  {
     columnDef: 'isAvailable',
     header: 'Available',
-    cell: (row: Bike) => row.isAvailable ? 'Yes' : 'No',
+    cell: (row: Bike) => row.isAvailable,
   }
 ];
 
@@ -72,9 +73,15 @@ export class BikeManagementComponent implements OnInit {
   public bikePhotoConfig: PhotoConfig<Bike> = {
     photosProperty: 'bikePhotos',
     photoUrlProperty: 'photoUrl',
-    getEntityIdentifier: (b: Bike) => b.id.toString()
+    getEntityIdentifier: (b: Bike) => {
+      if (!b || typeof b.id === 'undefined' || b.id === null) {
+        return '';
+      }
+      return b.id.toString();
+    }
   };
-    public bikePhotoUrlServerPath: string = 'bike/add-photo';
+
+  public bikePhotoUrlServerPath = 'bike/add-photo/';
 
   private adminUserStore = inject(AdminUserStore);
   readonly bikeStore = inject(BikeStore);
@@ -84,11 +91,6 @@ export class BikeManagementComponent implements OnInit {
 
   user = this.bikeStore.user;
   bike = this.bikeStore.bike;
-
-  serviceApiUrl = computed(() => {
-    const bikeId = this.bike()?.id;
-    return bikeId ? `bikes/${bikeId}` : '';
-  });
 
   params = new Params();
   pagination = this.bikeStore.pagination;
@@ -115,6 +117,13 @@ export class BikeManagementComponent implements OnInit {
 
   pageChanged(event: any) {
     this.bikeStore.changePage(event.page);
+  }
+
+  getApiUrl(action: string, bike?: Bike): string {
+    if (action === 'create') return 'bike/create';
+    if (action === 'update') return 'bike/update';
+    if (action === 'delete' && bike?.id) return `bike/remove-bike/${bike.id}`;
+    return '';
   }
 
 

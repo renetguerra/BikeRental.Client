@@ -51,11 +51,11 @@ export class GenericPhotoService {
     token: string,
     onSuccess?: (photo: Photo, updatedEntity: T) => void
   ): Observable<{ photo: Photo; updatedEntity: T }> {
-    const entityId = photoConfig.getEntityIdentifier(entity);
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.photoService.uploadPhoto(entityId, urlServerPath, formData, token).pipe(
+    // urlServerPath must already include the entityId
+    return this.photoService.uploadPhoto(urlServerPath, formData, token).pipe(
       map(event => {
         if (event.type === HttpEventType.Response) {
           const photo = event.body as Photo;

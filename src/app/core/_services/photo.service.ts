@@ -10,8 +10,8 @@ export class PhotoService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
 
-  uploadPhoto(entityId: string, urlServerPath: string, formData: FormData, token: string) {
-    return this.http.post<Photo>(`${this.baseUrl}${urlServerPath}${entityId}`, formData, {
+  uploadPhoto(fullUploadUrl: string, formData: FormData, token: string) {
+    return this.http.post<Photo>(`${this.baseUrl}${fullUploadUrl}`, formData, {
       headers: { Authorization: `Bearer ${token}` },
       observe: 'events',
       reportProgress: true

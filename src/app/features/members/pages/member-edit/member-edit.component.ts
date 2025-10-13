@@ -198,7 +198,17 @@ export class MemberEditComponent implements OnInit  {
         zip: formValue.zip || current.address.zip,
         city: formValue.city || current.address.city,
         country: formValue.country || current.address.country
-      }
+      },
+      bankAccount: {
+        ...current.bankAccount,
+        bankName: formValue.bankName || current.bankAccount.bankName,
+        accountNumber: formValue.accountNumber || current.bankAccount.accountNumber,
+        routingNumber: formValue.routingNumber || current.bankAccount.routingNumber,
+        cardHolderName: formValue.cardHolderName || current.bankAccount.cardHolderName,
+        cardNumber: formValue.cardNumber || current.bankAccount.cardNumber,
+        expiryDate: formValue.expiryDate || current.bankAccount.expiryDate,
+        cvc: formValue.cvc || current.bankAccount.cvc
+      },
     };
 
     this.memberStore.updateMember(updatedMember).subscribe({
@@ -219,12 +229,6 @@ export class MemberEditComponent implements OnInit  {
     // Update only banking information fields
     const updatedMember: Member = {
       ...current,
-      cardNumber: formValue.cardNumber || current.cardNumber,
-      cardHolderName: formValue.cardholderName || current.cardHolderName,
-      expiryDate: formValue.expiryDate || current.expiryDate,
-      bankName: formValue.bankName || current.bankName,
-      accountNumber: formValue.accountNumber || current.accountNumber,
-      routingNumber: formValue.routingNumber || current.routingNumber
     };
 
     this.memberStore.updateMember(updatedMember).subscribe({

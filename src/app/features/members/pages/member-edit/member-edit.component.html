@@ -209,6 +209,7 @@
               <!-- Datos Bancarios Card -->
               <div class="info-card">
                 <h3 class="section-title">Datos Bancarios</h3>
+                @if (member() && member()!.bankAccount) {
                 <div class="banking-details">
                   <div class="detail-row">
                     <div class="detail-group">
@@ -218,7 +219,7 @@
                           type="text"
                           name="cardNumber"
                           class="detail-input"
-                          [(ngModel)]="member()!.cardNumber"
+                          [(ngModel)]="member()!.bankAccount.cardNumber"
                           placeholder="1234 5678 9012 3456"
                           maxlength="19">
                       </div>
@@ -230,7 +231,7 @@
                           type="text"
                           name="cardholderName"
                           class="detail-input"
-                          [(ngModel)]="member()!.cardHolderName"
+                          [(ngModel)]="member()!.bankAccount.cardHolderName"
                           placeholder="Nombre del titular">
                       </div>
                     </div>
@@ -243,7 +244,7 @@
                           type="text"
                           name="expiryDate"
                           class="detail-input"
-                          [(ngModel)]="member()!.expiryDate"
+                          [(ngModel)]="member()!.bankAccount.expiryDate"
                           placeholder="MM/YY"
                           maxlength="5">
                       </div>
@@ -255,7 +256,7 @@
                           type="text"
                           name="bankName"
                           class="detail-input"
-                          [(ngModel)]="member()!.bankName"
+                          [(ngModel)]="member()!.bankAccount.bankName"
                           placeholder="Nombre del banco">
                       </div>
                     </div>
@@ -271,7 +272,7 @@
                           type="text"
                           name="accountNumber"
                           class="detail-input"
-                          [(ngModel)]="member()!.accountNumber"
+                          [(ngModel)]="member()!.bankAccount.accountNumber"
                           placeholder="Número de cuenta bancaria">
                       </div>
                     </div>
@@ -282,7 +283,7 @@
                           type="text"
                           name="routingNumber"
                           class="detail-input"
-                          [(ngModel)]="member()!.routingNumber"
+                          [(ngModel)]="member()!.bankAccount.routingNumber"
                           placeholder="Código de ruta del banco">
                       </div>
                     </div>
@@ -300,8 +301,12 @@
                     Confirmar Datos Bancarios
                   </button>
                 </div>
+                } @else {
+                  <div class="alert alert-warning">
+                    <p>No bank account info available.</p>
+                  </div>
+                }
               </div>
-
             </form>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import { Address } from "./address";
+import { BankAccount } from "./bankAccount";
 import { Photo } from "./photo";
 
 export interface Member {
@@ -16,13 +17,6 @@ export interface Member {
     gender: string;
     introduction: string;
     address: Address;
+    bankAccount: BankAccount;
     userPhotos: Photo[];
-    // Banking information
-    bankName?: string;
-    accountNumber?: string;
-    routingNumber?: string;
-    cardNumber?: string;
-    cardHolderName?: string;
-    expiryDate?: string;
-    cvc?: string;
 }

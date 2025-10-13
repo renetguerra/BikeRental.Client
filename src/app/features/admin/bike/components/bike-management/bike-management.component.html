@@ -42,9 +42,11 @@
 
       <div class="table-container">
         <app-crud-table
-          [serviceApiUrl]="serviceApiUrl()"
+          [serviceApiUrl]="getApiUrl('create')"
           [columnsInput]="columns"
-          [dataSourceInput]="dataSource()">
+          [dataSourceInput]="dataSource()"
+          [photoConfigInput]="bikePhotoConfig"
+          [urlServerPathInput]="bikePhotoUrlServerPath">
         </app-crud-table>
       </div>
     </div>
