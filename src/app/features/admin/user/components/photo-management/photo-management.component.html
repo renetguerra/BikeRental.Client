@@ -1,1 +1,42 @@
-<p>photo-management works!</p>
+
+<div class="photo-management">
+  <div class="photo-management__grid">
+  @for (user of filteredUsers(); track user.id) {
+      <div class="photo-card">
+        <div class="photo-card__header">
+          <img [src]="user.photoUrl || './assets/user.png'" class="photo-card__avatar" alt="{{user.username}}">
+          <div class="photo-card__info">
+            <h3 class="photo-card__name">{{user.knownAs}}</h3>
+            <span class="photo-card__username">{{user.username}}</span>
+            <span class="photo-card__meta">{{user.age}} años · {{user.address!.city}}, {{user.address!.country}}</span>
+          </div>
+        </div>
+        <div class="photo-card__photos">
+          @for (photo of user.userPhotos; track photo.id) {
+            <div class="photo-card__photo-item ">
+              <div class="photo-card__photo-thumb-wrapper section">
+                <img [src]="photo.url" class="photo-card__photo-thumb" alt="Foto de {{user.knownAs}}">
+                @if (photo.isMain) {
+                  <span class="photo-card__main-star">
+                    <i class="fa fa-star" aria-label="Main photo" title="Foto principal"></i>
+                  </span>
+                }
+                @if (photo.isApproved) {
+                  <span class="photo-card__approved-badge">Aprobada</span>
+                }
+              </div>
+              <div class="photo-card__actions">
+                <button class="photo-card__btn btn-apply photo-card__btn--icon" (click)="approvePhoto(photo.id, user)">
+                  <i class="fa fa-check" aria-label="Aprobar" title="Aprobar"></i>
+                </button>
+                <button class="photo-card__btn btn-reset photo-card__btn--icon" (click)="rejectPhoto(photo.id)">
+                  <i class="fa fa-times" aria-label="Rechazar" title="Rechazar"></i>
+                </button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</div>

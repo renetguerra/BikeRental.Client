@@ -66,11 +66,10 @@ export class BikeDetailComponent implements OnInit {
   ngOnInit(): void {
     this.user.set(this.accountService.currentUser()!);
 
-
     this.route.data.subscribe({
       next: data => {
         this.bikeStore.setBike(data['bike']);
-  // Load rental history for this bike
+        // Load rental history for this bike
         if (data['bike']?.id) {
           this.rentStore.loadRentalsByBike(data['bike'].id);
         }
@@ -127,15 +126,15 @@ export class BikeDetailComponent implements OnInit {
       next: (response) => {
         console.log('OK', response);
 
-  // Show success notification
+        // Show success notification
         this.notificationService.success(
           `¡Bicicleta ${bikeName} alquilada exitosamente! 🚴‍♂️`,
           5000
         );
 
-  // Reload rental history after a successful rental
+        // Reload rental history after a successful rental
         this.rentStore.loadRentalsByBike(bikeId);
-  // Also reload the bike to update its state
+        // Also reload the bike to update its state
         this.bikeService.getBike(bikeId).subscribe(updatedBike => {
           this.bikeStore.setBike(updatedBike);
         });
@@ -143,7 +142,7 @@ export class BikeDetailComponent implements OnInit {
       error: (err) => {
         console.error(err);
 
-  // Show error notification
+        // Show error notification
         const errorMessage = err?.error?.message || 'Error al alquilar la bicicleta';
         this.notificationService.error(
           `Error: ${errorMessage}`,

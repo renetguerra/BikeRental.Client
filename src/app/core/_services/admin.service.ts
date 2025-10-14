@@ -1,11 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { Notification } from '../_models/notification';
-import { map } from 'rxjs';
+import { catchError, map, of, throwError } from 'rxjs';
 import { getPaginationHeaders, getPaginatedResult } from './paginationHelper';
 import { GenericItem, SearchParamGenericResult } from '../_models/generic';
+import { Photo } from '../_models/photo';
+import { UserParams } from '../_models/userParams';
+import { Member } from '../_models/member';
+import { Bike } from '../_models/bike';
+import { BikeParams } from '../_models/bikeParams';
+import { MembersService } from './members.service';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +22,22 @@ export class AdminService {
   baseUrl = environment.apiUrl;
 
   private http = inject(HttpClient);
+  private membersService = inject(MembersService);
+  private accountService = inject(AccountService);
 
   arrayGeneric: GenericItem<unknown>[] = [];
   genericParamsResult: SearchParamGenericResult<unknown> | undefined;
+
+  user = this.accountService.currentUser();
+
+  members = signal<Member[]>([]);
+  memberCache = new Map();
+  userParams = signal<UserParams | undefined>(undefined);
+
+  constructor() {
+    if (this.user)
+      this.userParams.set(new UserParams(this.user));
+  }
 
   getUsersWithRoles() {
     return this.http.get<User[]>(this.baseUrl + 'admin/users-with-roles');
@@ -103,5 +123,49 @@ export class AdminService {
         return item;
       })
     );
+  }
+
+  getUserPhotosForApproval(userParams: UserParams) {
+    const cacheKey = Object.values(userParams).join('-');
+    const cached = this.memberCache.get(cacheKey);
+
+    if (cached) return of(cached);
+
+    let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
+
+    params = params.append('minAge', userParams.minAge);
+    params = params.append('maxAge', userParams.maxAge);
+    params = params.append('gender', userParams.gender);
+    params = params.append('orderBy', userParams.orderBy);
+
+    return getPaginatedResult<Member[]>(this.baseUrl + 'admin/userPhotos-to-moderate', params, this.http).pipe(
+      map(response => {
+        this.memberCache.set(cacheKey, response);
+        this.members.set(response.result || []); // actualizamos signal
+        return response;
+      }),
+      catchError(error => {
+        console.error('❌ Error al obtener miembros:', error);
+        return throwError(() => new Error('Error al obtener miembros'));
+      })
+    );
+  }
+
+  getUserPhotosForApprovalByUser(userId: number) {
+    return this.membersService.getMember(userId.toString());
+      //  return this.http.get<Member>(this.baseUrl + 'rental/bike/' + bikeId).pipe(
+      //   catchError(error => {
+      //     console.error('Error HTTP request:', error);
+      //     return throwError(() => new Error('Error getting rentals'));
+      //   })
+      // );
+    }
+
+  approvePhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'admin/approve-photo/' + photoId, {});
+  }
+
+  rejectPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'admin/reject-photo/' + photoId, {});
   }
 }
