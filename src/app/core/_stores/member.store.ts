@@ -24,9 +24,9 @@ export class MemberStore {
 
   readonly membersResponse = toSignal(
       toObservable(this.triggerLoad!).pipe(
-        filter(load => load === true),
-        switchMap(params =>
-          this.memberService.getMembers(this.userParams()!).pipe(
+        filter(load => load !== undefined),
+        switchMap(forceReload =>
+          this.memberService.getMembers(this.userParams()!, forceReload).pipe(
             tap(res => {
               this.memberService.setUserParams(this.userParams()!);
               this.triggerLoad.set(false);
@@ -43,11 +43,11 @@ export class MemberStore {
 
 
   readonly memberByUsername = toSignal(
-      toObservable(computed(() => this.user()?.username)).pipe(
-          filter((username): username is string => !!username),
-          switchMap(username => this.memberService.getMember(username))
-      ),
-      { initialValue: null }
+    toObservable(computed(() => this.user()?.username)).pipe(
+        filter((username): username is string => !!username),
+        switchMap(username => this.memberService.getMember(username))
+    ),
+    { initialValue: null }
   );
 
   readonly updateMember = (member: Member) => {
@@ -63,15 +63,14 @@ export class MemberStore {
     });
   }
 
-  loadMembers() {
-    // this.triggerLoad.set(true);
-    this.triggerLoad.update(v => !v);
+  loadMembers(forceReload = false) {
+    this.triggerLoad.set(forceReload);
   }
 
   setUserParams(params: UserParams) {
     this.userParams.set(params);
     this.memberService.setUserParams(params);
-    this.loadMembers();
+    this.loadMembers(true);
   }
 
   resetFilters() {
@@ -79,7 +78,7 @@ export class MemberStore {
     // this.userParams.set(resetParams!);
     if (resetParams) {
       this.userParams.set(resetParams);
-      this.loadMembers();
+      this.loadMembers(true);
     }
   }
 

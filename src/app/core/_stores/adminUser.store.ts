@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { User } from '../_models/user';
 import { AdminService } from '../_services/admin.service';
 import { toSignal, toObservable } from '@angular/core/rxjs-interop';
@@ -25,16 +25,16 @@ export class AdminUserStore {
   );
   private triggerLoad = signal(false);
 
-  // public _userPhotosForApproval = signal<Member[]>([]);
-  // readonly userPhotosForApproval = this._userPhotosForApproval.asReadonly();
+  private _userPhotosForApproval = signal<Member[]>([]);
+  readonly userPhotosForApproval = this._userPhotosForApproval.asReadonly();
 
   readonly userPhotosForApprovalResponse = toSignal(
     toObservable(this.triggerLoad!).pipe(
-      filter((load) => load === true),
-      switchMap((params) =>
-        this.adminService.getUserPhotosForApproval(this.userParams()!).pipe(
+      filter((load) => load !== undefined),
+      switchMap((forceReload) =>
+        this.adminService.getUserPhotosForApproval(this.userParams()!, forceReload).pipe(
           tap((res) => {
-            this.memberService.setUserParams(this.userParams()!);
+            this.adminService.setUserParams(this.userParams()!);
             this.triggerLoad.set(false);
           })
         )
@@ -53,10 +53,6 @@ export class AdminUserStore {
     }
   );
 
-  readonly userPhotosForApproval = computed(
-    () => this.userPhotosForApprovalResponse().result
-  );
-
   readonly pagination = computed(
     () => this.userPhotosForApprovalResponse().pagination
   );
@@ -64,7 +60,15 @@ export class AdminUserStore {
   readonly approvePhoto = (photoId: number) => {
     return this.adminService.approvePhoto(photoId).pipe(
       tap(() => {
-        this.loadUserPhotosForApproval();
+        this.loadUserPhotosForApproval(true);
+      })
+    );
+  };
+
+  readonly rejectPhoto = (photoId: number) => {
+    return this.adminService.rejectPhoto(photoId).pipe(
+      tap(() => {
+        this.loadUserPhotosForApproval(true);
       })
     );
   };
@@ -74,9 +78,25 @@ export class AdminUserStore {
   );
   readonly userPhotoForApproval = this._userPhotoForApproval.asReadonly();
 
-  loadUserPhotosForApproval() {
+  constructor() {
+    effect(() => {
+      const response = this.userPhotosForApprovalResponse();
+      if (response && response.result) {
+        this._userPhotosForApproval.set(response.result);
+      }
+    });
+  }
+
+  setUserParams(params: UserParams) {
+    this.userParams.set(params);
+    this.adminService.setUserParams(params);
+    this.loadUserPhotosForApproval();
+  }
+
+  loadUserPhotosForApproval(forceReload = false) {
     // this.triggerLoad.set(true);
-    this.triggerLoad.update((v) => !v);
+    // this.triggerLoad.update((v) => !v);
+    this.triggerLoad.set(forceReload);
   }
 
   loadUserPhotosForApprovalByUser(userId: number) {
@@ -97,5 +117,25 @@ export class AdminUserStore {
       return user;
     });
     this._users.set(updatedUsers);
+  }
+
+  updateUserPhotoApproval(
+    userId: number,
+    photoId: number,
+    isApproved: boolean
+  ) {
+    this._userPhotosForApproval.update((users) =>
+      users.map((u) =>
+        u.id === userId
+          ? {
+              ...u,
+              userPhotos: u.userPhotos.map((photo) =>
+                photo.id === photoId ? { ...photo, isApproved } : photo
+              ),
+            }
+          : u
+      )
+    );
+    console.log('Users received from service:', this._userPhotosForApproval());
   }
 }

@@ -39,6 +39,22 @@ export class AdminService {
       this.userParams.set(new UserParams(this.user));
   }
 
+  getUserParams() {
+    return this.userParams();
+  }
+
+  setUserParams(userParams: UserParams) {
+    this.userParams.set(userParams);
+  }
+
+  resetUserParams() {
+    if (this.user) {
+      this.userParams.set(new UserParams(this.user));
+      return this.userParams();
+    }
+    return;
+  }
+
   getUsersWithRoles() {
     return this.http.get<User[]>(this.baseUrl + 'admin/users-with-roles');
   }
@@ -125,11 +141,11 @@ export class AdminService {
     );
   }
 
-  getUserPhotosForApproval(userParams: UserParams) {
+  getUserPhotosForApproval(userParams: UserParams, forceReload = false) {
     const cacheKey = Object.values(userParams).join('-');
     const cached = this.memberCache.get(cacheKey);
 
-    if (cached) return of(cached);
+    if (cached && !forceReload) return of(cached);
 
     let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
 
@@ -141,7 +157,7 @@ export class AdminService {
     return getPaginatedResult<Member[]>(this.baseUrl + 'admin/userPhotos-to-moderate', params, this.http).pipe(
       map(response => {
         this.memberCache.set(cacheKey, response);
-        this.members.set(response.result || []); // actualizamos signal
+        this.members.set(response.result || []);
         return response;
       }),
       catchError(error => {

@@ -33,7 +33,7 @@ export class PhotoManagementComponent {
   );
 
   ngOnInit(): void {
-    this.adminUserStore.loadUserPhotosForApproval();
+    this.adminUserStore.loadUserPhotosForApproval(true);
   }
 
   approvePhoto(photoId: number, user: Member) {
@@ -42,20 +42,8 @@ export class PhotoManagementComponent {
     this.adminUserStore.approvePhoto(photoId).subscribe({
       next: () => {
         // Update the local signal so the UI reacts immediately
-        this.adminUserStore.userPhotosForApproval().update((users: Member[]) =>
-          users.map(u =>
-            u.id === user.id
-              ? {
-                  ...u,
-                  userPhotos: u.userPhotos.map((photo: Photo) =>
-                    photo.id === photoId
-                      ? { ...photo, isApproved: true }
-                      : photo
-                  )
-                }
-              : u
-          )
-        );
+        this.adminUserStore.updateUserPhotoApproval(user.id, photoId, true);
+        this.adminUserStore.loadUserPhotosForApproval(true);
       },
       error: (err) => {
         console.error(err);
@@ -71,9 +59,18 @@ export class PhotoManagementComponent {
     })
   }
 
-  rejectPhoto(photoId: number) {
-    this.adminService.rejectPhoto(photoId).subscribe({
-      next: () => this.photos.splice(this.photos.findIndex(p => p.id === photoId), 1)
-    })
+  rejectPhoto(photoId: number, user: Member) {
+    this.adminUserStore.rejectPhoto(photoId).subscribe({
+      next: () => {
+        this.adminUserStore.updateUserPhotoApproval(user.id, photoId, false);
+        this.adminUserStore.loadUserPhotosForApproval(true);
+      // Reload the list after rejection
+        // this.adminUserStore.loadUserPhotosForApproval();
+      },
+      error: (err) => {
+        const errorMessage = err?.error?.message || 'Error al rechazar la foto';
+        this.toastr.error(`Error: ${errorMessage}`, 'Error', { timeOut: 6000 });
+      },
+    });
   }
 }

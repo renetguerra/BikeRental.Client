@@ -41,13 +41,13 @@ export class MembersService {
     return;
   }
 
-  getMembers(userParams: UserParams) {
+  getMembers(userParams: UserParams, forceReload = false) {
     const cacheKey = Object.values(userParams).join('-');
     const cached = this.memberCache.get(cacheKey);
 
     //const response = this.memberCache.get(Object.values(userParams).join('-'));
 
-    if (cached) return of(cached);
+    if (cached && !forceReload) return of(cached);
 
     let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
 
@@ -56,12 +56,6 @@ export class MembersService {
     params = params.append('gender', userParams.gender);
     params = params.append('orderBy', userParams.orderBy);
 
-    /*return getPaginatedResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
-      map(response => {
-        this.memberCache.set(Object.values(userParams).join('-'), response);
-        return response;
-      })
-    )*/
     return getPaginatedResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
       map(response => {
         this.memberCache.set(cacheKey, response);

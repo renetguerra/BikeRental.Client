@@ -28,7 +28,7 @@ export class MemberListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.memberStore.loadMembers();
+    this.memberStore.loadMembers(true);
   }
 
   ngAfterViewInit() {
