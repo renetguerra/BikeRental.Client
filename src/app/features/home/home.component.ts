@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Subject } from 'rxjs';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { AccountService } from 'src/app/core/_services/account.service';
+import { MemberStore } from 'src/app/core/_stores/member.store';
 
 @Component({
     selector: 'app-home',
@@ -20,9 +21,9 @@ export class HomeComponent {
   private router = inject(Router);
   readonly dialog = inject(MatDialog);
 
-  readonly photoStore = inject(PhotoStore);
+  readonly memberStore = inject(MemberStore);
 
-  user = this.photoStore.user;
+  user = this.memberStore.user;
 
   private readonly refreshTrigger = new Subject<void>();
 

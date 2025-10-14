@@ -62,19 +62,24 @@
     <!-- Register Form -->
     <form [formGroup]="registerForm" (ngSubmit)="register()" class="register-form">
 
+
       <!-- Gender Selection -->
       <div class="form-field">
         <label class="form-label">I am a:</label>
-        <mat-radio-group formControlName="gender" class="gender-group">
-          <mat-radio-button value="male" class="gender-option">Male</mat-radio-button>
-          <mat-radio-button value="female" class="gender-option">Female</mat-radio-button>
+        <mat-radio-group formControlName="gender" class="gender-group d-flex flex-row gap-3 justify-content-center align-items-center">
+          <mat-radio-button value="male" class="gender-option gender-option--male">
+            <span class="gender-label">Male</span>
+          </mat-radio-button>
+          <mat-radio-button value="female" class="gender-option gender-option--female">
+            <span class="gender-label">Female</span>
+          </mat-radio-button>
         </mat-radio-group>
       </div>
 
       <!-- Name Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Name *</mat-label>
+          <mat-label>Name</mat-label>
           <input
             matInput
             formControlName="name"
@@ -89,11 +94,10 @@
       <!-- Surname Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Surname *</mat-label>
+          <mat-label>Surname</mat-label>
           <input
             matInput
             formControlName="surname"
-
             autocomplete="family-name">
           <mat-icon matSuffix class="field-icon">person</mat-icon>
           <mat-error *ngIf="hasError('surname')">
@@ -105,7 +109,7 @@
       <!-- Username Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Username *</mat-label>
+          <mat-label>Username</mat-label>
           <input
             matInput
             formControlName="username"
@@ -137,7 +141,7 @@
       <!-- Known As Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Known as *</mat-label>
+          <mat-label>Known as</mat-label>
           <input
             matInput
             formControlName="knownAs"
@@ -152,7 +156,7 @@
       <!-- Date of Birth Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Date of birth *</mat-label>
+          <mat-label>Date of birth</mat-label>
           <input
             matInput
             [matDatepicker]="dobPicker"
@@ -172,7 +176,7 @@
       <!-- City Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>City *</mat-label>
+          <mat-label>City</mat-label>
           <input
             matInput
             formControlName="city"
@@ -188,7 +192,7 @@
       <!-- Country Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Country *</mat-label>
+          <mat-label>Country</mat-label>
           <input
             matInput
             formControlName="country"
@@ -204,7 +208,7 @@
       <!-- Password Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Password *</mat-label>
+          <mat-label>Password</mat-label>
           <input
             matInput
             [type]="hidePassword() ? 'password' : 'text'"
@@ -247,7 +251,7 @@
       <!-- Confirm Password Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Confirm Password *</mat-label>
+          <mat-label>Confirm Password</mat-label>
           <input
             matInput
             [type]="hideConfirmPassword() ? 'password' : 'text'"

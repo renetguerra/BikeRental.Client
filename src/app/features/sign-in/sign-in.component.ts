@@ -12,6 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { LoginSSOComponent } from '../auth/login_sso.component';
 
 /**
  * SignInComponent - Modern login component with glassmorphism design
@@ -39,7 +40,8 @@ import { ToastrService } from 'ngx-toastr';
     MatCheckboxModule,
     MatCardModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    LoginSSOComponent
   ]
 })
 export class SignInComponent {

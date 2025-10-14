@@ -7,7 +7,7 @@
         Rent a bike and discover the city at your own pace. Our service offers a wide range of bikes for every adventure.
       </p>
       <div class="hero-buttons">
-        @if (!registerMode && !user) {
+        @if (!registerMode && !user()) {
           <button
             mat-raised-button
             color="primary"

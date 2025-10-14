@@ -16,12 +16,14 @@ import { bikeResolver } from "./core/_resolvers/bike.resolver";
 import { SignInComponent } from "./features/sign-in/sign-in.component";
 import { RegisterComponent } from "./features/register/register.component";
 import { BikeManagementComponent } from "./features/admin/bike/components/bike-management/bike-management.component";
+import { LoginSSOComponent } from "./features/auth/login_sso.component";
 
 export const routes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'signin', component: SignInComponent },
     { path: 'login', redirectTo: '/signin' }, // Alias for backward compatibility
     { path: 'register', component: RegisterComponent },
+    { path: 'login_sso', component: LoginSSOComponent },
     {
         path: '',
         runGuardsAndResolvers: 'always',

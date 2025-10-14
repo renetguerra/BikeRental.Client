@@ -1,3 +1,30 @@
+/* Gender radio button styles */
+.gender-group {
+  margin: 0.5rem 0 1.5rem 0;
+  gap: 2rem;
+}
+
+.gender-option {
+  padding: 0.5rem 1.5rem;
+  border-radius: 2rem;
+  background: rgba(255,255,255,0.12);
+  transition: background 0.2s, box-shadow 0.2s;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin: 0 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.gender-option.mat-radio-checked {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.18);
+}
+.gender-label {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  color: var(--text-primary);
+}
 /* ===== ANIMATED BACKGROUND ===== */
 .register-background {
   position: fixed;
@@ -179,13 +206,19 @@
   animation: pulse 2.5s ease-in-out infinite reverse;
 }
 
+
 .avatar-icon {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--primary);
+  pointer-events: none;
 }
 
 .avatar-icon mat-icon {

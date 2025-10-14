@@ -1,0 +1,34 @@
+<!-- <div class="d-flex flex-column align-items-center mt-5">
+  <button mat-raised-button color="primary" (click)="login('Google')">
+    <mat-icon class="card-icon">google</mat-icon>
+  </button>
+  <button mat-raised-button color="accent" class="mt-2" (click)="login('Facebook')">
+    <mat-icon class="card-icon">facebook</mat-icon>
+  </button>
+  <button mat-raised-button color="warn" class="mt-2" (click)="login('LinkedIn')">
+    <mat-icon class="card-icon">linkedin</mat-icon>
+  </button>
+  <button mat-raised-button color="default" class="mt-2" (click)="login('GitHub')">
+    <mat-icon class="card-icon">github</mat-icon>
+  </button>
+</div> -->
+
+
+<div class="sso-row mt-4 mb-3">
+  <hr class="sso-row__divider mb-3" />
+  <div class="d-flex flex-row justify-content-center align-items-center gap-3">
+    <button type="button" class="sso-btn" (click)="login('Google')" aria-label="Sign in with Google">
+      <img src="assets/icons/google.svg" alt="Google" class="sso-btn__icon" />
+    </button>
+    <button type="button" class="sso-btn" (click)="login('Facebook')" aria-label="Sign in with Facebook">
+      <img src="assets/icons/facebook.svg" alt="Facebook" class="sso-btn__icon" />
+    </button>
+    <button type="button" class="sso-btn" (click)="login('LinkedIn')" aria-label="Sign in with LinkedIn">
+      <img src="assets/icons/linkedin.svg" alt="LinkedIn" class="sso-btn__icon" />
+    </button>
+    <button type="button" class="sso-btn" (click)="login('GitHub')" aria-label="Sign in with GitHub">
+      <img src="assets/icons/github.svg" alt="GitHub" class="sso-btn__icon" />
+    </button>
+  </div>
+  <hr class="sso-row__divider mt-3" />
+</div>
