@@ -35,7 +35,6 @@ export class MemberStore {
         )
       ),
       { initialValue: { result: [], pagination: { currentPage: 1, totalPages: 1, itemsPerPage: 3, totalItems: 0 } } }
-      // { initialValue: { result: [], pagination: undefined } }
     );
 
   readonly members = computed(() => this.membersResponse().result);
@@ -75,7 +74,6 @@ export class MemberStore {
 
   resetFilters() {
     const resetParams = this.memberService.resetUserParams();
-    // this.userParams.set(resetParams!);
     if (resetParams) {
       this.userParams.set(resetParams);
       this.loadMembers(true);

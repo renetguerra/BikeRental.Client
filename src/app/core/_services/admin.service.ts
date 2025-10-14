@@ -68,6 +68,44 @@ export class AdminService {
       return this.http.post(`${this.baseUrl}admin/create-notifications/${username}`, notifications);
   }
 
+  getUserPhotosForApproval(userParams: UserParams, forceReload = false) {
+    const cacheKey = Object.values(userParams).join('-');
+    const cached = this.memberCache.get(cacheKey);
+
+    if (cached && !forceReload) return of(cached);
+
+    let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
+
+    params = params.append('minAge', userParams.minAge);
+    params = params.append('maxAge', userParams.maxAge);
+    params = params.append('gender', userParams.gender);
+    params = params.append('orderBy', userParams.orderBy);
+
+    return getPaginatedResult<Member[]>(this.baseUrl + 'admin/userPhotos-to-moderate', params, this.http).pipe(
+      map(response => {
+        this.memberCache.set(cacheKey, response);
+        this.members.set(response.result || []);
+        return response;
+      }),
+      catchError(error => {
+        console.error('❌ Error al obtener miembros:', error);
+        return throwError(() => new Error('Error al obtener miembros'));
+      })
+    );
+  }
+
+  getUserPhotosForApprovalByUser(userId: number) {
+    return this.membersService.getMember(userId.toString());
+  }
+
+  approvePhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'admin/approve-photo/' + photoId, {});
+  }
+
+  rejectPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'admin/reject-photo/' + photoId, {});
+  }
+
   //#region Generic
   getGenericParams<T>() {
     this.genericParamsResult = new SearchParamGenericResult<T>;
@@ -140,48 +178,5 @@ export class AdminService {
       })
     );
   }
-
-  getUserPhotosForApproval(userParams: UserParams, forceReload = false) {
-    const cacheKey = Object.values(userParams).join('-');
-    const cached = this.memberCache.get(cacheKey);
-
-    if (cached && !forceReload) return of(cached);
-
-    let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
-
-    params = params.append('minAge', userParams.minAge);
-    params = params.append('maxAge', userParams.maxAge);
-    params = params.append('gender', userParams.gender);
-    params = params.append('orderBy', userParams.orderBy);
-
-    return getPaginatedResult<Member[]>(this.baseUrl + 'admin/userPhotos-to-moderate', params, this.http).pipe(
-      map(response => {
-        this.memberCache.set(cacheKey, response);
-        this.members.set(response.result || []);
-        return response;
-      }),
-      catchError(error => {
-        console.error('❌ Error al obtener miembros:', error);
-        return throwError(() => new Error('Error al obtener miembros'));
-      })
-    );
-  }
-
-  getUserPhotosForApprovalByUser(userId: number) {
-    return this.membersService.getMember(userId.toString());
-      //  return this.http.get<Member>(this.baseUrl + 'rental/bike/' + bikeId).pipe(
-      //   catchError(error => {
-      //     console.error('Error HTTP request:', error);
-      //     return throwError(() => new Error('Error getting rentals'));
-      //   })
-      // );
-    }
-
-  approvePhoto(photoId: number) {
-    return this.http.put(this.baseUrl + 'admin/approve-photo/' + photoId, {});
-  }
-
-  rejectPhoto(photoId: number) {
-    return this.http.put(this.baseUrl + 'admin/reject-photo/' + photoId, {});
-  }
+  //#endregion
 }

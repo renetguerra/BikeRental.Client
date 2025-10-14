@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -13,8 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { GalleryModule } from 'ng-gallery';
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
-// import { PhotoEditorComponent } from '../../components/member-photo/photo-editor/photo-editor.component';
-// import { PhotoDeleteComponent } from '../../components/member-photo/photo-delete/photo-delete.component';
 import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/photo-editor.component';
 import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/photo-delete.component';
 
@@ -42,7 +39,7 @@ export class MemberEditComponent implements OnInit  {
     }
   }
 
-  user = this.memberStore.user; //this.accountService.currentUser();
+  user = this.memberStore.user;
   member = this.memberStore.member;
   userNameParam = signal<string>('');
 
@@ -175,7 +172,7 @@ export class MemberEditComponent implements OnInit  {
 
     this.memberStore.updateMember(updatedMember).subscribe({
       next: () => {
-        this.toastr.success('Información personal actualizada correctamente');
+  this.toastr.success('Personal information updated successfully');
         this.editForm()?.reset(updatedMember);
       }
     });
@@ -213,7 +210,7 @@ export class MemberEditComponent implements OnInit  {
 
     this.memberStore.updateMember(updatedMember).subscribe({
       next: () => {
-        this.toastr.success('Información de ubicación confirmada correctamente');
+  this.toastr.success('Location information confirmed successfully');
         this.editForm()?.reset(updatedMember);
       }
     });
@@ -233,7 +230,7 @@ export class MemberEditComponent implements OnInit  {
 
     this.memberStore.updateMember(updatedMember).subscribe({
       next: () => {
-        this.toastr.success('Datos bancarios confirmados correctamente');
+  this.toastr.success('Banking information confirmed successfully');
         this.editForm()?.reset(updatedMember);
       }
     });

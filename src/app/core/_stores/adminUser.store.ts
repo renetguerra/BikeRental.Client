@@ -94,8 +94,6 @@ export class AdminUserStore {
   }
 
   loadUserPhotosForApproval(forceReload = false) {
-    // this.triggerLoad.set(true);
-    // this.triggerLoad.update((v) => !v);
     this.triggerLoad.set(forceReload);
   }
 

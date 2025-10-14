@@ -1,7 +1,7 @@
 <div class="modern-member-detail">
   <div class="container">
     <div class="max-w-4xl mx-auto">
-      <h1 class="page-title">Mi perfil</h1>
+  <h1 class="page-title">My Profile</h1>
 
       <!-- Tabs Section -->
       <div class="tabs-container">
@@ -10,14 +10,14 @@
             class="tab-button"
             [class.active]="activeTab() === 'info'"
             (click)="setActiveTab('info')">
-            Información
+            Info
           </button>
           @if (hasFavorites()) {
             <button
               class="tab-button"
               [class.active]="activeTab() === 'favorites'"
               (click)="setActiveTab('favorites')">
-              Bicicletas Favoritas
+              Favorite Bikes
             </button>
           }
           @if (hasRentalHistory()) {
@@ -25,7 +25,7 @@
               class="tab-button"
               [class.active]="activeTab() === 'history'"
               (click)="setActiveTab('history')">
-              Historial de Alquileres
+              Rental History
             </button>
           }
         </div>
@@ -34,60 +34,60 @@
         <div class="tab-content">
           <!-- Info Tab -->
           @if (activeTab() === 'info') {
-            <!-- Información Personal Card -->
+            <!-- Personal Information Card -->
             <div class="info-card">
-              <h2 class="card-title">Información Personal</h2>
+              <h2 class="card-title">Personal Information</h2>
               <div class="personal-details">
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Nombre:</span>
-                      <span class="detail-value">{{ member()?.knownAs || 'No especificado' }}</span>
+                      <span class="detail-label">Name:</span>
+                      <span class="detail-value">{{ member()?.knownAs || 'Not specified' }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Apellido:</span>
-                      <span class="detail-value">{{ member()?.surname || 'No especificado' }}</span>
+                      <span class="detail-label">Surname:</span>
+                      <span class="detail-value">{{ member()?.surname || 'Not specified' }}</span>
                     </span>
                   </div>
                 </div>
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Correo electrónico:</span>
-                      <span class="detail-value">{{ member()?.email || 'No especificado' }}</span>
+                      <span class="detail-label">Email:</span>
+                      <span class="detail-value">{{ member()?.email || 'Not specified' }}</span>
                     </span>
                   </div>
                 </div>
               </div>
               @if (user()?.roles?.includes('Admin')) {
               <div class="card-actions">
-                <button class="primary-btn">Guardar cambios</button>
+                <button class="primary-btn">Save Changes</button>
               </div>
               }
             </div>
 
-            <!-- Detalles de Ubicación Card -->
+            <!-- Location Details Card -->
             <div class="info-card">
-              <h3 class="section-title">Detalles de Ubicación</h3>
+              <h3 class="section-title">Location Details</h3>
               <div class="location-details">
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Calle:</span>
-                      <span class="detail-value">{{ member()?.address?.street || 'No especificado' }}</span>
+                      <span class="detail-label">Street:</span>
+                      <span class="detail-value">{{ member()?.address?.street || 'Not specified' }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Número:</span>
+                      <span class="detail-label">House Number:</span>
                       <span class="detail-value">{{ member()?.address?.houseNumber || 'N/A' }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Código Postal:</span>
+                      <span class="detail-label">Postal Code:</span>
                       <span class="detail-value">{{ member()?.address?.zip || 'N/A' }}</span>
                     </span>
                   </div>
@@ -95,34 +95,34 @@
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Ciudad:</span>
-                      <span class="detail-value">{{ member()?.address?.city || 'No especificado' }}</span>
+                      <span class="detail-label">City:</span>
+                      <span class="detail-value">{{ member()?.address?.city || 'Not specified' }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">País:</span>
-                      <span class="detail-value">{{ member()?.address?.country || 'No especificado' }}</span>
+                      <span class="detail-label">Country:</span>
+                      <span class="detail-value">{{ member()?.address?.country || 'Not specified' }}</span>
                     </span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- Datos Bancarios Card -->
+            <!-- Banking Details Card -->
             <div class="info-card">
-              <h3 class="section-title">Datos Bancarios</h3>
+              <h3 class="section-title">Banking Details</h3>
               <div class="banking-details">
                 <div class="detail-row">
                   <div class="detail-group">
-                    <span class="detail-label">Número de tarjeta:</span>
+                    <span class="detail-label">Card Number:</span>
                     <div class="card-number-display">
                       <svg class="card-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM4 6h16v2H4V6zm16 12H4v-8h16v8z"></path>
                         <path d="M6 14h6v2H6z"></path>
                       </svg>
                       <span class="detail-value">{{ getCardNumber() }}</span>
-                      <button class="reveal-btn" (click)="toggleCardNumber()" [title]="showFullCard() ? 'Ocultar número' : 'Mostrar número completo'">
+                      <button class="reveal-btn" (click)="toggleCardNumber()" [title]="showFullCard() ? 'Hide number' : 'Show full number'">
                         <svg class="reveal-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                           @if (showFullCard()) {
                           <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"></path>
@@ -134,13 +134,13 @@
                     </div>
                   </div>
                   <div class="detail-group">
-                    <span class="detail-label">Titular de la tarjeta:</span>
-                    <span class="detail-value">{{ member()?.knownAs || 'No especificado' }}</span>
+                    <span class="detail-label">Cardholder Name:</span>
+                    <span class="detail-value">{{ member()?.knownAs || 'Not specified' }}</span>
                   </div>
                 </div>
                 <div class="detail-row">
                   <div class="detail-group">
-                    <span class="detail-label">Fecha de vencimiento:</span>
+                    <span class="detail-label">Expiry Date:</span>
                     <span class="detail-value">MM/YY</span>
                   </div>
                   <div class="detail-group">
@@ -152,44 +152,44 @@
 
               @if (user()?.roles?.includes('Admin')) {
               <div class="card-actions">
-                <button class="primary-btn">Añadir Método de Pago</button>
-                <button class="secondary-btn">Ver métodos guardados</button>
+                <button class="primary-btn">Add Payment Method</button>
+                <button class="secondary-btn">View Saved Methods</button>
               </div>
               }
 
               <div class="security-notice">
                 <div class="security-icon">⚠️</div>
-                <p class="security-text">Por tu seguridad, nunca compartiremos tus datos bancarios completos. La información está encriptada y protegida.</p>
+                <p class="security-text">For your security, we never share your full banking details. Information is encrypted and protected.</p>
               </div>
             </div>
 
-            <!-- Intereses y Estadísticas Card -->
+            <!-- Interests and Statistics Card -->
             <div class="info-card">
 
               @if (member()?.introduction) {
               <div class="mb-6">
-                <h4 class="section-title">Intereses</h4>
+                <h4 class="section-title">Interests</h4>
                 <p class="interest-text">{{ member()?.introduction }}</p>
               </div>
               }
 
               <div class="member-stats">
                 <div class="stat-item">
-                  <span class="stat-label">Edad:</span>
+                  <span class="stat-label">Age:</span>
                   <span class="stat-value">{{ member()?.age || 'N/A' }}</span>
                 </div>
                 <div class="stat-item">
-                  <span class="stat-label">Último acceso:</span>
+                  <span class="stat-label">Last Active:</span>
                   <span class="stat-value">{{ member()?.lastActive | timeago }}</span>
                 </div>
                 <div class="stat-item">
-                  <span class="stat-label">Miembro desde:</span>
+                  <span class="stat-label">Member Since:</span>
                   <span class="stat-value">{{ member()?.created | date : "dd MMM yyyy" }}</span>
                 </div>
                 @if ((presenceService.onlineUsers$ | async)?.includes(user()!.username)) {
                 <div class="stat-item">
-                  <span class="stat-label">Estado:</span>
-                  <span class="stat-value online">🟢 En línea</span>
+                  <span class="stat-label">Status:</span>
+                  <span class="stat-value online">🟢 Online</span>
                 </div>
                 }
               </div>
@@ -198,7 +198,7 @@
           }          <!-- Favorites Tab -->
           @if (activeTab() === 'favorites') {
             <div class="info-card">
-              <h3 class="section-title">Bicicletas Favoritas</h3>
+              <h3 class="section-title">Favorite Bikes</h3>
               <app-bike-favorite></app-bike-favorite>
             </div>
           }

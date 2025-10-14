@@ -22,11 +22,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               }
               throw modelStateErrors.flat();
             } else {
-              notificationService.error(`Error de validación: ${error.error.message}`);
+              notificationService.error(`Validation error: ${error.error.message}`);
             }
             break;
           case 401:
-            notificationService.error('No autorizado. Por favor, inicia sesión.');
+            notificationService.error('Unauthorized. Please sign in.');
             break;
           case 404:
             router.navigateByUrl('/not-found');
@@ -36,7 +36,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             router.navigateByUrl('/server-error', navigationExtras);
             break;
           default:
-            notificationService.error('Algo inesperado ocurrió. Inténtalo de nuevo.');
+            notificationService.error('Something unexpected happened. Please try again.');
             console.log(error);
             break;
         }

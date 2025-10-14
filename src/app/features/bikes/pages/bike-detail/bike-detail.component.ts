@@ -128,7 +128,7 @@ export class BikeDetailComponent implements OnInit {
 
         // Show success notification
         this.notificationService.success(
-          `¡Bicicleta ${bikeName} alquilada exitosamente! 🚴‍♂️`,
+          `Bike ${bikeName} rented successfully! 🚴‍♂️`,
           5000
         );
 
@@ -143,7 +143,7 @@ export class BikeDetailComponent implements OnInit {
         console.error(err);
 
         // Show error notification
-        const errorMessage = err?.error?.message || 'Error al alquilar la bicicleta';
+        const errorMessage = err?.error?.message || 'Error renting the bike';
         this.notificationService.error(
           `Error: ${errorMessage}`,
           6000

@@ -35,8 +35,6 @@ export class RentStore {
   );
   readonly customerRentals = this._customerRentals.asReadonly();
 
-  //   readonly customerRentalHistory = signal<Rental[]>([]);
-
   private readonly _userCache = signal(new Map<number, User>());
   readonly userCache = this._userCache.asReadonly();
 

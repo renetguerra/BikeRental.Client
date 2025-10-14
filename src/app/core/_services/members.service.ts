@@ -45,8 +45,6 @@ export class MembersService {
     const cacheKey = Object.values(userParams).join('-');
     const cached = this.memberCache.get(cacheKey);
 
-    //const response = this.memberCache.get(Object.values(userParams).join('-'));
-
     if (cached && !forceReload) return of(cached);
 
     let params = getPaginationHeaders(userParams.pageNumber(), userParams.pageSize);
@@ -59,7 +57,7 @@ export class MembersService {
     return getPaginatedResult<Member[]>(this.baseUrl + 'user', params, this.http).pipe(
       map(response => {
         this.memberCache.set(cacheKey, response);
-        this.members.set(response.result || []); // actualizamos signal
+        this.members.set(response.result || []);
         return response;
       }),
       catchError(error => {
@@ -68,15 +66,6 @@ export class MembersService {
       })
     );
   }
-
-  /*getMembersWithoutCacheAndPagination() {
-    return this.http.get<Member[]>(this.baseUrl + 'user/all-users').pipe(
-      catchError(error => {
-        console.error('Error en la petición HTTP:', error);
-        return throwError(() => new Error('Error al obtener los usuarios'));
-      })
-    )
-  }*/
 
   getMembersWithoutCacheAndPagination(): Observable<Member[]> {
     return this.http.get<Member[]>(this.baseUrl + 'user/all-users').pipe(
@@ -91,23 +80,13 @@ export class MembersService {
     );
   }
 
-  /*getMember(username: string) {
-    // const member = [...this.memberCache.values()]
-    //   .reduce((arr, elem) => arr.concat(elem.result), [])
-    //   .find((member: Member) => member.username === username);
-
-    // if (member) return of(member);
-
-    return this.http.get<Member>(this.baseUrl + 'user/' + username);
-  }*/
   getMember(username: string): Observable<Member> {
-    // Buscar en cache global
     const member = this.members().find(m => m.username === username);
     if (member) return of(member);
 
     return this.http.get<Member>(`${this.baseUrl}user/${username}`).pipe(
       map(member => {
-        this.members.update(list => [...list, member]); // añadimos al signal
+        this.members.update(list => [...list, member]);
         return member;
       })
     );
@@ -116,9 +95,6 @@ export class MembersService {
   updateMember(member: Member) {
     return this.http.put(this.baseUrl + 'user', member).pipe(
       map(() => {
-        //const index = this.members().indexOf(member);
-        //this.members()[index] = { ...this.members()[index], ...member }
-
         this.members.update(list =>
           list.map(m => (m.username === member.username ? { ...m, ...member } : m))
         );

@@ -4,7 +4,7 @@
     @if (filteredUsers().length === 0) {
       <div class="photo-management__empty">
         <i class="fa fa-image" style="font-size:2.5rem;color:var(--primary);margin-bottom:1rem;"></i>
-        <p class="photo-management__empty-text">No hay fotos pendientes para aprobar o rechazar.</p>
+  <p class="photo-management__empty-text">No pending photos to approve or reject.</p>
       </div>
     } @else {
       @for (user of filteredUsers(); track user.id) {
@@ -21,22 +21,22 @@
             @for (photo of user.userPhotos; track photo.id) {
               <div class="photo-card__photo-item ">
                 <div class="photo-card__photo-thumb-wrapper section">
-                  <img [src]="photo.url" class="photo-card__photo-thumb" alt="Foto de {{user.knownAs}}">
+                  <img [src]="photo.url" class="photo-card__photo-thumb" alt="Photo of {{user.knownAs}}">
                   @if (photo.isMain) {
                     <span class="photo-card__main-star">
-                      <i class="fa fa-star" aria-label="Main photo" title="Foto principal"></i>
+                      <i class="fa fa-star" aria-label="Main photo" title="Main photo"></i>
                     </span>
                   }
                   @if (photo.isApproved) {
-                    <span class="photo-card__approved-badge">Aprobada</span>
+                    <span class="photo-card__approved-badge">Approved</span>
                   }
                 </div>
                 <div class="photo-card__actions">
                   <button class="photo-card__btn btn-apply photo-card__btn--icon" (click)="approvePhoto(photo.id, user)">
-                    <i class="fa fa-check" aria-label="Aprobar" title="Aprobar"></i>
+                    <i class="fa fa-check" aria-label="Approve" title="Approve"></i>
                   </button>
                   <button class="photo-card__btn btn-reset photo-card__btn--icon" (click)="rejectPhoto(photo.id, user)">
-                    <i class="fa fa-times" aria-label="Rechazar" title="Rechazar"></i>
+                    <i class="fa fa-times" aria-label="Reject" title="Reject"></i>
                   </button>
                 </div>
               </div>

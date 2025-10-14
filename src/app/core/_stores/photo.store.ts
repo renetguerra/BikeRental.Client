@@ -51,7 +51,6 @@ export class PhotoStore {
   readonly bike = this.bikeStore.bike;
   readonly bikePhotos = computed(() => this.bike()?.bikePhotos ?? []);
 
-  //uploader = signal<FileUploader | undefined>(undefined);
   readonly uploadedPhotos = signal<Photo[]>([]);
   readonly progress = signal<number>(0);
 
@@ -93,7 +92,7 @@ export class PhotoStore {
     const currentPhotos = (entity[config.photosProperty] as Photo[]) || [];
     const updatedPhotos = [...currentPhotos, photo];
 
-  // Mark only the new photo as main when applicable
+    // Mark only the new photo as main when applicable
     const processedPhotos = updatedPhotos.map(p => ({
       ...p,
       isMain: p.id === photo.id ? photo.isMain : (photo.isMain ? false : p.isMain)
@@ -109,7 +108,7 @@ export class PhotoStore {
 
     config.updateEntityFn(updatedEntity);
 
-  // Update current user if needed (Member only)
+    // Update current user if needed (Member only)
     if (config.updateCurrentUser && photo.isMain) {
       const currentUser = this.user();
       if (currentUser) {
@@ -173,7 +172,7 @@ export class PhotoStore {
 
     config.updateEntityFn(updatedEntity);
 
-  // Update current user if needed (Member only)
+    // Update current user if needed (Member only)
     if (config.updateCurrentUser) {
       const currentUser = this.user();
       if (currentUser) {
@@ -328,8 +327,8 @@ export class PhotoStore {
     const formData = new FormData();
     formData.append('file', file);
 
-  // Delegate to GenericPhotoService
-  // Since the entity is not available here, use the legacy PhotoService
+    // Delegate to GenericPhotoService
+    // Since the entity is not available here, use the legacy PhotoService
     // Build full upload URL
     let fullUploadUrl = urlServerPath;
     if (!urlServerPath.endsWith('/') && entityId) {
@@ -397,56 +396,4 @@ export class PhotoStore {
       map(result => result.photoId)
     );
   }
-
-  /*deletePhoto(photoId: number) {
-    const username = this.member()?.username;
-    if (!username) return;
-
-    this.memberService.deletePhoto(username, photoId).subscribe({
-      next: () => {
-        const updated = {
-          ...this.member()!,
-          userPhotos: this.member()!.userPhotos.filter(p => p.id !== photoId)
-        };
-        this.memberStore.setMember(updated);
-        this.toastr.success('Photo deleted');
-      },
-      error: () => {
-        this.toastr.error('Could not delete photo');
-      }
-    });
-  }
-
-  setMainPhoto(photo: Photo) {
-    const member = this.member();
-    if (!member) return;
-
-    this.memberService.setMainPhoto(photo.id).subscribe({
-      next: () => {
-
-        const updatedPhotos = member.userPhotos.map(p => ({
-          ...p,
-          isMain: p.id === photo.id
-        }));
-
-        const updatedMember: Member = {
-            ...member,
-            photoUrl: photo.url,
-            userPhotos: updatedPhotos
-          };
-
-        this.memberStore.setMember(updatedMember);
-
-        this.accountService.setCurrentUser({
-            ...this.accountService.currentUser()!,
-            photoUrl: photo.url
-          });
-
-        this.toastr.success('Photo set as main');
-      },
-      error: () => {
-        this.toastr.error('Could not set photo as main');
-      }
-    });
-  }*/
 }

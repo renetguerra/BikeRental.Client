@@ -46,11 +46,6 @@ export class PhotoEditorComponent<T> {
     return (entity as any)[photosProperty] as Photo[] || [];
   });
 
-  // All photos (existing + newly uploaded)
-  // allPhotos = computed(() => {
-  //   return [...this.existingPhotos(), ...this.uploadedPhotos()];
-  // });
-
   fileOverBase(e: any) {
     this.hasBaseDropzoneOver.set(e);
   }

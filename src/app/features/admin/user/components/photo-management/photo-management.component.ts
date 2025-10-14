@@ -49,7 +49,7 @@ export class PhotoManagementComponent {
         console.error(err);
 
         // Show error notification
-        const errorMessage = err?.error?.message || 'Error al aprobar la foto';
+  const errorMessage = err?.error?.message || 'Error approving photo';
         this.toastr.error(
           `Error: ${errorMessage}`,
           'Error',
@@ -68,7 +68,7 @@ export class PhotoManagementComponent {
         // this.adminUserStore.loadUserPhotosForApproval();
       },
       error: (err) => {
-        const errorMessage = err?.error?.message || 'Error al rechazar la foto';
+  const errorMessage = err?.error?.message || 'Error rejecting photo';
         this.toastr.error(`Error: ${errorMessage}`, 'Error', { timeOut: 6000 });
       },
     });

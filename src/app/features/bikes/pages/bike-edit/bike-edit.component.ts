@@ -1,4 +1,11 @@
-import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from 'src/app/core/_services/notification.service';
@@ -16,15 +23,20 @@ import { Bike } from 'src/app/core/_models/bike';
 import { Photo } from 'src/app/core/_models/photo';
 
 @Component({
-    selector: 'app-bike-edit',
-    templateUrl: './bike-edit.component.html',
-    styleUrls: ['./bike-edit.component.css'],
-    imports: [CommonModule, FormsModule, TimeagoModule, GalleryModule,
-      MatDialogModule, MatIconModule, MatButtonModule,
-    ]
+  selector: 'app-bike-edit',
+  templateUrl: './bike-edit.component.html',
+  styleUrls: ['./bike-edit.component.css'],
+  imports: [
+    CommonModule,
+    FormsModule,
+    TimeagoModule,
+    GalleryModule,
+    MatDialogModule,
+    MatIconModule,
+    MatButtonModule,
+  ],
 })
-export class BikeEditComponent implements OnInit  {
-
+export class BikeEditComponent implements OnInit {
   private accountService = inject(AccountService);
   private notificationService = inject(NotificationService);
   private route = inject(ActivatedRoute);
@@ -35,7 +47,9 @@ export class BikeEditComponent implements OnInit  {
   private photoStore = inject(PhotoStore);
 
   editForm = viewChild<NgForm>('editForm');
-  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: BeforeUnloadEvent) {
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: BeforeUnloadEvent
+  ) {
     if (this.editForm()?.dirty) {
       $event.returnValue = true;
     }
@@ -49,15 +63,17 @@ export class BikeEditComponent implements OnInit  {
 
   ngOnInit(): void {
     this.route.data.subscribe({
-      next: data => {
+      next: (data) => {
         this.bikeStore.setBike(data['bike']);
-      }
+      },
     });
 
     // Verify if the current user is an administrator
     const user = this.accountService.currentUser();
     if (!user?.roles?.includes('Admin')) {
-      this.notificationService.error('No tienes permisos para editar bicicletas');
+      this.notificationService.error(
+        'You do not have permission to edit bikes'
+      );
       this.router.navigateByUrl('/bikes');
       return;
     }
@@ -72,18 +88,18 @@ export class BikeEditComponent implements OnInit  {
 
     const updatedBike: Bike = {
       ...current,
-      ...formValue
+      ...formValue,
     };
 
     this.bikeStore.updateBike(updatedBike).subscribe({
       next: () => {
-        this.notificationService.success('Bicicleta actualizada exitosamente');
+        this.notificationService.success('Bike updated successfully');
         this.editForm()?.reset(updatedBike);
         this.router.navigateByUrl(`/bike/${current.id}`);
       },
       error: () => {
-        this.notificationService.error('Error al actualizar la bicicleta');
-      }
+        this.notificationService.error('Error updating the bike');
+      },
     });
   }
 
@@ -105,15 +121,15 @@ export class BikeEditComponent implements OnInit  {
         photoConfig: {
           photosProperty: 'bikePhotos',
           photoUrlProperty: 'photoUrl',
-          getEntityIdentifier: (b: Bike) => b.id.toString()
+          getEntityIdentifier: (b: Bike) => b.id.toString(),
         },
         onPhotoAdded: (photo: Photo, updatedBike: Bike) => {
           this.bikeStore.setBike(updatedBike);
         },
         onPhotoDeleted: (photoId: string, updatedBike: Bike) => {
           this.bikeStore.setBike(updatedBike);
-        }
-      }
+        },
+      },
     });
   }
 }
