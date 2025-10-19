@@ -14,10 +14,10 @@ export class BikeService {
   private http = inject(HttpClient);
   private accountService = inject(AccountService);
 
-  baseUrl = environment.apiUrl;  
+  baseUrl = environment.apiUrl;
   bikes = signal<Bike[]>([]);
-  bikeCache = new Map();  
-  bikeParams = signal<BikeParams | undefined>(undefined);   
+  bikeCache = new Map();
+  bikeParams = signal<BikeParams | undefined>(undefined);
 
   getBikeParams() {
     return this.bikeParams();
@@ -27,10 +27,10 @@ export class BikeService {
     this.bikeParams.set(bikeParams);
   }
 
-  resetBikeParams() {    
+  resetBikeParams() {
     this.bikeParams.set(new BikeParams(this.bikes()[0]));
-    return this.bikeParams();          
-  }  
+    return this.bikeParams();
+  }
 
   getBikes(bikeParams: BikeParams) {
     const response = this.bikeCache.get(Object.values(bikeParams).join('-'));
@@ -56,11 +56,11 @@ export class BikeService {
     )
   }
 
-  getBikesWithoutCacheAndPagination() {        
+  getBikesWithoutCacheAndPagination() {
     return this.http.get<Bike[]>(this.baseUrl + 'bike/all-bikes').pipe(
       catchError(error => {
-        console.error('Error en la petición HTTP:', error);
-        return throwError(() => new Error('Error al obtener los usuarios'));
+        console.error('HTTP request error:', error);
+        return throwError(() => new Error('Error fetching bikes'));
       })
     )
   }
@@ -84,11 +84,11 @@ export class BikeService {
 
   deletePhoto(bikeId: number, photoId: number) {
     return this.http.delete(this.baseUrl + 'bike/delete-photo/' + bikeId + '?photoId=' + photoId);
-  }  
+  }
 
   clearBikeCache() {
     this.bikeCache.clear();
   }
 
-  
+
 }

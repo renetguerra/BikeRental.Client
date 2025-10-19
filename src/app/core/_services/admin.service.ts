@@ -88,8 +88,8 @@ export class AdminService {
         return response;
       }),
       catchError(error => {
-        console.error('❌ Error al obtener miembros:', error);
-        return throwError(() => new Error('Error al obtener miembros'));
+        console.error('❌ Error fetching members:', error);
+        return throwError(() => new Error('Error fetching members'));
       })
     );
   }

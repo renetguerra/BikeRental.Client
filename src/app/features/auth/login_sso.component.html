@@ -17,18 +17,21 @@
 <div class="sso-row mt-4 mb-3">
   <hr class="sso-row__divider mb-3" />
   <div class="d-flex flex-row justify-content-center align-items-center gap-3">
-    <button type="button" class="sso-btn" (click)="login('Google')" aria-label="Sign in with Google">
+    <button type="button" class="sso-btn" (click)="loginWith('Google')" aria-label="Sign in with Google">
       <img src="assets/icons/google.svg" alt="Google" class="sso-btn__icon" />
     </button>
-    <button type="button" class="sso-btn" (click)="login('Facebook')" aria-label="Sign in with Facebook">
+    <button type="button" class="sso-btn" (click)="loginWith('Facebook')" aria-label="Sign in with Facebook">
       <img src="assets/icons/facebook.svg" alt="Facebook" class="sso-btn__icon" />
     </button>
-    <button type="button" class="sso-btn" (click)="login('LinkedIn')" aria-label="Sign in with LinkedIn">
+    <button type="button" class="sso-btn" (click)="loginWith('LinkedIn')" aria-label="Sign in with LinkedIn">
       <img src="assets/icons/linkedin.svg" alt="LinkedIn" class="sso-btn__icon" />
     </button>
-    <button type="button" class="sso-btn" (click)="login('GitHub')" aria-label="Sign in with GitHub">
+    <button type="button" class="sso-btn" (click)="loginWith('GitHub')" aria-label="Sign in with GitHub">
       <img src="assets/icons/github.svg" alt="GitHub" class="sso-btn__icon" />
     </button>
+  </div>
+  <div class="alert alert-danger" *ngIf="errorMessage">
+    {{ errorMessage }}
   </div>
   <hr class="sso-row__divider mt-3" />
 </div>

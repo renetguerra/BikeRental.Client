@@ -45,10 +45,29 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
+    // Ensure roles array exists and don't crash if token is missing/invalid
     user.roles = [];
-    const roles = this.getDecodedToken(user.token).role;
-    Array.isArray(roles) ? user.roles = roles : user.roles.push(roles);
-    localStorage.setItem('user', JSON.stringify(user));
+    if (user?.token) {
+      try {
+        const decoded = this.getDecodedToken(user.token);
+        const roles = decoded?.role ?? decoded?.roles ?? [];
+        if (Array.isArray(roles)) user.roles = roles;
+        else if (roles) user.roles.push(roles);
+      } catch (e) {
+        console.warn('AccountService.setCurrentUser: invalid token, skipping role decoding', e);
+        user.roles = [];
+      }
+    } else {
+      // token missing: leave roles empty
+      user.roles = [];
+    }
+
+    try {
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (e) {
+      console.warn('AccountService: failed to persist user to localStorage', e);
+    }
+
     this.currentUser.set(user);
     this.presenceService.createHubConnection(user);
   }
@@ -60,10 +79,34 @@ export class AccountService {
   }
 
   getDecodedToken(token: string) {
-    return JSON.parse(atob(token.split('.')[1]));
+    try {
+      if (!token) throw new Error('empty token');
+      const parts = token.split('.');
+      if (parts.length < 2) throw new Error('token does not have 2 parts');
+      const payload = parts[1];
+      // atob can throw InvalidCharacterError if payload is not base64url; try replacing URL-safe chars
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      // Add padding if necessary
+      const pad = base64.length % 4;
+      const padded = pad ? base64 + '='.repeat(4 - pad) : base64;
+      return JSON.parse(atob(padded));
+    } catch (e) {
+      console.warn('AccountService.getDecodedToken: failed to decode token', e);
+      return {} as any;
+    }
   }
 
   checkEmailExists(email: string) {
     return this.http.get<boolean>(this.baseUrl + 'account/emailExists?email=' + email);
+  }
+
+  /**
+   * Try to get the current user from the server using the HttpOnly cookie.
+   * The backend should read the cookie and return the user DTO when present.
+   * We set withCredentials:true to ensure cookies are sent for cross-site requests
+   * when a proxy isn't used.
+   */
+  getCurrentUserFromServer() {
+    return this.http.get<User>(this.baseUrl + 'auth/me', { withCredentials: true });
   }
 }
