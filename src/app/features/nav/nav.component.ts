@@ -14,6 +14,7 @@ import { HasRoleDirective } from 'src/app/shared/_directives/has-role.directive'
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { ThemeService } from 'src/app/core/_services/theme.service';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
+import { AuthStore } from 'src/app/core/_stores/auth.store';
 
 @Component({
     selector: 'app-nav',
@@ -33,10 +34,12 @@ export class NavComponent {
   private accountService = inject(AccountService);
   private themeService = inject(ThemeService);
   private bikeStore = inject(BikeStore);
+  private authStore = inject(AuthStore);
 
   private memberStore = inject(MemberStore);
 
-  user = this.memberStore.user;
+  // user = this.memberStore.user;
+  user = this.authStore.currentUser;
   currentTheme = this.themeService.theme;
 
   constructor() { }
@@ -52,6 +55,7 @@ export class NavComponent {
 
   logout() {
     this.accountService.logout();
+    this.authStore.clear();
     this.router.navigateByUrl('/');
   }
 
@@ -91,5 +95,9 @@ export class NavComponent {
 
   navigateToLogin() {
     this.router.navigateByUrl('/login');
+  }
+
+  onImgError(event: Event) {
+    (event.target as HTMLImageElement).src = 'assets/default-avatar.png';
   }
 }

@@ -30,9 +30,9 @@ export class AdminUserStore {
 
   readonly userPhotosForApprovalResponse = toSignal(
     toObservable(this.triggerLoad!).pipe(
-      filter((load) => load !== undefined),
-      switchMap((forceReload) =>
-        this.adminService.getUserPhotosForApproval(this.userParams()!, forceReload).pipe(
+      filter((load) => load === true),
+      switchMap((params) =>
+        this.adminService.getUserPhotosForApproval(this.userParams()!).pipe(
           tap((res) => {
             this.adminService.setUserParams(this.userParams()!);
             this.triggerLoad.set(false);

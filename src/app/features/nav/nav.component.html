@@ -71,7 +71,9 @@
                matTooltipPosition="below"
                [matTooltipShowDelay]="500"
                [matTooltipHideDelay]="100">
-            <img src="{{user()!.photoUrl || './assets/user.png'}}" alt="{{user()!.knownAs}} profile photo">
+            <img [src]="user()?.photoUrl || './assets/user.png'"
+              alt="{{user()?.knownAs}} profile photo"
+              (error)="onImgError($event)">
             <mat-icon class="settings-icon ms-2">settings</mat-icon>
           </div>
           <div class="dropdown-menu" *dropdownMenu>

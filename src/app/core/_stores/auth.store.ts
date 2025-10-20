@@ -16,8 +16,21 @@ interface DecodedToken {
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
+  // Permite actualizar el usuario en AccountService si se pasa como argumento
+  refreshCurrentUser(accountService?: { currentUser: any }) {
+    const token = getCookie('ACCESS_TOKEN') || localStorage.getItem('access_token');
+    if (token) {
+      const user = this.userFromToken(token);
+      if (user) {
+        this._currentUser.set(user);
+        if (accountService) accountService.currentUser.set(user);
+      }
+    } else {
+      this._currentUser.set(null);
+      if (accountService) accountService.currentUser.set(null);
+    }
+  }
 
-  private accountService = inject(AccountService);
   // Internal writable signals
   private _accessToken: WritableSignal<string | null> = signal<string | null>(null);
   private _refreshToken: WritableSignal<string | null> = signal<string | null>(null);
@@ -35,38 +48,8 @@ export class AuthStore {
   });
 
   constructor() {
-    // Hydrate store from localStorage if available
-    const at = localStorage.getItem('access_token');
-    const rt = localStorage.getItem('refresh_token');
-
-    const token = getCookie('ACCESS_TOKEN');
-    if (token) {
-      try {
-        // const payload = JSON.parse(atob(token.split('.')[1]));
-        // const user: User = {
-        //   username: payload.unique_name || payload.username || payload.email?.split('@')[0],
-        //   roles: Array.isArray(payload.role) ? payload.role : [payload.role].filter(Boolean),
-        //   knownAs: payload.unique_name || payload.username,
-        //   token,
-        //   photoUrl: payload.picture || '',
-        //   gender: payload.gender || ''
-        // };
-        const user = this.userFromToken(token);
-        this._currentUser.set(user);
-        this.accountService.setCurrentUser(user!);
-      } catch (e) {
-        console.warn('No se pudo decodificar el token JWT', e);
-      }
-    }
-
-    if (at || rt) {
-      this._accessToken.set(at);
-      this._refreshToken.set(rt);
-      if (at) {
-        const user = this.userFromToken(at);
-        if (user) this._currentUser.set(user);
-      }
-    }
+    // Hidrata el usuario desde cookie o localStorage al iniciar el store
+    this.refreshCurrentUser();
   }
 
   // Public API
@@ -135,39 +118,18 @@ export class AuthStore {
     const roles = Array.isArray(rolesRaw) ? rolesRaw : [rolesRaw].filter(Boolean);
     const username = decoded.unique_name ?? decoded.username ?? (decoded.email ? decoded.email.split('@')[0] : '');
     const email = decoded.email ?? '';
+    const photoUrl = decoded.photoUrl ?? '';
 
     return {
       username,
       token,
       email,
-      photoUrl: '',
+      photoUrl,
       knownAs: username,
       gender: '',
       roles
     } as User;
   }
-
-  // private userFromToken(token: string): User | null {
-  //   try {
-  //     const decoded = (jwt_decode as any)(token) as DecodedToken;
-  //     const rolesRaw = decoded.role ?? decoded.roles ?? [];
-  //     const roles = Array.isArray(rolesRaw) ? rolesRaw : [rolesRaw].filter(Boolean);
-  //     const username = decoded.unique_name ?? decoded.username ?? decoded.email?.split('@')[0] ?? '';
-  //     const email = decoded.email ?? '';
-  //     const user: User = {
-  //       username: username,
-  //       token: token,
-  //       photoUrl: '',
-  //       knownAs: username,
-  //       gender: '',
-  //       roles: roles
-  //     };
-  //     return user;
-  //   } catch (e) {
-  //     console.error('Failed to decode token for userFromToken', e);
-  //     return null;
-  //   }
-  // }
 }
 
 

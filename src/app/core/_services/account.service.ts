@@ -1,16 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, computed, signal } from '@angular/core';
+import { Injectable, computed, inject, signal } from '@angular/core';
 import { map } from 'rxjs';
 import { User } from '../_models/user';
 import { environment } from 'src/environments/environment';
 import { PresenceService } from './presence.service';
+import { AuthStore } from '../_stores/auth.store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   baseUrl = environment.apiUrl;
+
+  private authStore = inject(AuthStore);
+
   currentUser = signal<User | null>(null);
+
   roles = computed(() => {
     const user = this.currentUser();
     if (user && user.token) {
@@ -20,7 +25,9 @@ export class AccountService {
     return [];
   })
 
-  constructor(private http: HttpClient, private presenceService: PresenceService) { }
+  constructor(private http: HttpClient, private presenceService: PresenceService) {
+    this.authStore.refreshCurrentUser(this);
+  }
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
@@ -73,9 +80,12 @@ export class AccountService {
   }
 
   logout() {
-    localStorage.removeItem('user');
-    this.currentUser.set(null);
-    this.presenceService.stopHubConnection();
+  localStorage.removeItem('user');
+  localStorage.removeItem('access_token');
+  localStorage.removeItem('refresh_token');
+  sessionStorage.removeItem('user');
+  this.currentUser.set(null);
+  this.presenceService.stopHubConnection();
   }
 
   getDecodedToken(token: string) {

@@ -5,6 +5,10 @@ import { AccountService } from '../_services/account.service';
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const accountService = inject(AccountService);
 
+  // if (req.url.includes('/admin')) {
+  //   return next(req);
+  // }
+
   if (accountService.currentUser()) {
     req = req.clone({
       setHeaders: {
