@@ -1,6 +1,8 @@
-import { computed, Injectable, signal, WritableSignal, Signal } from '@angular/core';
+import { computed, Injectable, signal, WritableSignal, Signal, inject } from '@angular/core';
 import { User } from '../_models/user';
 import { decodeJwtPayload } from 'src/app/shared/_extensions/decodeJwt';
+import { getCookie } from 'src/app/shared/_extensions/getCookie';
+import { AccountService } from '../_services/account.service';
 
 interface DecodedToken {
   sub?: string;
@@ -14,6 +16,8 @@ interface DecodedToken {
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
+
+  private accountService = inject(AccountService);
   // Internal writable signals
   private _accessToken: WritableSignal<string | null> = signal<string | null>(null);
   private _refreshToken: WritableSignal<string | null> = signal<string | null>(null);
@@ -34,6 +38,27 @@ export class AuthStore {
     // Hydrate store from localStorage if available
     const at = localStorage.getItem('access_token');
     const rt = localStorage.getItem('refresh_token');
+
+    const token = getCookie('ACCESS_TOKEN');
+    if (token) {
+      try {
+        // const payload = JSON.parse(atob(token.split('.')[1]));
+        // const user: User = {
+        //   username: payload.unique_name || payload.username || payload.email?.split('@')[0],
+        //   roles: Array.isArray(payload.role) ? payload.role : [payload.role].filter(Boolean),
+        //   knownAs: payload.unique_name || payload.username,
+        //   token,
+        //   photoUrl: payload.picture || '',
+        //   gender: payload.gender || ''
+        // };
+        const user = this.userFromToken(token);
+        this._currentUser.set(user);
+        this.accountService.setCurrentUser(user!);
+      } catch (e) {
+        console.warn('No se pudo decodificar el token JWT', e);
+      }
+    }
+
     if (at || rt) {
       this._accessToken.set(at);
       this._refreshToken.set(rt);

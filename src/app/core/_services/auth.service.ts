@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment.development';
 import { User } from '../_models/user';
 import { AuthStore } from '../_stores/auth.store';
 import { AccountService } from './account.service';
+import { getCookie } from 'src/app/shared/_extensions/getCookie';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -22,11 +23,12 @@ export class AuthService {
 
   startExternalLogin(provider: string) {
     // start login in same window
-    window.location.href = `${this.baseUrl}auth/${provider}/challenge`;
+
+    window.location.href = `${this.baseUrl}auth/login/${provider.toLowerCase()}?returnUrl=https://localhost:4201/bikes`;
   }
 
   startExternalLogin1(provider: string) {
-    const url = `${this.baseUrl}auth/${provider}/challenge`;
+    const url = `${this.baseUrl}auth/${provider.toLowerCase()}/challenge`;
     const w = 600, h = 700;
     const left = window.screenX + (window.innerWidth - w) / 2;
     const top = window.screenY + (window.innerHeight - h) / 2;
