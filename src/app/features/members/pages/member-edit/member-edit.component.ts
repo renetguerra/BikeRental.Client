@@ -46,19 +46,79 @@ export class MemberEditComponent implements OnInit  {
   galleryImages = this.photoStore.galleryImages;
 
   ngOnInit(): void {
-    const currentMember = this.member();
+    let currentMember = this.member();
 
     if (!currentMember || currentMember.id === 0) {
       this.userNameParam.set(this.accountService.currentUser()!.username);
-      const member = this.memberStore.memberByUsername();
-      if (member) {
-        this.memberStore.setMember(member);
-      }
+      currentMember = this.memberStore.memberByUsername();
     }
 
+    if (currentMember) {
+      // Always ensure address is initialized
+      if (!currentMember.address || typeof currentMember.address !== 'object') {
+        currentMember.address = {
+          street: '',
+          houseNumber: '',
+          zip: '',
+          city: '',
+          country: ''
+        };
+      } else {
+        // Fill missing address fields if any
+        currentMember.address.street = currentMember.address.street ?? '';
+        currentMember.address.houseNumber = currentMember.address.houseNumber ?? '';
+        currentMember.address.zip = currentMember.address.zip ?? '';
+        currentMember.address.city = currentMember.address.city ?? '';
+        currentMember.address.country = currentMember.address.country ?? '';
+      }
+      // Always ensure bankAccount is initialized
+      if (!currentMember.bankAccount || typeof currentMember.bankAccount !== 'object') {
+        currentMember.bankAccount = {
+          bankName: '',
+          accountNumber: '',
+          routingNumber: '',
+          cardHolderName: '',
+          cardNumber: '',
+          expiryDate: '',
+          cvc: ''
+        };
+      } else {
+        // Fill missing bankAccount fields if any
+        currentMember.bankAccount.bankName = currentMember.bankAccount.bankName ?? '';
+        currentMember.bankAccount.accountNumber = currentMember.bankAccount.accountNumber ?? '';
+        currentMember.bankAccount.routingNumber = currentMember.bankAccount.routingNumber ?? '';
+        currentMember.bankAccount.cardHolderName = currentMember.bankAccount.cardHolderName ?? '';
+        currentMember.bankAccount.cardNumber = currentMember.bankAccount.cardNumber ?? '';
+        currentMember.bankAccount.expiryDate = currentMember.bankAccount.expiryDate ?? '';
+        currentMember.bankAccount.cvc = currentMember.bankAccount.cvc ?? '';
+      }
+      this.memberStore.setMember(currentMember);
+      this.initializeForm();
+    }
+  }
+
+  initializeForm() {
     const memberValue = this.member();
     if (memberValue) {
-      this.memberStore.setMember(memberValue);
+      this.editForm()?.setValue({
+        knownAs: memberValue.knownAs ?? '',
+        surname: memberValue.surname ?? '',
+        username: memberValue.username ?? '',
+        email: memberValue.email ?? '',
+        introduction: memberValue.introduction ?? '',
+        street: memberValue.address?.street ?? '',
+        houseNumber: memberValue.address?.houseNumber ?? '',
+        zip: memberValue.address?.zip ?? '',
+        city: memberValue.address?.city ?? '',
+        country: memberValue.address?.country ?? '',
+        bankName: memberValue.bankAccount?.bankName ?? '',
+        accountNumber: memberValue.bankAccount?.accountNumber ?? '',
+        routingNumber: memberValue.bankAccount?.routingNumber ?? '',
+        cardHolderName: memberValue.bankAccount?.cardHolderName ?? '',
+        cardNumber: memberValue.bankAccount?.cardNumber ?? '',
+        expiryDate: memberValue.bankAccount?.expiryDate ?? '',
+        cvc: memberValue.bankAccount?.cvc ?? ''
+      });
     }
   }
 
@@ -172,7 +232,7 @@ export class MemberEditComponent implements OnInit  {
 
     this.memberStore.updateMember(updatedMember).subscribe({
       next: () => {
-  this.toastr.success('Personal information updated successfully');
+        this.toastr.success('Personal information updated successfully');
         this.editForm()?.reset(updatedMember);
       }
     });
@@ -210,7 +270,7 @@ export class MemberEditComponent implements OnInit  {
 
     this.memberStore.updateMember(updatedMember).subscribe({
       next: () => {
-  this.toastr.success('Location information confirmed successfully');
+        this.toastr.success('Location information confirmed successfully');
         this.editForm()?.reset(updatedMember);
       }
     });
@@ -230,7 +290,7 @@ export class MemberEditComponent implements OnInit  {
 
     this.memberStore.updateMember(updatedMember).subscribe({
       next: () => {
-  this.toastr.success('Banking information confirmed successfully');
+        this.toastr.success('Banking information confirmed successfully');
         this.editForm()?.reset(updatedMember);
       }
     });

@@ -98,6 +98,6 @@ export class NavComponent {
   }
 
   onImgError(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/default-avatar.png';
+    (event.target as HTMLImageElement).src = 'assets/user.png';
   }
 }

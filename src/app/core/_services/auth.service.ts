@@ -23,7 +23,6 @@ export class AuthService {
 
   startExternalLogin(provider: string) {
     // start login in same window
-
     window.location.href = `${this.baseUrl}auth/login/${provider.toLowerCase()}?returnUrl=https://localhost:4201/bikes`;
   }
 

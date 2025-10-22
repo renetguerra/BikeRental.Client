@@ -409,6 +409,13 @@ textarea.detail-input {
   border-radius: 0.75rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
+  /* background: rgba(var(--body-bg-rgb), 0.8); */
+}
+
+.alert-warning {
+  background: var(--yellow-light);
+  border-color: var(--yellow-border);
+  color: var(--body-color);
 }
 
 .alert-info {

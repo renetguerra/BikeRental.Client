@@ -18,16 +18,16 @@
   <hr class="sso-row__divider mb-3" />
   <div class="d-flex flex-row justify-content-center align-items-center gap-3">
     <button type="button" class="sso-btn" (click)="loginWith('Google')" aria-label="Sign in with Google">
-      <img src="assets/icons/google.svg" alt="Google" class="sso-btn__icon" />
+      <img src="assets/icons/google.svg" alt="Google" title="Google" class="sso-btn__icon" (error)="onImgError($event, 'google')" />
     </button>
     <button type="button" class="sso-btn" (click)="loginWith('Facebook')" aria-label="Sign in with Facebook">
-      <img src="assets/icons/facebook.svg" alt="Facebook" class="sso-btn__icon" />
+      <img src="assets/icons/facebook.svg" alt="Facebook" title="Facebook" class="sso-btn__icon" (error)="onImgError($event, 'facebook')" />
     </button>
     <button type="button" class="sso-btn" (click)="loginWith('LinkedIn')" aria-label="Sign in with LinkedIn">
-      <img src="assets/icons/linkedin.svg" alt="LinkedIn" class="sso-btn__icon" />
+      <img src="assets/icons/linkedin.svg" alt="LinkedIn" title="LinkedIn" class="sso-btn__icon" (error)="onImgError($event, 'linkedin')" />
     </button>
     <button type="button" class="sso-btn" (click)="loginWith('GitHub')" aria-label="Sign in with GitHub">
-      <img src="assets/icons/github.svg" alt="GitHub" class="sso-btn__icon" />
+      <img src="assets/icons/github.svg" alt="GitHub" title="GitHub" class="sso-btn__icon" (error)="onImgError($event, 'github')" />
     </button>
   </div>
   <div class="alert alert-danger" *ngIf="errorMessage">
