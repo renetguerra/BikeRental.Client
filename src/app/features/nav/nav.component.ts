@@ -97,7 +97,7 @@ export class NavComponent {
     this.router.navigateByUrl('/login');
   }
 
-  onImgError(event: Event) {
-    (event.target as HTMLImageElement).src = 'assets/user.png';
+  onImgError(event: Event, filePath: string) {
+    (event.target as HTMLImageElement).src = `${filePath}`;
   }
 }
