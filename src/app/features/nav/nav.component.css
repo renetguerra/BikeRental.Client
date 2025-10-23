@@ -318,6 +318,27 @@ mat-icon {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.logo {
+  height:64px !important;
+  width:64px !important;
+  margin-right:16px !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  border: none !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  box-shadow: none !important;
+}
+
+.logo {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
 /* Profile Image Hover Effect */
 img {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
