@@ -107,6 +107,13 @@ export class AuthStore {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
+
+    const cookieNames = ['ACCESS_TOKEN', 'REFRESH_TOKEN', 'user'];
+    cookieNames.forEach(name => {
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${window.location.hostname};`;
+      document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${window.location.hostname};`;
+    });
   }
 
   // Helper to build a minimal User from a JWT
