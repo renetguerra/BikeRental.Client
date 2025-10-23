@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
   <div class="container">
-    <a class="navbar-brand" routerLink="/" routerLinkActive="active">BIKE Rental App</a>
+    <a class="navbar-brand d-flex align-items-center" routerLink="/" routerLinkActive="active">
+      <img src="./assets/logos/logo_br.png" alt="Logo" class="logo" (error)="onImgError($event, '/assets/logos/logo_br.png')" />
+      BIKE Rental App
+    </a>
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -73,7 +76,7 @@
                [matTooltipHideDelay]="100">
             <img [src]="user()?.photoUrl || './assets/user.png'"
               alt="{{user()?.knownAs}} profile photo"
-              (error)="onImgError($event)">
+              (error)="onImgError($event, user()?.photoUrl ||'/assets/user.png')">
             <mat-icon class="settings-icon ms-2">settings</mat-icon>
           </div>
           <div class="dropdown-menu" *dropdownMenu>
