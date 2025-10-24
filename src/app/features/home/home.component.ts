@@ -9,12 +9,14 @@ import { Subject } from 'rxjs';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { MemberStore } from 'src/app/core/_stores/member.store';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.css'],
-    imports: [RegisterComponent, GalleryModule, MatButtonModule, MatDialogModule, MatIconModule]
+    imports: [RegisterComponent, GalleryModule, MatButtonModule, MatDialogModule, MatIconModule,
+      TranslocoModule]
 })
 export class HomeComponent {
   private accountService = inject(AccountService);

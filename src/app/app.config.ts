@@ -1,4 +1,6 @@
 import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from "@angular/common/http";
+import { provideTransloco } from '@jsverse/transloco';
+import { TranslocoHttpLoader } from './transloco.loader';
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter, RouteReuseStrategy, withViewTransitions } from "@angular/router";
@@ -14,9 +16,20 @@ import { ModalModule } from "ngx-bootstrap/modal";
 import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { languageInterceptor } from "./core/_interceptors/language.interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        provideTransloco({
+            config: {
+                availableLangs: ['en', 'es', 'de'],
+                defaultLang: 'en',
+                fallbackLang: 'en',
+                reRenderOnLangChange: true,
+                prodMode: false
+            },
+            loader: TranslocoHttpLoader,
+        }),
         provideRouter(
             routes,
             withViewTransitions({
@@ -31,7 +44,7 @@ export const appConfig: ApplicationConfig = {
         { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
         provideHttpClient(
             withFetch(),
-            withInterceptors([errorInterceptor, jwtInterceptor, loadingInterceptor]),
+            withInterceptors([errorInterceptor, jwtInterceptor, loadingInterceptor, languageInterceptor]),
             withInterceptorsFromDi()
         ),
     ]

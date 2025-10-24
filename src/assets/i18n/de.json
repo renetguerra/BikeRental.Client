@@ -1,0 +1,48 @@
+{
+  "title": "Fahrradverleih",
+  "welcome": "Willkommen bei BikeRental",
+  "login": "Anmelden",
+  "logout": "Abmelden",
+  "home": {
+    "heroTitle": "Entdecke die Stadt mit BikeRental",
+    "heroDescription": "Miete ein Fahrrad und entdecke die Stadt in deinem eigenen Tempo. Unser Service bietet eine große Auswahl an Fahrrädern für jedes Abenteuer.",
+    "viewBikes": "Fahrräder ansehen",
+    "getStarted": "Loslegen",
+    "backToHome": "Zurück zur Startseite",
+    "registerTitle": "Werde noch heute Mitglied bei BikeRental",
+    "popularBikes": "Unsere beliebten Fahrräder",
+    "bike": {
+      "cityCruiser": "City Cruiser"
+    }
+  },
+  "signin": {
+    "title": "Anmelden",
+    "subtitle": "Willkommen zurück bei BikeRental",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "togglePassword": "Passwort anzeigen/verbergen",
+    "forgotPassword": "Passwort vergessen?",
+    "backToHome": "Zurück zur Startseite",
+    "signIn": "Anmelden",
+    "show": "Anzeigen",
+    "hide": "Verbergen"
+  },
+  "nav": {
+    "profile": "Profil",
+    "bikes": "Fahrräder",
+    "customers": "Kunden",
+    "admin": "Admin",
+    "search": "Fahrräder suchen...",
+    "editProfile": "Profil bearbeiten",
+    "logout": "Abmelden",
+    "signup": "Registrieren",
+    "login": "Anmelden",
+    "userSettings": "Benutzereinstellungen",
+    "language": "Sprache",
+    "lang": {
+      "en": "Englisch",
+      "es": "Spanisch",
+      "de": "Deutsch"
+    }
+  }
+}

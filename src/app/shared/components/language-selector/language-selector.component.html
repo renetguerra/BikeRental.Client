@@ -1,0 +1,28 @@
+<div class="dropdown" dropdown>
+  <div class="language-dropdown d-flex align-items-center" dropdownToggle>
+    <mat-icon class="language-icon ms-2">language</mat-icon>
+    <span class="ms-1">{{ currentLang() }}</span>
+  </div>
+  <div class="dropdown-menu" *dropdownMenu>
+    <h6 class="dropdown-header">{{ 'nav.language' | transloco }}</h6>
+    <div class="dropdown-divider"></div>
+  <a class="dropdown-item d-flex align-items-center" (click)="changeLang('en')">
+    <span>{{ 'nav.lang.en' | transloco }}</span>
+    @if(currentLang() === 'en') {
+      <mat-icon class="ms-auto check-icon" fontIcon="check">check</mat-icon>
+    }
+  </a>
+  <a class="dropdown-item d-flex align-items-center" (click)="changeLang('es')">
+    <span>{{ 'nav.lang.es' | transloco }}</span>
+    @if(currentLang() === 'es') {
+      <mat-icon class="ms-auto check-icon" fontIcon="check">check</mat-icon>
+    }
+  </a>
+  <a class="dropdown-item d-flex align-items-center" (click)="changeLang('de')">
+    <span>{{ 'nav.lang.de' | transloco }}</span>
+    @if(currentLang() === 'de') {
+      <mat-icon class="ms-auto check-icon" fontIcon="check">check</mat-icon>
+    }
+  </a>
+  </div>
+</div>

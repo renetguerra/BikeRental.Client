@@ -2,9 +2,9 @@
 <section class="hero-section">
   <div class="hero-content">
     <div class="hero-text">
-      <h1 class="hero-title">Explore the City with BikeRental</h1>
+      <h1 class="hero-title">{{ 'home.heroTitle' | transloco }}</h1>
       <p class="hero-description">
-        Rent a bike and discover the city at your own pace. Our service offers a wide range of bikes for every adventure.
+        {{ 'home.heroDescription' | transloco }}
       </p>
       <div class="hero-buttons">
         @if (!registerMode && !user()) {
@@ -14,14 +14,14 @@
             class="hero-btn hero-btn--primary"
             (click)="navigateToBikes()">
             <mat-icon>directions_bike</mat-icon>
-            View Bikes
+            {{ 'home.viewBikes' | transloco }}
           </button>
           <button
             mat-stroked-button
             class="hero-btn hero-btn--secondary"
             (click)="registerToggle()">
             <mat-icon>person_add</mat-icon>
-            Get Started
+            {{ 'home.getStarted' | transloco }}
           </button>
         } @else {
           <button
@@ -29,7 +29,7 @@
             class="hero-btn hero-btn--secondary"
             (click)="cancelRegisterMode()">
             <mat-icon>arrow_back</mat-icon>
-            Back to Home
+            {{ 'home.backToHome' | transloco }}
           </button>
         }
       </div>
@@ -43,7 +43,7 @@
     <div class="container">
       <div class="register-container">
         <div class="register-card">
-          <h2 class="register-title">Join BikeRental Today</h2>
+          <h2 class="register-title">{{ 'home.registerTitle' | transloco }}</h2>
           <app-register (cancelRegister)="cancelRegisterMode()"></app-register>
         </div>
       </div>
@@ -53,12 +53,12 @@
   <!-- Popular Bikes Section -->
   <section class="bikes-section">
     <div class="container">
-      <h2 class="section-title">Our Popular Bikes</h2>
+  <h2 class="section-title">{{ 'home.popularBikes' | transloco }}</h2>
       <div class="bikes-grid">
         <div class="bike-card">
           <div class="bike-card__image bike-card__image--city"></div>
           <div class="bike-card__content">
-            <h3 class="bike-card__title">City Cruiser</h3>
+            <h3 class="bike-card__title">{{ 'home.bike.cityCruiser' | transloco }}</h3>
             <p class="bike-card__description">Perfect for leisurely rides around the city.</p>
           </div>
         </div>

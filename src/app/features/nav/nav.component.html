@@ -13,22 +13,22 @@
         @if (user()) {
           <ng-container>
             <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/member', user()?.username]"  routerLinkActive="active">Profile</a>
+                <a class="nav-link" [routerLink]="['/member', user()?.username]"  routerLinkActive="active">{{ 'nav.profile' | transloco }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="/bikes" routerLinkActive="active">Bikes</a>
+                <a class="nav-link" routerLink="/bikes" routerLinkActive="active">{{ 'nav.bikes' | transloco }}</a>
             </li>
             <li *appHasRole="['Admin', 'Moderator']" class="nav-item">
-              <a class="nav-link" routerLink="/members" routerLinkActive="active">Customers</a>
+                <a class="nav-link" routerLink="/members" routerLinkActive="active">{{ 'nav.customers' | transloco }}</a>
             </li>
             <li *appHasRole="['Admin', 'Moderator']" class="nav-item dropdown" dropdown>
               <a class="nav-link dropdown-toggle" id="adminMenu" role="button" data-bs-toggle="dropdown"
                 aria-expanded="false" dropdownToggle>
-                Admin
+                  {{ 'nav.admin' | transloco }}
               </a>
               <ul class="dropdown-menu bg-primary" aria-labelledby="adminMenu" *dropdownMenu>
-                <li><a class="dropdown-item ps-3" routerLink="/admin">Customers</a></li>
-                <li><a class="dropdown-item ps-3" routerLink="/admin-bike">Bikes</a></li>
+                  <li><a class="dropdown-item ps-3" routerLink="/admin">{{ 'nav.customers' | transloco }}</a></li>
+                  <li><a class="dropdown-item ps-3" routerLink="/admin-bike">{{ 'nav.bikes' | transloco }}</a></li>
               </ul>
             </li>
           </ng-container>
@@ -39,7 +39,7 @@
       @if (user()) {
         <div class="d-flex me-3">
           <mat-form-field appearance="outline" class="search-field">
-            <mat-label>Search bikes...</mat-label>
+              <mat-label>{{ 'nav.search' | transloco }}</mat-label>
             <input
               matInput
               #searchInput
@@ -84,11 +84,11 @@
             <div class="dropdown-divider"></div>
             <a routerLink="/member/profile/edit" class="dropdown-item">
               <mat-icon class="me-2">edit</mat-icon>
-              Edit Profile
+                {{ 'nav.editProfile' | transloco }}
             </a>
             <a class="dropdown-item" (click)="logout()">
               <mat-icon class="me-2">logout</mat-icon>
-              Logout
+                {{ 'nav.logout' | transloco }}
             </a>
           </div>
         </div>
@@ -99,15 +99,18 @@
             color="primary"
             class="hero-btn signup-btn--secondary"
             (click)="navigateToSignUp()">
-            Sign Up
+              {{ 'nav.signup' | transloco }}
         </button>
         <button
           mat-stroked-button
           class="hero-btn signin-btn--secondary"
           (click)="navigateToLogin()">
-          Log In
+            {{ 'nav.login' | transloco }}
         </button>
       }
+      <div class="ms-3">
+        <app-language-selector></app-language-selector>
+      </div>
     </div>
   </div>
 </nav>

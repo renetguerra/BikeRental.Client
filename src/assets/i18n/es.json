@@ -1,0 +1,48 @@
+{
+  "title": "Alquiler de bicicletas",
+  "welcome": "Bienvenido a BikeRental",
+  "login": "Iniciar sesión",
+  "logout": "Cerrar sesión",
+  "home": {
+    "heroTitle": "Explora la ciudad con BikeRental",
+    "heroDescription": "Alquila una bicicleta y descubre la ciudad a tu ritmo. Nuestro servicio ofrece una amplia gama de bicicletas para cada aventura.",
+    "viewBikes": "Ver bicicletas",
+    "getStarted": "Comenzar",
+    "backToHome": "Volver al inicio",
+    "registerTitle": "Únete a BikeRental hoy",
+    "popularBikes": "Nuestras bicicletas populares",
+    "bike": {
+      "cityCruiser": "Ciudad Cruiser"
+    }
+  },
+  "signin": {
+    "title": "Iniciar sesión",
+    "subtitle": "Bienvenido de nuevo a BikeRental",
+    "username": "Usuario",
+    "password": "Contraseña",
+    "togglePassword": "Mostrar/ocultar contraseña",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "backToHome": "Volver al inicio",
+    "signIn": "Iniciar sesión",
+    "show": "Mostrar",
+    "hide": "Ocultar"
+  },
+  "nav": {
+    "profile": "Perfil",
+    "bikes": "Bicicletas",
+    "customers": "Clientes",
+    "admin": "Administración",
+    "search": "Buscar bicicletas...",
+    "editProfile": "Editar perfil",
+    "logout": "Cerrar sesión",
+    "signup": "Registrarse",
+    "login": "Iniciar sesión",
+    "userSettings": "Configuración de usuario",
+    "language": "Idioma",
+    "lang": {
+      "en": "Inglés",
+      "es": "Español",
+      "de": "Alemán"
+    }
+  }
+}

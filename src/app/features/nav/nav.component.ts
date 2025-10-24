@@ -9,19 +9,22 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { LanguageSelectorComponent } from '../../shared/components/language-selector/language-selector.component';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { HasRoleDirective } from 'src/app/shared/_directives/has-role.directive';
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { ThemeService } from 'src/app/core/_services/theme.service';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { AuthStore } from 'src/app/core/_stores/auth.store';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-nav',
     templateUrl: './nav.component.html',
     styleUrls: ['./nav.component.css'],
     imports: [RouterLink, RouterLinkActive, HasRoleDirective, BsDropdownModule, CollapseModule, FormsModule,
-      MatBadgeModule, MatButtonModule, MatIconModule, MatTooltipModule, MatInputModule, MatFormFieldModule
+      MatBadgeModule, MatButtonModule, MatIconModule, MatTooltipModule, MatInputModule, MatFormFieldModule,
+      LanguageSelectorComponent, TranslocoModule
     ]
 })
 export class NavComponent {

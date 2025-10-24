@@ -1,0 +1,48 @@
+{
+  "title": "Bike Rental",
+  "welcome": "Welcome to BikeRental",
+  "login": "Login",
+  "logout": "Logout",
+  "home": {
+    "heroTitle": "Explore the City with BikeRental",
+    "heroDescription": "Rent a bike and discover the city at your own pace. Our service offers a wide range of bikes for every adventure.",
+    "viewBikes": "View Bikes",
+    "getStarted": "Get Started",
+    "backToHome": "Back to Home",
+    "registerTitle": "Join BikeRental Today",
+    "popularBikes": "Our Popular Bikes",
+    "bike": {
+      "cityCruiser": "City Cruiser"
+    }
+  },
+  "signin": {
+    "title": "Sign In",
+    "subtitle": "Welcome back to BikeRental",
+    "username": "Username",
+    "password": "Password",
+    "togglePassword": "Toggle password visibility",
+    "forgotPassword": "Forgot password?",
+    "backToHome": "Back to Home",
+    "signIn": "Sign In",
+    "show": "Show",
+    "hide": "Hide"
+  },
+  "nav": {
+    "profile": "Profile",
+    "bikes": "Bikes",
+    "customers": "Customers",
+    "admin": "Admin",
+    "search": "Search bikes...",
+    "editProfile": "Edit Profile",
+    "logout": "Logout",
+    "signup": "Sign Up",
+    "login": "Log In",
+    "userSettings": "User Settings",
+    "language": "Language",
+    "lang": {
+      "en": "English",
+      "es": "Spanish",
+      "de": "German"
+    }
+  }
+}

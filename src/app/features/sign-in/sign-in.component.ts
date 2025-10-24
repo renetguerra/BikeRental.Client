@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 import { LoginSSOComponent } from '../auth/login_sso.component';
+import { TranslocoModule } from '@jsverse/transloco';
 
 /**
  * SignInComponent - Modern login component with glassmorphism design
@@ -41,7 +42,8 @@ import { LoginSSOComponent } from '../auth/login_sso.component';
     MatCardModule,
     MatDividerModule,
     MatTooltipModule,
-    LoginSSOComponent
+    LoginSSOComponent,
+    TranslocoModule
   ]
 })
 export class SignInComponent {

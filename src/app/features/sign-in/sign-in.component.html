@@ -53,8 +53,8 @@
 
     <!-- Header -->
     <div class="signin-header">
-      <h1 class="signin-title">Sign In</h1>
-      <p class="signin-subtitle">Welcome back to BikeRental</p>
+      <h1 class="signin-title">{{ 'signin.title' | transloco }}</h1>
+      <p class="signin-subtitle">{{ 'signin.subtitle' | transloco }}</p>
     </div>
 
     <!-- Sign In Form -->
@@ -63,7 +63,7 @@
       <!-- Username Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Username</mat-label>
+          <mat-label>{{ 'signin.username' | transloco }}</mat-label>
           <input
             matInput
             formControlName="username"
@@ -78,7 +78,7 @@
       <!-- Password Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Password</mat-label>
+          <mat-label>{{ 'signin.password' | transloco }}</mat-label>
           <input
             matInput
             [type]="hidePassword() ? 'password' : 'text'"
@@ -106,7 +106,7 @@
           mat-button
           class="forgot-link"
           (click)="onForgotPassword()">
-          Forgot password?
+          {{ 'signin.forgotPassword' | transloco }}
         </button>
       </div>
 
@@ -121,12 +121,12 @@
 
           <span *ngIf="!isLoading()" class="button-content">
             <mat-icon>login</mat-icon>
-            Sign In
+            {{ 'signin.signIn' | transloco }}
           </span>
 
           <span *ngIf="isLoading()" class="loading-content">
             <div class="loading-spinner"></div>
-            Signing In...
+            {{ 'signin.signIn' | transloco }}...
           </span>
         </button>
       </div>
@@ -138,7 +138,7 @@
           mat-stroked-button
           class="show-password-btn"
           (click)="togglePasswordVisibility()">
-          {{ hidePassword() ? 'Show' : 'Hide' }}
+          {{ hidePassword() ? 'signin.show' : 'signin.hide' | transloco }}
         </button>
       </div>
 
