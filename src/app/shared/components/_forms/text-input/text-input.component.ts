@@ -1,17 +1,18 @@
 import { Component, input, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-text-input',
     templateUrl: './text-input.component.html',
     styleUrls: ['./text-input.component.css'],
-    imports: [FormsModule, ReactiveFormsModule]
+  imports: [FormsModule, ReactiveFormsModule, TranslocoModule]
 })
-export class TextInputComponent implements ControlValueAccessor {  
-  label = input<string>('');  
+export class TextInputComponent implements ControlValueAccessor {
+  label = input<string>('');
   type = input<string>('text');
 
-  constructor(@Self() public ngControl: NgControl) { 
+  constructor(@Self() public ngControl: NgControl) {
     this.ngControl.valueAccessor = this;
   }
 

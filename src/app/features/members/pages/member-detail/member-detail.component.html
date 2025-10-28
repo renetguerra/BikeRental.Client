@@ -1,7 +1,7 @@
 <div class="modern-member-detail">
   <div class="container">
     <div class="max-w-4xl mx-auto">
-  <h1 class="page-title">My Profile</h1>
+  <h1 class="page-title">{{ 'memberDetail.title' | transloco }}</h1>
 
       <!-- Tabs Section -->
       <div class="tabs-container">
@@ -10,14 +10,14 @@
             class="tab-button"
             [class.active]="activeTab() === 'info'"
             (click)="setActiveTab('info')">
-            Info
+            {{ 'memberDetail.infoTab' | transloco }}
           </button>
           @if (hasFavorites()) {
             <button
               class="tab-button"
               [class.active]="activeTab() === 'favorites'"
               (click)="setActiveTab('favorites')">
-              Favorite Bikes
+              {{ 'memberDetail.favoritesTab' | transloco }}
             </button>
           }
           @if (hasRentalHistory()) {
@@ -25,7 +25,7 @@
               class="tab-button"
               [class.active]="activeTab() === 'history'"
               (click)="setActiveTab('history')">
-              Rental History
+              {{ 'memberDetail.historyTab' | transloco }}
             </button>
           }
         </div>
@@ -36,73 +36,73 @@
           @if (activeTab() === 'info') {
             <!-- Personal Information Card -->
             <div class="info-card">
-              <h2 class="card-title">Personal Information</h2>
+              <h2 class="card-title">{{ 'memberDetail.personalInfo' | transloco }}</h2>
               <div class="personal-details">
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Name:</span>
-                      <span class="detail-value">{{ member()?.knownAs || 'Not specified' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.name' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.knownAs || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Surname:</span>
-                      <span class="detail-value">{{ member()?.surname || 'Not specified' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.surname' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.surname || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                 </div>
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Email:</span>
-                      <span class="detail-value">{{ member()?.email || 'Not specified' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.email' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.email || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                 </div>
               </div>
               @if (user()?.roles?.includes('Admin')) {
               <div class="card-actions">
-                <button class="primary-btn">Save Changes</button>
+                <button class="primary-btn">{{ 'memberDetail.saveChanges' | transloco }}</button>
               </div>
               }
             </div>
 
             <!-- Location Details Card -->
             <div class="info-card">
-              <h3 class="section-title">Location Details</h3>
+              <h3 class="section-title">{{ 'memberDetail.locationDetails' | transloco }}</h3>
               <div class="location-details">
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Street:</span>
-                      <span class="detail-value">{{ member()?.address?.street || 'Not specified' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.street' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.address?.street || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">House Number:</span>
-                      <span class="detail-value">{{ member()?.address?.houseNumber || 'N/A' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.houseNumber' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.address?.houseNumber || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Postal Code:</span>
-                      <span class="detail-value">{{ member()?.address?.zip || 'N/A' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.postalCode' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.address?.zip || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                 </div>
                 <div class="detail-row">
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">City:</span>
-                      <span class="detail-value">{{ member()?.address?.city || 'Not specified' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.city' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.address?.city || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                   <div class="detail-group">
                     <span class="detail-text">
-                      <span class="detail-label">Country:</span>
-                      <span class="detail-value">{{ member()?.address?.country || 'Not specified' }}</span>
+                      <span class="detail-label">{{ 'memberDetail.country' | transloco }}:</span>
+                      <span class="detail-value">{{ member()?.address?.country || ('memberDetail.notSpecified' | transloco) }}</span>
                     </span>
                   </div>
                 </div>
@@ -111,11 +111,11 @@
 
             <!-- Banking Details Card -->
             <div class="info-card">
-              <h3 class="section-title">Banking Details</h3>
+              <h3 class="section-title">Banking Details</h3> <!-- Puedes internacionalizar si lo deseas -->
               <div class="banking-details">
                 <div class="detail-row">
                   <div class="detail-group">
-                    <span class="detail-label">Card Number:</span>
+                    <span class="detail-label">Card Number:</span> <!-- Puedes internacionalizar si lo deseas -->
                     <div class="card-number-display">
                       <svg class="card-icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zM4 6h16v2H4V6zm16 12H4v-8h16v8z"></path>
@@ -135,16 +135,16 @@
                   </div>
                   <div class="detail-group">
                     <span class="detail-label">Cardholder Name:</span>
-                    <span class="detail-value">{{ member()?.knownAs || 'Not specified' }}</span>
+                    <span class="detail-value">{{ member()?.knownAs || ('memberDetail.notSpecified' | transloco) }}</span>
                   </div>
                 </div>
                 <div class="detail-row">
                   <div class="detail-group">
-                    <span class="detail-label">Expiry Date:</span>
+                    <span class="detail-label">Expiry Date:</span> <!-- Puedes internacionalizar si lo deseas -->
                     <span class="detail-value">MM/YY</span>
                   </div>
                   <div class="detail-group">
-                    <span class="detail-label">CVC:</span>
+                    <span class="detail-label">CVC:</span> <!-- Puedes internacionalizar si lo deseas -->
                     <span class="detail-value">***</span>
                   </div>
                 </div>
@@ -168,27 +168,27 @@
 
               @if (member()?.introduction) {
               <div class="mb-6">
-                <h4 class="section-title">Interests</h4>
+                <h4 class="section-title">Interests</h4> <!-- Puedes internacionalizar si lo deseas -->
                 <p class="interest-text">{{ member()?.introduction }}</p>
               </div>
               }
 
               <div class="member-stats">
                 <div class="stat-item">
-                  <span class="stat-label">Age:</span>
+                  <span class="stat-label">Age:</span> <!-- Puedes internacionalizar si lo deseas -->
                   <span class="stat-value">{{ member()?.age || 'N/A' }}</span>
                 </div>
                 <div class="stat-item">
-                  <span class="stat-label">Last Active:</span>
+                  <span class="stat-label">Last Active:</span> <!-- Puedes internacionalizar si lo deseas -->
                   <span class="stat-value">{{ member()?.lastActive | timeago }}</span>
                 </div>
                 <div class="stat-item">
-                  <span class="stat-label">Member Since:</span>
+                  <span class="stat-label">Member Since:</span> <!-- Puedes internacionalizar si lo deseas -->
                   <span class="stat-value">{{ member()?.created | date : "dd MMM yyyy" }}</span>
                 </div>
                 @if ((presenceService.onlineUsers$ | async)?.includes(user()!.username)) {
                 <div class="stat-item">
-                  <span class="stat-label">Status:</span>
+                  <span class="stat-label">Status:</span> <!-- Puedes internacionalizar si lo deseas -->
                   <span class="stat-value online">🟢 Online</span>
                 </div>
                 }
@@ -198,7 +198,7 @@
           }          <!-- Favorites Tab -->
           @if (activeTab() === 'favorites') {
             <div class="info-card">
-              <h3 class="section-title">Favorite Bikes</h3>
+              <h3 class="section-title">{{ 'memberDetail.favoritesTab' | transloco }}</h3>
               <app-bike-favorite></app-bike-favorite>
             </div>
           }

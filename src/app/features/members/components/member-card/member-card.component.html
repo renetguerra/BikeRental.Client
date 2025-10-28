@@ -4,7 +4,10 @@
         <img src="{{ member()!.photoUrl || './assets/user.png' }}" alt="{{ member()!.knownAs }}" class="card-img-top">
         <ul class="d-flex-row justify-content-center list-inline member-icons animate text-center">
             <li class="list-inline-item">
-                <button [routerLink]="['/member', member()!.username]" class="btn btn-primary"><i class="fa fa-user"></i></button>
+                <button [routerLink]="['/member', member()!.username]" class="btn btn-primary">
+                  <i class="fa fa-user"></i>
+                  {{ 'memberCard.viewProfile' | transloco }}
+                </button>
             </li>
             <li class="list-inline-item">
                 <button
@@ -13,10 +16,14 @@
                     class="btn btn-primary"
                 >
                     <i class="fa fa-envelope"></i>
+                    {{ 'memberCard.sendMessage' | transloco }}
                 </button>
             </li>
             <li class="list-inline-item">
-                <button class="btn btn-primary"><i class="fa fa-bell"></i></button>
+                <button class="btn btn-primary">
+                  <i class="fa fa-bell"></i>
+                  {{ 'memberCard.notifications' | transloco }}
+                </button>
             </li>
         </ul>
     </div>
@@ -24,10 +31,12 @@
         <h6 class="card-title text-center mb-1">
             <span [class.is-online]="(presenceService.onlineUsers$ | async)?.includes(member()?.username!)">
                 <i class="fa fa-user me-2"></i>
+                <span *ngIf="(presenceService.onlineUsers$ | async)?.includes(member()?.username!)" class="online-status">{{ 'memberCard.online' | transloco }}</span>
+                <span *ngIf="!(presenceService.onlineUsers$ | async)?.includes(member()?.username!)" class="offline-status">{{ 'memberCard.offline' | transloco }}</span>
             </span>
-            {{member()?.knownAs}}, {{member()?.age}}
+            {{member()?.knownAs}}, {{ 'memberCard.age' | transloco }}: {{member()?.age || ('memberCard.notSpecified' | transloco)}}
         </h6>
-        <p class="card-text text-muted text-center">{{member()?.address?.city}}</p>
+        <p class="card-text text-muted text-center">{{ 'memberCard.city' | transloco }}: {{member()?.address?.city || ('memberCard.notSpecified' | transloco)}}</p>
     </div>
 </div>
 }

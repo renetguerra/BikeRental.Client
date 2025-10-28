@@ -11,13 +11,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { AccountService } from 'src/app/core/_services/account.service';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-photo-editor',
     templateUrl: './photo-editor.component.html',
     styleUrls: ['./photo-editor.component.css'],
     encapsulation: ViewEncapsulation.None,
-    imports: [MatDialogModule, MatButtonModule, MatProgressBarModule, MatIconModule]
+  imports: [MatDialogModule, MatButtonModule, MatProgressBarModule, MatIconModule, TranslocoModule]
 })
 export class PhotoEditorComponent<T> {
 

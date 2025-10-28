@@ -10,6 +10,7 @@ import { TableColumn } from 'src/app/core/_models/generic';
 import { AdminService } from 'src/app/core/_services/admin.service';
 import { MatButtonModule } from '@angular/material/button';
 import { T } from '@angular/material/palette.d-BSSFKjO6';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-generic-delete-modal',
@@ -19,7 +20,8 @@ import { T } from '@angular/material/palette.d-BSSFKjO6';
     RouterModule,
     FormsModule, ReactiveFormsModule, ModalModule,
     TabsModule,
-    MatDialogModule, MatButtonModule
+    MatDialogModule, MatButtonModule,
+    TranslocoModule
   ],
   templateUrl: './generic-delete-modal.component.html',
   styleUrl: './generic-delete-modal.component.css'

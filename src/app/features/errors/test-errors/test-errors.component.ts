@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, signal } from '@angular/core';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-test-errors',
     templateUrl: './test-errors.component.html',
     styleUrls: ['./test-errors.component.css'],
-    imports: []
+    imports: [TranslocoModule]
 })
 export class TestErrorsComponent implements OnInit {
   baseUrl = 'https://localhost:5001/api/';

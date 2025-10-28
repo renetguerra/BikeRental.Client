@@ -11,12 +11,13 @@ import { PhotoStore } from 'src/app/core/_stores/photo.store';
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { PhotoEditorDialogData } from 'src/app/core/_models/photoEditorDialogData';
 import { ToastrService } from 'ngx-toastr';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-photo-delete',
     templateUrl: './photo-delete.component.html',
     styleUrls: ['./photo-delete.component.css'],
-    imports: [NgClass, GalleryModule, MatDialogModule, MatButtonModule]
+  imports: [NgClass, GalleryModule, MatDialogModule, MatButtonModule, TranslocoModule]
 })
 export class PhotoDeleteComponent<T> implements OnInit {
   private accountService = inject(AccountService);

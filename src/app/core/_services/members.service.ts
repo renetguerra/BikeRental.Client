@@ -6,6 +6,8 @@ import { of, map, catchError, throwError, Observable } from 'rxjs';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
+import { TranslocoService } from '@jsverse/transloco';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,8 @@ import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 export class MembersService {
   private http = inject(HttpClient);
   private accountService = inject(AccountService);
+  private transloco = inject(TranslocoService);
+  private toastr = inject(ToastrService);
 
   baseUrl = environment.apiUrl;
   members = signal<Member[]>([]);
@@ -60,10 +64,11 @@ export class MembersService {
         this.members.set(response.result || []);
         return response;
       }),
-      catchError(error => {
-        console.error('❌ Error fetching members:', error);
-        return throwError(() => new Error('Error fetching members'));
-      })
+        catchError(error => {
+          const msg = this.transloco.translate('membersService.fetchMembersError');
+          this.toastr.error(msg);
+          return throwError(() => new Error(msg));
+        })
     );
   }
 
@@ -73,10 +78,11 @@ export class MembersService {
         this.members.set(members);
         return members;
       }),
-      catchError(error => {
-        console.error('Error to get users:', error);
-        return throwError(() => new Error('Error to get users'));
-      })
+        catchError(error => {
+          const msg = this.transloco.translate('membersService.fetchAllUsersError');
+          this.toastr.error(msg);
+          return throwError(() => new Error(msg));
+        })
     );
   }
 
@@ -98,15 +104,43 @@ export class MembersService {
         this.members.update(list =>
           list.map(m => (m.username === member.username ? { ...m, ...member } : m))
         );
+          const msg = this.transloco.translate('membersService.updateSuccess');
+          this.toastr.success(msg);
       })
+        ,
+        catchError(error => {
+          const msg = this.transloco.translate('membersService.updateError');
+          this.toastr.error(msg);
+          return throwError(() => new Error(msg));
+        })
     )
   }
 
   setMainPhoto(photoId: number) {
-    return this.http.put(this.baseUrl + 'user/set-main-photo/' + photoId, {});
+      return this.http.put(this.baseUrl + 'user/set-main-photo/' + photoId, {}).pipe(
+        map(() => {
+          const msg = this.transloco.translate('membersService.setMainPhotoSuccess');
+          this.toastr.success(msg);
+        }),
+        catchError(error => {
+          const msg = this.transloco.translate('membersService.setMainPhotoError');
+          this.toastr.error(msg);
+          return throwError(() => new Error(msg));
+        })
+      );
   }
 
   deletePhoto(username: string, photoId: number) {
-    return this.http.delete(this.baseUrl + 'user/delete-photo/' + username + '?photoId=' + photoId);
+      return this.http.delete(this.baseUrl + 'user/delete-photo/' + username + '?photoId=' + photoId).pipe(
+        map(() => {
+          const msg = this.transloco.translate('membersService.deletePhotoSuccess');
+          this.toastr.success(msg);
+        }),
+        catchError(error => {
+          const msg = this.transloco.translate('membersService.deletePhotoError');
+          this.toastr.error(msg);
+          return throwError(() => new Error(msg));
+        })
+      );
   }
 }

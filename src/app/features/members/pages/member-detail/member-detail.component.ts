@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { TranslocoModule } from '@jsverse/transloco';
 import { Component, inject, signal, computed, effect, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TimeagoModule } from 'ngx-timeago';
@@ -24,9 +25,9 @@ import { BikeFavoriteComponent } from 'src/app/features/like/bike-favorite/bike-
     selector: 'app-member-detail',
     templateUrl: './member-detail.component.html',
     styleUrls: ['./member-detail.component.css'],
-    imports: [CommonModule, GalleryModule, TimeagoModule,
-        CustomerRentalHistoryComponent, BikeFavoriteComponent,
-        MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule]
+  imports: [CommonModule, GalleryModule, TimeagoModule,
+    CustomerRentalHistoryComponent, BikeFavoriteComponent,
+    MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule, TranslocoModule]
 })
 export class MemberDetailComponent implements OnInit {
 

@@ -8,6 +8,7 @@ import { Photo } from '../_models/photo';
 import { PhotoConfig } from '../_models/genericPhotoConfig';
 import { AccountService } from './account.service';
 import { MemberStore } from '../_stores/member.store';
+import { TranslocoService } from '@jsverse/transloco';
 
 /**
  * GenericPhotoService - Fully generic service for photo management
@@ -42,6 +43,7 @@ export class GenericPhotoService {
   private photoService = inject(PhotoService);
   private memberStore = inject(MemberStore);
   private toastr = inject(ToastrService);
+  private transloco = inject(TranslocoService);
 
   uploadPhoto<T>(
     entity: T,
@@ -65,7 +67,7 @@ export class GenericPhotoService {
             onSuccess(photo, updatedEntity);
           }
 
-          this.toastr.success('Photo uploaded');
+          this.toastr.success(this.transloco.translate('genericPhotoService.uploadSuccess'));
           return { photo, updatedEntity };
         }
         return null;
@@ -90,6 +92,7 @@ export class GenericPhotoService {
         if (onSuccess) {
           onSuccess(photo, updatedEntity);
         }
+        this.toastr.success(this.transloco.translate('genericPhotoService.setMainSuccess'));
         return { photo, updatedEntity };
       })
     );
@@ -111,7 +114,7 @@ export class GenericPhotoService {
         if (onSuccess) {
           onSuccess(photoId, updatedEntity);
         }
-
+        this.toastr.success(this.transloco.translate('genericPhotoService.deleteSuccess'));
         return { photoId, updatedEntity };
       })
     );

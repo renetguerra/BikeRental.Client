@@ -1,4 +1,5 @@
 import { Component, computed, effect, inject } from '@angular/core';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -15,40 +16,42 @@ import { RentStore } from 'src/app/core/_stores/rent.store';
 import { CustomerRentalHistory } from 'src/app/core/_models/customerRentalHistory';
 import { CommonTableComponent } from 'src/app/shared/components/table/common/common-table.component';
 
-const RENTALHISTORY_COLUMNS: TableColumn<RentalHistory>[] = [
-  {
-    columnDef: 'photoUrl',
-    header: 'Photo',
-    cell: (row: RentalHistory) => row.photoUrl,
-  isCustomRender: true, // indicates this column uses its own template
-  },
-  {
-    columnDef: 'model',
-    header: 'Model',
-    cell: (row: RentalHistory) => row.modelBike,
-  },
-  {
-    columnDef: 'brand',
-    header: 'Brand',
-    cell: (row: RentalHistory) => row.brandBike,
-  },
-  {
-    columnDef: 'priceBike',
-    header: 'Price',
-    cell: (row: RentalHistory) =>
-      row.priceBike ? row.priceBike.toFixed(2) + ' €' : '',
-  },
-  {
-    columnDef: 'startDate',
-    header: 'Start Date',
-    cell: (row: RentalHistory) => row.startDate ? new Date(row.startDate).toLocaleString('de-DE') : '',
-  },
-  {
-    columnDef: 'endDate',
-    header: 'End Date',
-    cell: (row: RentalHistory) => row.endDate ? new Date(row.endDate).toLocaleString('de-DE') : '',
-  }
-];
+function getRentalHistoryColumns(transloco: TranslocoService): TableColumn<RentalHistory>[] {
+  return [
+    {
+      columnDef: 'photoUrl',
+      header: transloco.translate('customerRentalHistory.photo'),
+      cell: (row: RentalHistory) => row.photoUrl,
+      isCustomRender: true,
+    },
+    {
+      columnDef: 'model',
+      header: transloco.translate('customerRentalHistory.model'),
+      cell: (row: RentalHistory) => row.modelBike,
+    },
+    {
+      columnDef: 'brand',
+      header: transloco.translate('customerRentalHistory.brand'),
+      cell: (row: RentalHistory) => row.brandBike,
+    },
+    {
+      columnDef: 'priceBike',
+      header: transloco.translate('customerRentalHistory.price'),
+      cell: (row: RentalHistory) =>
+        row.priceBike ? row.priceBike.toFixed(2) + ' €' : '',
+    },
+    {
+      columnDef: 'startDate',
+      header: transloco.translate('customerRentalHistory.startDate'),
+      cell: (row: RentalHistory) => row.startDate ? new Date(row.startDate).toLocaleString('de-DE') : '',
+    },
+    {
+      columnDef: 'endDate',
+      header: transloco.translate('customerRentalHistory.endDate'),
+      cell: (row: RentalHistory) => row.endDate ? new Date(row.endDate).toLocaleString('de-DE') : '',
+    }
+  ];
+}
 
 @Component({
   selector: 'app-customer-rental-history',
@@ -63,12 +66,14 @@ const RENTALHISTORY_COLUMNS: TableColumn<RentalHistory>[] = [
     MatButtonModule,
     MatDialogModule,
     CommonTableComponent,
+    TranslocoModule,
   ],
   templateUrl: './customer-rental-history.component.html',
   styleUrl: './customer-rental-history.component.css',
 })
 export class CustomerRentalHistoryComponent {
   private rentalService = inject(RentService);
+  private transloco = inject(TranslocoService);
 
   readonly rentalStore = inject(RentStore);
 
@@ -82,7 +87,7 @@ export class CustomerRentalHistoryComponent {
   params = new Params();
   pagination = this.rentalStore.pagination;
 
-  columns = RENTALHISTORY_COLUMNS;
+  columns: TableColumn<RentalHistory>[] = getRentalHistoryColumns(this.transloco);
 
   defaultColDef = {
     sortable: true,

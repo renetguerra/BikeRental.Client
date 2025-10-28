@@ -13,6 +13,7 @@ import { Bike } from '../_models/bike';
 import { BikeParams } from '../_models/bikeParams';
 import { MembersService } from './members.service';
 import { AccountService } from './account.service';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class AdminService {
   private http = inject(HttpClient);
   private membersService = inject(MembersService);
   private accountService = inject(AccountService);
+  private transloco = inject(TranslocoService);
 
   arrayGeneric: GenericItem<unknown>[] = [];
   genericParamsResult: SearchParamGenericResult<unknown> | undefined;
@@ -56,16 +58,43 @@ export class AdminService {
   }
 
   getUsersWithRoles() {
-    return this.http.get<User[]>(this.baseUrl + 'admin/users-with-roles');
+    return this.http.get<User[]>(this.baseUrl + 'admin/users-with-roles').pipe(
+      map(users => {
+        this.showNotification(this.transloco.translate('adminService.getUsersWithRolesSuccess'));
+        return users;
+      }),
+      catchError(error => {
+        this.showNotification(this.transloco.translate('adminService.getUsersWithRolesError'));
+        return throwError(() => error);
+      })
+    );
   }
 
   updateUserRoles(username: string, roles: string[]) {
     return this.http.post<string[]>(this.baseUrl + 'admin/edit-roles/'
-      + username  + '?roles=' + roles, {});
+      + username  + '?roles=' + roles, {}).pipe(
+      map(response => {
+        this.showNotification(this.transloco.translate('adminService.updateUserRolesSuccess'));
+        return response;
+      }),
+      catchError(error => {
+        this.showNotification(this.transloco.translate('adminService.updateUserRolesError'));
+        return throwError(() => error);
+      })
+    );
   }
 
   createUserNotifications(username: string, notifications: Notification[]) {
-      return this.http.post(`${this.baseUrl}admin/create-notifications/${username}`, notifications);
+      return this.http.post(`${this.baseUrl}admin/create-notifications/${username}`, notifications).pipe(
+        map(response => {
+          this.showNotification(this.transloco.translate('adminService.createUserNotificationsSuccess'));
+          return response;
+        }),
+        catchError(error => {
+          this.showNotification(this.transloco.translate('adminService.createUserNotificationsError'));
+          return throwError(() => error);
+        })
+      );
   }
 
   getUserPhotosForApproval(userParams: UserParams, forceReload = false) {
@@ -85,13 +114,19 @@ export class AdminService {
       map(response => {
         this.memberCache.set(cacheKey, response);
         this.members.set(response.result || []);
+        this.showNotification(this.transloco.translate('adminService.getUserPhotosForApprovalSuccess'));
         return response;
       }),
       catchError(error => {
-        console.error('❌ Error fetching members:', error);
-        return throwError(() => new Error('Error fetching members'));
+        this.showNotification(this.transloco.translate('adminService.getUserPhotosForApprovalError'));
+        return throwError(() => error);
       })
     );
+  }
+
+  private showNotification(message: string) {
+    // Implement notification logic here (e.g., Toastr, Snackbar, etc.)
+    console.log(message);
   }
 
   getUserPhotosForApprovalByUser(userId: number) {

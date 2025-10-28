@@ -3,7 +3,7 @@
   "welcome": "Bienvenido a BikeRental",
   "login": "Iniciar sesión",
   "logout": "Cerrar sesión",
-  "home": {
+  "bike": {
     "heroTitle": "Explora la ciudad con BikeRental",
     "heroDescription": "Alquila una bicicleta y descubre la ciudad a tu ritmo. Nuestro servicio ofrece una amplia gama de bicicletas para cada aventura.",
     "viewBikes": "Ver bicicletas",
@@ -13,16 +13,106 @@
     "popularBikes": "Nuestras bicicletas populares",
     "ctaTitle": "¿Listo para rodar?",
     "ctaDescription": "Únete a la comunidad BikeRental hoy y comienza tu próxima aventura urbana.",
-    "bike": {
-      "cityCruiser": "Ciudad Cruiser",
-      "cityCruiserDesc": "Perfecta para paseos tranquilos por la ciudad.",
-      "mountainExplorer": "Exploradora de Montaña",
-      "mountainExplorerDesc": "Enfrenta cualquier terreno con nuestras bicicletas de montaña.",
-      "electricGlide": "Deslizamiento Eléctrico",
-      "electricGlideDesc": "Recorre largas distancias sin esfuerzo con nuestras bicicletas eléctricas.",
-      "ctaTitle": "¿Listo para rodar?",
-      "ctaDescription": "Únete a la comunidad BikeRental hoy y comienza tu próxima aventura urbana."
-    }
+    "cityCruiser": "Ciudad Cruiser",
+    "cityCruiserDesc": "Perfecta para paseos tranquilos por la ciudad.",
+    "mountainExplorer": "Exploradora de Montaña",
+    "mountainExplorerDesc": "Enfrenta cualquier terreno con nuestras bicicletas de montaña.",
+    "electricGlide": "Deslizamiento Eléctrico",
+    "electricGlideDesc": "Recorre largas distancias sin esfuerzo con nuestras bicicletas eléctricas."
+  },
+  "bikeFavorite": {
+    "title": "Bicicletas favoritas",
+    "photo": "Foto",
+    "model": "Modelo",
+    "brand": "Marca",
+    "type": "Tipo",
+    "year": "Año",
+    "available": "Disponible",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "memberList": {
+    "title": "Nuestra comunidad",
+    "subtitle": "Descubre y conecta con nuestra increíble comunidad de entusiastas de las bicicletas. Conoce a otros ciclistas y encuentra compañeros de aventura.",
+    "membersFound": "Miembros encontrados",
+    "ageFrom": "Edad desde",
+    "ageTo": "Edad hasta",
+    "gender": "Género",
+    "allGenders": "Todos los géneros",
+    "males": "Hombres",
+    "females": "Mujeres",
+    "applyFilters": "Aplicar filtros",
+    "reset": "Restablecer",
+    "sortBy": "Ordenar por:",
+    "lastActive": "Última actividad",
+    "newestMembers": "Miembros más nuevos",
+    "noMembers": "No se encontraron miembros",
+    "tryAdjusting": "Intenta ajustar tus filtros para ver más resultados."
+  },
+  "memberEdit": {
+    "title": "Editar perfil",
+    "info": "Información",
+    "unsavedChanges": "Has realizado cambios. Se perderán los cambios no guardados.",
+    "personalInfo": "Información personal",
+    "name": "Nombre",
+    "surname": "Apellido",
+    "username": "Usuario",
+    "email": "Correo electrónico",
+    "description": "Descripción",
+    "enterName": "Introduce tu nombre",
+    "enterSurname": "Introduce tu apellido",
+    "enterUsername": "Usuario",
+    "enterEmail": "tu@email.com",
+    "tellAbout": "Cuéntanos algo sobre ti...",
+    "savePersonalInfo": "Guardar información personal",
+    "profileImage": "Imagen de perfil",
+    "selectImage": "Seleccionar imagen",
+    "uploadHint": "PNG, JPG, GIF hasta 10MB.",
+    "locationDetails": "Detalles de ubicación",
+    "noLocation": "No hay información de ubicación disponible.",
+    "street": "Calle",
+    "houseNumber": "Número",
+    "postalCode": "Código postal",
+    "city": "Ciudad",
+    "country": "País",
+    "confirmLocation": "Confirmar ubicación",
+    "bankingDetails": "Detalles bancarios",
+    "noBank": "No hay información bancaria disponible.",
+    "cardNumber": "Número de tarjeta",
+    "cardholderName": "Titular de la tarjeta",
+    "expiryDate": "Fecha de expiración",
+    "bankName": "Banco",
+    "accountNumber": "Número de cuenta",
+    "routingNumber": "Código bancario",
+    "confirmBanking": "Confirmar información bancaria"
+  },
+  "memberDetail": {
+    "title": "Mi perfil",
+    "infoTab": "Información",
+    "favoritesTab": "Bicicletas favoritas",
+    "historyTab": "Historial de alquiler",
+    "personalInfo": "Información personal",
+    "name": "Nombre",
+    "surname": "Apellido",
+    "email": "Correo electrónico",
+    "notSpecified": "No especificado",
+    "saveChanges": "Guardar cambios",
+    "locationDetails": "Detalles de ubicación",
+    "street": "Calle",
+    "houseNumber": "Número",
+    "postalCode": "Código postal",
+    "city": "Ciudad",
+    "country": "País"
+  },
+  "memberCard": {
+    "viewProfile": "Ver perfil",
+    "sendMessage": "Enviar mensaje",
+    "notifications": "Notificaciones",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "age": "Edad",
+    "city": "Ciudad",
+    "notSpecified": "No especificado"
   },
   "signin": {
     "title": "Iniciar sesión",
@@ -93,6 +183,115 @@
     "follow": "Síguenos",
     "copyright": "© 2025 BikeRental. Todos los derechos reservados."
   },
+  "errors": {
+    "notFound": {
+      "title": "Página no encontrada",
+      "returnHome": "Volver al inicio"
+    },
+    "serverError": {
+      "title": "Error interno del servidor - ¡actualizar la página puede solucionar el error!",
+      "errorLabel": "Error:",
+      "note": "Nota: Si ves esto, probablemente Angular no sea el culpable",
+      "whatToDo": "¿Qué hacer ahora?",
+      "step1": "Abre las herramientas de desarrollo y revisa la solicitud fallida en la pestaña de red",
+      "step2": "Examina la URL de la solicitud - ¿qué endpoint de API estás consultando?",
+      "step3": "Reproduce el error en Postman - si ocurre lo mismo, Angular no es el problema",
+      "stackTrace": "A continuación el stack trace - las primeras 2 líneas indican qué línea de código en la API causó el problema"
+    },
+    "testErrors": {
+      "title": "Probar respuestas de error",
+      "error500": "Probar error 500",
+      "error400": "Probar error 400",
+      "error401": "Probar error 401",
+      "error404": "Probar error 404",
+      "error400Validation": "Probar error 400 de validación",
+      "validationListTitle": "Errores de validación"
+    }
+  },
+  "textInput": {
+    "label": "Introduce un valor",
+    "required": "Por favor introduce un valor",
+    "minlength": "Debe tener al menos {{requiredLength}} caracteres",
+    "maxlength": "Debe tener como máximo {{requiredLength}} caracteres",
+    "notMatching": "Las contraseñas no coinciden"
+  },
+  "accountService": {
+    "loginSuccess": "¡Inicio de sesión exitoso!",
+    "registerSuccess": "¡Registro exitoso!",
+    "localStorageError": "Error al guardar los datos del usuario en localStorage.",
+    "tokenError": "Token inválido. No se pudieron decodificar los roles."
+  },
+  "adminService": {
+    "getUsersWithRolesSuccess": "Roles de usuario cargados correctamente.",
+    "getUsersWithRolesError": "No se pudieron cargar los roles de usuario.",
+    "updateUserRolesSuccess": "Roles de usuario actualizados correctamente.",
+    "updateUserRolesError": "No se pudieron actualizar los roles de usuario.",
+    "createUserNotificationsSuccess": "Notificaciones creadas correctamente.",
+    "createUserNotificationsError": "No se pudieron crear las notificaciones.",
+    "getUserPhotosForApprovalSuccess": "Fotos para aprobación cargadas.",
+    "getUserPhotosForApprovalError": "No se pudieron cargar las fotos para aprobación."
+  },
+  "genericPhotoService": {
+    "uploadSuccess": "Foto subida correctamente.",
+    "uploadError": "Error al subir la foto.",
+    "deleteSuccess": "Foto eliminada correctamente.",
+    "deleteError": "Error al eliminar la foto.",
+    "setMainSuccess": "Foto principal establecida correctamente.",
+    "setMainError": "Error al establecer la foto principal."
+  },
+  "membersService": {
+    "fetchMembersError": "Error al obtener los miembros.",
+    "fetchAllUsersError": "Error al obtener los usuarios.",
+    "updateSuccess": "Miembro actualizado correctamente.",
+    "updateError": "Error al actualizar el miembro.",
+    "setMainPhotoSuccess": "Foto principal establecida correctamente.",
+    "setMainPhotoError": "Error al establecer la foto principal.",
+    "deletePhotoSuccess": "Foto eliminada correctamente.",
+    "deletePhotoError": "Error al eliminar la foto."
+  },
+  "presenceService": {
+    "connectionEstablished": "Conexión establecida.",
+    "connectionError": "Error de conexión.",
+    "reconnecting": "Intentando reconectar...",
+    "reconnected": "Reconectado correctamente.",
+    "connectionClosed": "Conexión cerrada.",
+    "userOnline": "{{username}} está en línea.",
+    "userOffline": "{{username}} está desconectado.",
+    "getOnlineUsersError": "Error al obtener usuarios en línea.",
+    "stopConnectionSuccess": "Conexión detenida correctamente.",
+    "stopConnectionError": "Error al detener la conexión."
+  },
+  "rentService": {
+    "getRentalsError": "Error al obtener los alquileres.",
+    "getCustomerRentalHistoryError": "Error al obtener el historial de alquiler del cliente.",
+    "rentSuccess": "Bicicleta alquilada correctamente.",
+    "rentError": "Error al alquilar la bicicleta.",
+    "returnSuccess": "Bicicleta devuelta correctamente.",
+    "returnError": "Error al devolver la bicicleta."
+  },
+  "errorInterceptor": {
+    "validationError": "Error de validación: {{message}}",
+    "unauthorized": "No autorizado. Por favor inicia sesión.",
+    "unexpected": "Ocurrió un error inesperado. Por favor intenta de nuevo."
+  },
+  "preventUnsavedChangesGuard": {
+    "title": "Cambios sin guardar",
+    "confirm": "Tienes cambios sin guardar. ¿Seguro que quieres salir?"
+  },
+  "authGuard": {
+    "error": "¡No puedes pasar!"
+  },
+  "adminGuard": {
+    "error": "No puedes entrar en esta área"
+  },
+  "appComponent": {
+    "loading": "Cargando",
+    "mainTitle": "Aplicación BikeRental"
+  },
+  "datePicker": {
+    "label": "Selecciona la fecha",
+    "required": "La fecha es obligatoria"
+  },
   "bikeManagement": {
     "title": "Gestión de bicicletas",
     "subtitle": "Administra el listado y detalles de bicicletas",
@@ -121,11 +320,13 @@
     },
     "photoManagement": {
       "empty": "No hay fotos pendientes para aprobar o rechazar.",
-      "mainPhoto": "Foto principal",
-      "approved": "Aprobada",
-      "approve": "Aprobar",
-      "reject": "Rechazar",
-      "years": "años"
+      "notFound": {
+        "mainPhoto": "Foto principal",
+        "approved": "Aprobada",
+        "approve": "Aprobar",
+        "reject": "Rechazar",
+        "years": "años"
+      }
     }
   },
   "bikeList": {
@@ -217,6 +418,110 @@
     "nA": "N/D",
     "rentBike": "Alquilar bicicleta",
     "notAvailableBtn": "No disponible"
+  },
+  "bikeCard": {
+    "viewDetails": "Ver detalles",
+    "addToFavorites": "Agregar a favoritos",
+    "rentBike": "Alquilar bicicleta",
+    "returnBike": "Devolver bicicleta",
+    "pricePeriod": "/día",
+    "readyToRide": "Lista para rodar",
+    "currentlyRented": "Actualmente alquilada",
+    "available": "Disponible",
+    "rented": "Alquilada"
+  },
+  "customerRentalHistory": {
+    "title": "Historial de alquiler",
+    "photo": "Foto",
+    "model": "Modelo",
+    "brand": "Marca",
+    "price": "Precio",
+    "startDate": "Fecha inicio",
+    "endDate": "Fecha fin",
+    "noRentals": "No se encontró historial de alquiler."
+  },
+  "bikeRentalHistory": {
+    "title": "Historial de alquiler de bicicletas",
+    "photo": "Foto",
+    "username": "Usuario",
+    "name": "Nombre",
+    "surname": "Apellido",
+    "startDate": "Fecha de inicio",
+    "endDate": "Fecha de fin",
+    "noData": "No se encontró historial de alquiler."
+  },
+  "genericCreateUpdateModal": {
+    "managePhotos": "Gestionar fotos",
+    "uploadHint": "PNG, JPG, GIF hasta 10MB.",
+    "cancel": "Cancelar",
+    "addTitle": "Agregar",
+    "editTitle": "Editar",
+    "informationTab": "Información",
+    "mainImageTab": "Imagen principal",
+    "availability": "Disponibilidad",
+    "availableOnly": "Solo disponible",
+    "save": "Guardar",
+    "success": "Los cambios se han guardado correctamente",
+    "error": "Ocurrió un error al guardar los cambios",
+    "notesPlaceholder": "Notas adicionales..."
+  },
+  "genericDeleteModal": {
+    "title": "Eliminar",
+    "confirm": "¿Desea eliminar este elemento?",
+    "cancel": "No",
+    "ok": "Sí",
+    "success": "Elemento eliminado correctamente",
+    "error": "Error al eliminar el elemento"
+  },
+  "photoDelete": {
+    "title": "Eliminar fotos",
+    "main": "Principal",
+    "delete": "Eliminar",
+    "noPhotos": "No hay fotos disponibles.",
+    "close": "Cerrar",
+    "success": "Foto eliminada correctamente",
+    "error": "Error al eliminar la foto"
+  },
+  "photoEditor": {
+    "title": "Gestionar fotos",
+    "select": "Selecciona fotos para subir",
+    "dragDrop": "Arrastra y suelta archivos aquí",
+    "or": "o",
+    "chooseFiles": "Elegir archivos de imagen",
+    "formats": "Formatos soportados: JPG, PNG, GIF, WebP",
+    "progress": "% subido",
+    "existing": "Fotos existentes",
+    "mainPhoto": "Foto principal",
+    "setMain": "Establecer como principal",
+    "delete": "Eliminar",
+    "close": "Cerrar",
+    "success": "Foto subida correctamente",
+    "error": "Error al subir la foto"
+  },
+  "notificationSheet": {
+    "done": "¡Hecho!",
+    "cancel": "Cancelar",
+    "empty": "No hay notificaciones asignadas",
+    "success": "Notificación eliminada correctamente",
+    "error": "Error al eliminar la notificación"
+  },
+  "commonTable": {
+    "noData": "No hay datos disponibles",
+    "photoAlt": "foto",
+    "firstPage": "Primera página",
+    "lastPage": "Última página",
+    "itemsPerPage": "Elementos por página",
+    "nextPage": "Página siguiente",
+    "previousPage": "Página anterior"
+  },
+  "crudTable": {
+    "addNew": "Agregar nuevo",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "actions": "Acciones",
+    "photoAlt": "foto",
+    "noData": "No hay datos disponibles"
   }
 }
+
 

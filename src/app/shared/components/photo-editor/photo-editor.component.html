@@ -1,9 +1,9 @@
 <div class="photo-editor-container" (click)="$event.stopPropagation()">
-  <h3 mat-dialog-title>Manage Photos</h3>
+  <h3 mat-dialog-title>{{ 'photoEditor.title' | transloco }}</h3>
   <mat-dialog-content class="photo-dialog-content" (click)="$event.stopPropagation()">
     <div class="photo-upload-container">
 
-      <h4>Select photos to upload</h4>
+      <h4>{{ 'photoEditor.select' | transloco }}</h4>
 
       <!-- Drag & Drop Zone with integrated file input -->
       <div class="file-upload-zone"
@@ -14,8 +14,8 @@
 
         <div class="upload-content">
           <mat-icon class="upload-icon">cloud_upload</mat-icon>
-          <h3 class="upload-title">Drag & drop files here</h3>
-          <p class="upload-subtitle">or</p>
+          <h3 class="upload-title">{{ 'photoEditor.dragDrop' | transloco }}</h3>
+          <p class="upload-subtitle">{{ 'photoEditor.or' | transloco }}</p>
 
           <!-- File input integrated in the drag zone -->
           <div class="file-input-container">
@@ -26,26 +26,26 @@
                    accept="image/*"
                    class="file-input-styled"
                    (change)="onFileSelected($event)"
-                   title="Choose Image Files">
+                   [title]="('photoEditor.chooseFiles' | transloco)">
             <label for="photoFileInput" class="file-input-overlay">
               <mat-icon>upload_file</mat-icon>
-              Choose Image Files
+              {{ 'photoEditor.chooseFiles' | transloco }}
             </label>
           </div>
 
-          <p class="upload-formats">Supported formats: JPG, PNG, GIF, WebP</p>
+          <p class="upload-formats">{{ 'photoEditor.formats' | transloco }}</p>
         </div>
-      </div>      <!-- Fallback button in case hidden input doesn't work -->
+      </div>
     @if (progress() > 0) {
       <div class="progress-container">
         <mat-progress-bar mode="determinate" [value]="progress()"></mat-progress-bar>
-        <p>{{ progress() }}% uploaded</p>
+        <p>{{ progress() }}{{ 'photoEditor.progress' | transloco }}</p>
       </div>
     }
 
     @if (existingPhotos().length > 0) {
       <div class="existing-photos">
-        <h5>Existing Photos: ({{ existingPhotos().length }} photos)</h5>
+        <h5>{{ 'photoEditor.existing' | transloco }}: ({{ existingPhotos().length }} photos)</h5>
         <div class="row">
           @for (photo of existingPhotos(); track photo.id) {
             <div class="col-md-3 mb-3">
@@ -54,7 +54,7 @@
                 <div class="card-body p-2">
                   @if (photo.isMain) {
                     <div class="text-center mb-2">
-                      <span class="badge badge-success">Main Photo</span>
+                      <span class="badge badge-success">{{ 'photoEditor.mainPhoto' | transloco }}</span>
                     </div>
                   }
                   <div class="d-flex justify-content-between">

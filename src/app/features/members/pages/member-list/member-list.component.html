@@ -3,12 +3,12 @@
   <div class="container">
     <div class="header-content">
       <div class="header-text">
-        <h1 class="members-title">Our Community</h1>
-        <p class="members-subtitle">Discover and connect with our amazing community of bike enthusiasts. Meet fellow riders and find your perfect adventure partners.</p>
+  <h1 class="members-title">{{ 'memberList.title' | transloco }}</h1>
+  <p class="members-subtitle">{{ 'memberList.subtitle' | transloco }}</p>
       </div>
       <div class="members-count">
         <span class="count-number">{{ members()?.length || 0 }}</span>
-        <span class="count-label">Members Found</span>
+  <span class="count-label">{{ 'memberList.membersFound' | transloco }}</span>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@
         <div class="filters-grid">
           <!-- Age From Filter -->
           <div class="filter-group">
-            <span class="filter-label">Age From</span>
+            <span class="filter-label">{{ 'memberList.ageFrom' | transloco }}</span>
             <div class="filter-input-wrapper">
               <input
                 type="number"
@@ -43,7 +43,7 @@
 
           <!-- Age To Filter -->
           <div class="filter-group">
-            <span class="filter-label">Age To</span>
+            <span class="filter-label">{{ 'memberList.ageTo' | transloco }}</span>
             <div class="filter-input-wrapper">
               <input
                 type="number"
@@ -58,16 +58,16 @@
 
           <!-- Gender Filter -->
           <div class="filter-group">
-            <span class="filter-label">Gender</span>
+            <span class="filter-label">{{ 'memberList.gender' | transloco }}</span>
             <div class="filter-input-wrapper">
               <select
                 name="gender"
                 class="filter-select"
                 [ngModel]="userParams()!.gender"
                 (ngModelChange)="userParams() && (userParams()!.gender = $event)">
-                <option value="">All Genders</option>
+                <option value="">{{ 'memberList.allGenders' | transloco }}</option>
                 @for (gender of genderList; track gender.value) {
-                <option [ngValue]="gender.value">{{ gender.display }}</option>
+                <option [ngValue]="gender.value">{{ gender.value === 'male' ? ('memberList.males' | transloco) : ('memberList.females' | transloco) }}</option>
                 }
               </select>
             </div>
@@ -76,28 +76,28 @@
 
         <!-- Action Buttons -->
         <div class="filter-actions">
-          <button class="btn-apply" type="submit">Apply Filters</button>
-          <button class="btn-reset" type="button" (click)="resetFilters()">Reset</button>
+          <button class="btn-apply" type="submit">{{ 'memberList.applyFilters' | transloco }}</button>
+          <button class="btn-reset" type="button" (click)="resetFilters()">{{ 'memberList.reset' | transloco }}</button>
         </div>
       </form>
 
       <!-- Sort Options -->
       <div class="sort-section">
-        <span class="sort-label">Sort by:</span>
+  <span class="sort-label">{{ 'memberList.sortBy' | transloco }}</span>
         <div class="sort-buttons">
           <button
             type="button"
             class="sort-btn"
             [class.active]="userParams()!.orderBy === 'lastActive'"
             (click)="setOrderBy('lastActive')">
-            Last Active
+            {{ 'memberList.lastActive' | transloco }}
           </button>
           <button
             type="button"
             class="sort-btn"
             [class.active]="userParams()!.orderBy === 'created'"
             (click)="setOrderBy('created')">
-            Newest Members
+            {{ 'memberList.newestMembers' | transloco }}
           </button>
         </div>
       </div>
@@ -119,8 +119,8 @@
     @if (members().length === 0) {
       <div class="no-results">
         <div class="no-results-icon">👥</div>
-        <h3>No members found</h3>
-        <p>Try adjusting your filters to see more results.</p>
+  <h3>{{ 'memberList.noMembers' | transloco }}</h3>
+  <p>{{ 'memberList.tryAdjusting' | transloco }}</p>
       </div>
     }
 

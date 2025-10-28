@@ -2,11 +2,13 @@ import { inject } from '@angular/core';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs';
 import { NavigationExtras, Router } from '@angular/router';
-import { NotificationService } from '../_services/notification.service';
+import { TranslocoService } from '@jsverse/transloco';
+import { ToastrService } from 'ngx-toastr';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
-  const notificationService = inject(NotificationService);
+  const toastr = inject(ToastrService);
+  const transloco = inject(TranslocoService);
 
   return next(req).pipe(
     catchError(error => {
@@ -22,11 +24,11 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               }
               throw modelStateErrors.flat();
             } else {
-              notificationService.error(`Validation error: ${error.error.message}`);
+              toastr.error(transloco.translate('errorInterceptor.validationError', { message: error.error.message }));
             }
             break;
           case 401:
-            notificationService.error('Unauthorized. Please sign in.');
+            toastr.error(transloco.translate('errorInterceptor.unauthorized'));
             break;
           case 404:
             router.navigateByUrl('/not-found');
@@ -36,12 +38,12 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             router.navigateByUrl('/server-error', navigationExtras);
             break;
           default:
-            notificationService.error('Something unexpected happened. Please try again.');
+            toastr.error(transloco.translate('errorInterceptor.unexpected'));
             console.log(error);
             break;
         }
       }
       throw error;
     })
-  )
+  );
 }

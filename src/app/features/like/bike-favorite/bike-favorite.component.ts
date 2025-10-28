@@ -16,40 +16,43 @@ import { CommonTableComponent } from 'src/app/shared/components/table/common/com
 import { BikeFavorite } from 'src/app/core/_models/bikeFavorite';
 import { LikeStore } from 'src/app/core/_stores/like.store';
 import { LikeService } from 'src/app/core/_services/like.service';
+import { TranslocoService } from '@jsverse/transloco';
 
-const BIKEFAVORITE_COLUMNS: TableColumn<BikeFavorite>[] = [
-  {
-    columnDef: 'photoUrl',
-    header: 'Photo',
-    cell: (row: BikeFavorite) => row.photoUrl,
-    isCustomRender: true,
-  },
-  {
-    columnDef: 'model',
-    header: 'Model',
-    cell: (row: BikeFavorite) => row.model,
-  },
-  {
-    columnDef: 'brand',
-    header: 'Brand',
-    cell: (row: BikeFavorite) => row.brand,
-  },
-  {
-    columnDef: 'type',
-    header: 'Type',
-    cell: (row: BikeFavorite) => row.type,
-  },
-  {
-    columnDef: 'year',
-    header: 'Year',
-    cell: (row: BikeFavorite) => row.year,
-  },
-  {
-    columnDef: 'isAvailable',
-    header: 'Available',
-    cell: (row: BikeFavorite) => row.isAvailable ? 'Yes' : 'No',
-  }
-];
+function getBikeFavoriteColumns(transloco: TranslocoService): TableColumn<BikeFavorite>[] {
+  return [
+    {
+      columnDef: 'photoUrl',
+      header: transloco.translate('bikeFavorite.photo'),
+      cell: (row: BikeFavorite) => row.photoUrl,
+      isCustomRender: true,
+    },
+    {
+      columnDef: 'model',
+      header: transloco.translate('bikeFavorite.model'),
+      cell: (row: BikeFavorite) => row.model,
+    },
+    {
+      columnDef: 'brand',
+      header: transloco.translate('bikeFavorite.brand'),
+      cell: (row: BikeFavorite) => row.brand,
+    },
+    {
+      columnDef: 'type',
+      header: transloco.translate('bikeFavorite.type'),
+      cell: (row: BikeFavorite) => row.type,
+    },
+    {
+      columnDef: 'year',
+      header: transloco.translate('bikeFavorite.year'),
+      cell: (row: BikeFavorite) => row.year,
+    },
+    {
+      columnDef: 'isAvailable',
+      header: transloco.translate('bikeFavorite.available'),
+      cell: (row: BikeFavorite) => row.isAvailable ? transloco.translate('bikeFavorite.yes') : transloco.translate('bikeFavorite.no'),
+    }
+  ];
+}
 
 @Component({
   selector: 'app-bike-favorite',
@@ -68,9 +71,10 @@ const BIKEFAVORITE_COLUMNS: TableColumn<BikeFavorite>[] = [
   templateUrl: './bike-favorite.component.html',
   styleUrl: './bike-favorite.component.css',
 })
-export class BikeFavoriteComponent implements OnInit {
 
+export class BikeFavoriteComponent implements OnInit {
   readonly likeStore = inject(LikeStore);
+  readonly transloco = inject(TranslocoService);
 
   user = this.likeStore.user;
   bike = this.likeStore.bike;
@@ -82,26 +86,21 @@ export class BikeFavoriteComponent implements OnInit {
 
   params = new Params();
   pagination = this.likeStore.pagination;
-
-  columns = BIKEFAVORITE_COLUMNS;
-
+  columns: TableColumn<BikeFavorite>[] = getBikeFavoriteColumns(this.transloco);
   defaultColDef = {
     sortable: true,
     filter: true,
     flex: 1,
     minWidth: 200,
   };
-
   dataSource = this.likeStore.bikeFavorites;
 
   ngOnInit(): void {
     this.likeStore.loadBikeFavorites();
   }
-
   public refresh(bikeFavorites: BikeFavorite[]) {
     this.dataSource;
   }
-
   pageChanged(event: any) {
     this.likeStore.changePage(event.page);
   }

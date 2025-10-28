@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NotificationService } from 'src/app/core/_services/notification.service';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { TimeagoModule } from 'ngx-timeago';
 import { CommonModule } from '@angular/common';
@@ -22,6 +21,7 @@ import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { Bike } from 'src/app/core/_models/bike';
 import { Photo } from 'src/app/core/_models/photo';
 import { TranslocoModule } from '@jsverse/transloco';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-bike-edit',
@@ -41,10 +41,10 @@ import { TranslocoModule } from '@jsverse/transloco';
 })
 export class BikeEditComponent implements OnInit {
   private accountService = inject(AccountService);
-  private notificationService = inject(NotificationService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   readonly dialog = inject(MatDialog);
+  private toastr = inject(ToastrService);
 
   private bikeStore = inject(BikeStore);
   private photoStore = inject(PhotoStore);
@@ -74,7 +74,7 @@ export class BikeEditComponent implements OnInit {
     // Verify if the current user is an administrator
     const user = this.accountService.currentUser();
     if (!user?.roles?.includes('Admin')) {
-      this.notificationService.error(
+      this.toastr.error(
         'You do not have permission to edit bikes'
       );
       this.router.navigateByUrl('/bikes');
@@ -96,12 +96,12 @@ export class BikeEditComponent implements OnInit {
 
     this.bikeStore.updateBike(updatedBike).subscribe({
       next: () => {
-        this.notificationService.success('Bike updated successfully');
+        this.toastr.success('Bike updated successfully');
         this.editForm()?.reset(updatedBike);
         this.router.navigateByUrl(`/bike/${current.id}`);
       },
       error: () => {
-        this.notificationService.error('Error updating the bike');
+        this.toastr.error('Error updating the bike');
       },
     });
   }

@@ -1,15 +1,16 @@
 import { Component, input, Self } from '@angular/core';
 import { ControlValueAccessor, FormControl, NgControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 import { BsDatepickerConfig, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 @Component({
     selector: 'app-date-picker',
     templateUrl: './date-picker.component.html',
     styleUrls: ['./date-picker.component.css'],
-    imports: [BsDatepickerModule, FormsModule, ReactiveFormsModule]
+  imports: [BsDatepickerModule, FormsModule, ReactiveFormsModule, TranslocoModule]
 })
-export class DatePickerComponent implements ControlValueAccessor {  
-  label = input<string>('');  
+export class DatePickerComponent implements ControlValueAccessor {
+  label = input<string>('');
   maxDate = input<Date | undefined>();
   bsConfig: Partial<BsDatepickerConfig> | undefined;
 
@@ -20,7 +21,7 @@ export class DatePickerComponent implements ControlValueAccessor {
       dateInputFormat: 'DD MMMM YYYY',
     }
   }
-  
+
   writeValue(obj: any): void {
   }
 

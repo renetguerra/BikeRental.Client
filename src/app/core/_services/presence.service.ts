@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { BehaviorSubject, take } from 'rxjs';
 import { Router } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class PresenceService {
 
   private toastr = inject(ToastrService);
   private router = inject(Router);
+  private transloco = inject(TranslocoService);
 
   /**
    * Create and establish SignalR hub connection for real-time presence tracking
@@ -34,24 +36,29 @@ export class PresenceService {
     this.hubConnection
       .start()
       .then(() => {
-        console.log('SignalR connection established');
+          const msg = this.transloco.translate('presenceService.connectionEstablished');
+          this.toastr.success(msg);
       })
       .catch(error => {
-        console.error('SignalR connection error:', error);
-        // Avoid toastr notifications here to prevent spam
+          const msg = this.transloco.translate('presenceService.connectionError');
+          this.toastr.error(msg);
+          console.error(msg, error);
       });
 
     // Handle reconnection events
     this.hubConnection.onreconnecting(() => {
-      console.log('SignalR attempting to reconnect...');
+        const msg = this.transloco.translate('presenceService.reconnecting');
+        this.toastr.info(msg);
     });
 
     this.hubConnection.onreconnected(() => {
-      console.log('SignalR reconnected successfully');
+        const msg = this.transloco.translate('presenceService.reconnected');
+        this.toastr.success(msg);
     });
 
     this.hubConnection.onclose(() => {
-      console.log('SignalR connection closed');
+        const msg = this.transloco.translate('presenceService.connectionClosed');
+        this.toastr.warning(msg);
       // Clear online users state when connection is lost
       this.onlineUsersSource.next([]);
     });
@@ -63,6 +70,8 @@ export class PresenceService {
           next: usernames => this.onlineUsersSource.next([...usernames, username]),
           error: error => console.error('Error handling UserIsOnline:', error)
         });
+          const msg = this.transloco.translate('presenceService.userOnline', { username });
+          this.toastr.info(msg);
       } catch (error) {
         console.error('Error in UserIsOnline handler:', error);
       }
@@ -74,6 +83,8 @@ export class PresenceService {
           next: usernames => this.onlineUsersSource.next([...usernames.filter(x => x !== username)]),
           error: error => console.error('Error handling UserIsOffline:', error)
         });
+          const msg = this.transloco.translate('presenceService.userOffline', { username });
+          this.toastr.info(msg);
       } catch (error) {
         console.error('Error in UserIsOffline handler:', error);
       }
@@ -83,7 +94,9 @@ export class PresenceService {
       try {
         this.onlineUsersSource.next(usernames);
       } catch (error) {
-        console.error('Error handling GetOnlineUsers:', error);
+          const msg = this.transloco.translate('presenceService.getOnlineUsersError');
+          this.toastr.error(msg);
+          console.error(msg, error);
       }
     });
   }
@@ -95,11 +108,14 @@ export class PresenceService {
     if (this.hubConnection) {
       this.hubConnection.stop()
         .then(() => {
-          console.log('SignalR connection stopped successfully');
+            const msg = this.transloco.translate('presenceService.stopConnectionSuccess');
+            this.toastr.success(msg);
           this.onlineUsersSource.next([]);
         })
         .catch(error => {
-          console.error('Error stopping SignalR connection:', error);
+            const msg = this.transloco.translate('presenceService.stopConnectionError');
+            this.toastr.error(msg);
+            console.error(msg, error);
         })
         .finally(() => {
           this.hubConnection = undefined;
@@ -123,12 +139,15 @@ export class PresenceService {
     if (this.hubConnection && this.hubConnection.state === 'Disconnected') {
       try {
         await this.hubConnection.start();
-        console.log('Manual reconnection successful');
+          const msg = this.transloco.translate('presenceService.reconnected');
+          this.toastr.success(msg);
       } catch (error) {
-        console.error('Manual reconnection failed:', error);
-        // If reconnection fails, create a new connection
-        this.stopHubConnection();
-        this.createHubConnection(user);
+          const msg = this.transloco.translate('presenceService.connectionError');
+          this.toastr.error(msg);
+          console.error(msg, error);
+          // If reconnection fails, create a new connection
+          this.stopHubConnection();
+          this.createHubConnection(user);
       }
     }
   }

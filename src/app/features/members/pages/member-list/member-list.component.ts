@@ -6,12 +6,14 @@ import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/p
 import { MemberStore } from 'src/app/core/_stores/member.store';
 import { MemberCardComponent } from '../../components/member-card/member-card.component';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-member-list',
     templateUrl: './member-list.component.html',
     styleUrls: ['./member-list.component.css'],
-    imports: [CommonModule, RouterModule, FormsModule, MemberCardComponent, MatPaginatorModule, ButtonsModule]
+    imports: [CommonModule, RouterModule, FormsModule, MemberCardComponent,
+      MatPaginatorModule, ButtonsModule, TranslocoModule]
 })
 export class MemberListComponent implements OnInit, AfterViewInit {
 

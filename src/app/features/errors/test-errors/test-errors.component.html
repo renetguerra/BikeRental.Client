@@ -1,17 +1,18 @@
 <ng-container>
-    <button class="btn btn-outline-primary me-3" (click)="get500Error()">Test 500 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get400Error()">Test 400 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get401Error()">Test 401 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get404Error()">Test 404 Error</button>
-    <button class="btn btn-outline-primary me-3" (click)="get400ValidationError()">Test 400 Validation Error</button>
+    <button class="btn btn-outline-primary me-3" (click)="get500Error()">{{ 'errors.testErrors.error500' | transloco }}</button>
+    <button class="btn btn-outline-primary me-3" (click)="get400Error()">{{ 'errors.testErrors.error400' | transloco }}</button>
+    <button class="btn btn-outline-primary me-3" (click)="get401Error()">{{ 'errors.testErrors.error401' | transloco }}</button>
+    <button class="btn btn-outline-primary me-3" (click)="get404Error()">{{ 'errors.testErrors.error404' | transloco }}</button>
+    <button class="btn btn-outline-primary me-3" (click)="get400ValidationError()">{{ 'errors.testErrors.error400Validation' | transloco }}</button>
 
     @if (validationErrors().length > 0) {
         <div class="row mt-5">
             <ul class="text-danger">
+                <li class="fw-bold">{{ 'errors.testErrors.validationListTitle' | transloco }}</li>
                 @for (error of validationErrors(); track error) {
                     <li>{{error}}</li>
                 }
             </ul>
         </div>
-    }                                                                 
+    }
 </ng-container>

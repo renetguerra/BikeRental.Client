@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>Delete</h2>
+<h2 mat-dialog-title>{{ 'genericDeleteModal.title' | transloco }}</h2>
 <mat-dialog-content>
-  Would you like to delete this item?
+  {{ 'genericDeleteModal.confirm' | transloco }}
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <button mat-button cdkFocusInitial (click)="remove()">Ok</button>
+  <button mat-button mat-dialog-close>{{ 'genericDeleteModal.cancel' | transloco }}</button>
+  <button mat-button cdkFocusInitial (click)="remove()">{{ 'genericDeleteModal.ok' | transloco }}</button>
 </mat-dialog-actions>

@@ -7,12 +7,13 @@ import { Router, RouterOutlet } from '@angular/router';
 import { NgxSpinnerComponent } from 'ngx-spinner';
 import { NavComponent } from './features/nav/nav.component';
 import { FooterComponent } from './features/footer/footer.component';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    imports: [NgxSpinnerComponent, NavComponent, RouterOutlet, FooterComponent]
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css'],
+  imports: [NgxSpinnerComponent, NavComponent, RouterOutlet, FooterComponent, TranslocoModule]
 })
 export class AppComponent implements OnInit {
   title = 'BikeRental app';

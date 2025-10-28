@@ -16,40 +16,45 @@ import { CustomerRentalHistory } from 'src/app/core/_models/customerRentalHistor
 import { CommonTableComponent } from 'src/app/shared/components/table/common/common-table.component';
 import { RentalHistoryCustomer } from 'src/app/core/_models/rentalHistoryCustomer';
 import { BikeRentalHistory } from 'src/app/core/_models/bikeRentalHistory';
+import { Bike } from '../../../core/_models/bike';
+import { TranslocoService } from '@jsverse/transloco';
 
-const BIKERENTALHISTORY_COLUMNS: TableColumn<RentalHistoryCustomer>[] = [
-  {
-    columnDef: 'photoUrl',
-    header: 'Photo',
-    cell: (row: RentalHistoryCustomer) => row.photoUrl,
-    isCustomRender: true,
-  },
-  {
-    columnDef: 'username',
-    header: 'Username',
-    cell: (row: RentalHistoryCustomer) => row.username,
-  },
-  {
-    columnDef: 'name',
-    header: 'Name',
-    cell: (row: RentalHistoryCustomer) => row.name,
-  },
-  {
-    columnDef: 'surname',
-    header: 'Surname',
-    cell: (row: RentalHistoryCustomer) => row.surname,
-  },  
-  {
-    columnDef: 'startDate',
-    header: 'Start Date',
-    cell: (row: RentalHistoryCustomer) => row.endDate ? new Date(row.startDate).toLocaleString('de-DE') : '',
-  },
-  {
-    columnDef: 'endDate',
-    header: 'End Date',
-    cell: (row: RentalHistoryCustomer) => row.endDate ? new Date(row.endDate).toLocaleString('de-DE') : '',
-  }
-];
+
+  function getBikeRentalHistoryColumns(transloco: TranslocoService): TableColumn<RentalHistoryCustomer>[] {
+    return [
+      {
+        columnDef: 'photoUrl',
+        header: 'Photo',
+        cell: (row: RentalHistoryCustomer) => row.photoUrl,
+        isCustomRender: true,
+      },
+      {
+        columnDef: 'username',
+        header: 'Username',
+        cell: (row: RentalHistoryCustomer) => row.username,
+      },
+      {
+        columnDef: 'name',
+        header: 'Name',
+        cell: (row: RentalHistoryCustomer) => row.name,
+      },
+      {
+        columnDef: 'surname',
+        header: 'Surname',
+        cell: (row: RentalHistoryCustomer) => row.surname,
+      },
+      {
+        columnDef: 'startDate',
+        header: 'Start Date',
+        cell: (row: RentalHistoryCustomer) => row.endDate ? new Date(row.startDate).toLocaleString('de-DE') : '',
+      },
+      {
+        columnDef: 'endDate',
+        header: 'End Date',
+        cell: (row: RentalHistoryCustomer) => row.endDate ? new Date(row.endDate).toLocaleString('de-DE') : '',
+      }
+    ];
+}
 
 @Component({
   selector: 'app-bike-rental-history',
@@ -58,7 +63,7 @@ const BIKERENTALHISTORY_COLUMNS: TableColumn<RentalHistoryCustomer>[] = [
     CommonModule,
     RouterModule,
     FormsModule,
-    TabsModule,    
+    TabsModule,
     MatTableModule,
     MatIconModule,
     MatButtonModule,
@@ -70,8 +75,9 @@ const BIKERENTALHISTORY_COLUMNS: TableColumn<RentalHistoryCustomer>[] = [
 })
 export class BikeRentalHistoryComponent {
   private rentalService = inject(RentService);
-  
+
   readonly rentalStore = inject(RentStore);
+  readonly transloco = inject(TranslocoService);
 
   user = this.rentalStore.user;
   bike = this.rentalStore.bike;
@@ -84,7 +90,7 @@ export class BikeRentalHistoryComponent {
   params = new Params();
   pagination = this.rentalStore.pagination;
 
-  columns = BIKERENTALHISTORY_COLUMNS;  
+  columns: TableColumn<RentalHistoryCustomer>[] = getBikeRentalHistoryColumns(this.transloco);
 
   defaultColDef = {
     sortable: true,

@@ -17,6 +17,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { PhotoEditorComponent } from '../../photo-editor/photo-editor.component';
 import { PhotoConfig } from 'src/app/core/_models/genericPhotoConfig';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-generic-create-update-modal',
@@ -30,12 +31,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
   MatButtonModule,
   MatIconModule,
   MatSlideToggleModule,
-  MatTabsModule
+  MatTabsModule,
+  TranslocoModule
   ],
   templateUrl: './generic-create-update-modal.component.html',
   styleUrl: './generic-create-update-modal.component.css'
 })
 export class GenericCreateUpdateModalComponent implements OnInit {
+  private transloco = inject(TranslocoService);
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event:any) {
     if (this.editForm?.dirty) {
@@ -118,7 +121,7 @@ export class GenericCreateUpdateModalComponent implements OnInit {
 
       this.adminService.save(this.data.url, this.item).subscribe({
           next: response => {
-            this.toastr.success('Changes has been saved successfully');
+            this.toastr.success(this.transloco.translate('genericCreateUpdateModal.success'));
             // Unwrap response.value if present, else use response
             this.item = (response && typeof response === 'object' && 'value' in response) ? response.value : response;
             if (typeof this.data.onSaved === 'function') {
@@ -126,7 +129,7 @@ export class GenericCreateUpdateModalComponent implements OnInit {
             }
         },
         error: err => {
-          this.toastr.error('An error occurred while saving changes');
+          this.toastr.error(this.transloco.translate('genericCreateUpdateModal.error'));
         }
       })
     }

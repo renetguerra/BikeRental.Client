@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Observable, map } from 'rxjs';
 import { ConfirmDialogComponent } from 'src/app/shared/components/modals/confirm-dialog/confirm-dialog.component';
@@ -9,26 +10,27 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/modals/confirm
 export class ConfirmService {
   bsModelRef?: BsModalRef<ConfirmDialogComponent>;
 
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private transloco: TranslocoService) { }
 
   confirm(
-    title = 'Confirmation', 
-    message = 'Are you sure you want to do this?', 
-    btnOkText = 'Ok', 
-    btnCancelText = 'Cancel'): Observable<boolean> {
-      const config = {
-        initialState: {
-          title, 
-          message,
-          btnOkText,
-          btnCancelText
-        }
+    title = this.transloco.translate('preventUnsavedChangesGuard.title'),
+    message = this.transloco.translate('preventUnsavedChangesGuard.confirm'),
+    btnOkText = 'Ok',
+    btnCancelText = 'Cancel'
+  ): Observable<boolean> {
+    const config = {
+      initialState: {
+        title,
+        message,
+        btnOkText,
+        btnCancelText
       }
-      this.bsModelRef = this.modalService.show(ConfirmDialogComponent, config);
-      return this.bsModelRef.onHidden!.pipe(
-        map(() => {
-          return this.bsModelRef!.content!.result
-        })
-      )
+    }
+    this.bsModelRef = this.modalService.show(ConfirmDialogComponent, config);
+    return this.bsModelRef.onHidden!.pipe(
+      map(() => {
+        return this.bsModelRef!.content!.result
+      })
+    )
   }
 }

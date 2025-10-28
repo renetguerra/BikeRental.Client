@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { environment } from 'src/environments/environment';
 import { PresenceService } from './presence.service';
 import { AuthStore } from '../_stores/auth.store';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +13,12 @@ import { AuthStore } from '../_stores/auth.store';
 export class AccountService {
   baseUrl = environment.apiUrl;
 
+  private http = inject(HttpClient);
+  private presenceService = inject(PresenceService);
   private authStore = inject(AuthStore);
+  private transloco = inject(TranslocoService);
 
   currentUser = signal<User | null>(null);
-
   roles = computed(() => {
     const user = this.currentUser();
     if (user && user.token) {
@@ -25,7 +28,7 @@ export class AccountService {
     return [];
   })
 
-  constructor(private http: HttpClient, private presenceService: PresenceService) {
+  constructor() {
     this.authStore.refreshCurrentUser(this);
   }
 
@@ -35,6 +38,7 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+          this.showNotification(this.transloco.translate('accountService.loginSuccess'));
         }
       })
     )
@@ -46,6 +50,7 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+          this.showNotification(this.transloco.translate('accountService.registerSuccess'));
         }
       })
     )
@@ -61,7 +66,7 @@ export class AccountService {
         if (Array.isArray(roles)) user.roles = roles;
         else if (roles) user.roles.push(roles);
       } catch (e) {
-        console.warn('AccountService.setCurrentUser: invalid token, skipping role decoding', e);
+        this.showNotification(this.transloco.translate('accountService.tokenError'));
         user.roles = [];
       }
     } else {
@@ -72,11 +77,15 @@ export class AccountService {
     try {
       localStorage.setItem('user', JSON.stringify(user));
     } catch (e) {
-      console.warn('AccountService: failed to persist user to localStorage', e);
+      this.showNotification(this.transloco.translate('accountService.localStorageError'));
     }
 
     this.currentUser.set(user);
     this.presenceService.createHubConnection(user);
+  }
+  private showNotification(message: string) {
+    // Implement notification logic here (e.g., Toastr, Snackbar, etc.)
+    console.log(message);
   }
 
   logout() {

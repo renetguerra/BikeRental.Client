@@ -1,5 +1,78 @@
 # Cliente
 
+## Nuevas funcionalidades
+
+### Inicio de sesión único (SSO)
+
+La aplicación soporta autenticación SSO (Single Sign-On), permitiendo a los usuarios iniciar sesión con cuentas de la organización (Google, Microsoft, LDAP, etc.) o redes sociales. Esto facilita el acceso seguro y centralizado, evitando la gestión de múltiples contraseñas.
+
+**¿Cómo funciona?**
+- Al acceder a la app, el usuario puede elegir iniciar sesión con su proveedor preferido.
+- El backend valida el token y crea la sesión automáticamente.
+
+**Ejemplo genérico de uso en la UI:**
+```html
+<button (click)="loginWithGoogle()">Iniciar sesión con Google</button>
+<button (click)="loginWithMicrosoft()">Iniciar sesión con Microsoft</button>
+```
+**Ejemplo de código (TypeScript):**
+```typescript
+loginWithGoogle() {
+	this.authService.loginWithProvider('google');
+}
+```
+> El servicio `authService` gestiona la redirección y validación del token SSO.
+
+---
+
+### Internacionalización (i18n) y traducción
+
+La aplicación está completamente traducida a español, inglés y alemán usando Transloco. El usuario puede seleccionar el idioma desde la interfaz, y todos los textos, notificaciones y mensajes de error se muestran en el idioma elegido.
+
+**¿Cómo funciona?**
+- El selector de idioma está disponible en el menú principal o en la barra de navegación.
+- Al cambiar el idioma, la app actualiza todos los textos automáticamente.
+
+**Ejemplo de selector de idioma en la UI:**
+```html
+<select [(ngModel)]="selectedLang" (change)="setLang(selectedLang)">
+	<option value="es">Español</option>
+	<option value="en">English</option>
+	<option value="de">Deutsch</option>
+</select>
+```
+**Ejemplo de código (TypeScript):**
+```typescript
+setLang(lang: string) {
+	this.translocoService.setActiveLang(lang);
+}
+```
+> El servicio `translocoService` gestiona el idioma activo y la carga de traducciones.
+
+**Ejemplo de uso de traducción en componentes:**
+```html
+<span>{{ 'login' | transloco }}</span>
+```
+**Ejemplo de notificación traducida en servicios:**
+```typescript
+import { TranslocoService } from "@jsverse/transloco";
+
+const msg = this.translocoService.translate('rentService.rentSuccess');
+this.toastr.success(msg);
+```
+
+---
+
+### Instalación de Transloco
+
+Para habilitar la traducción, instale Transloco ejecutando:
+
+```bash
+npm install @jsverse/transloco
+```
+
+
+
  Este proyecto fue generado con [Angular CLI](https://github.com/angular/angular-cli) versión 19.x.x.
 
 ## Servidor de desarrollo

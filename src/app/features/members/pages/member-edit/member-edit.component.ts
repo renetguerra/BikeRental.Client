@@ -1,4 +1,5 @@
 import { Component, HostListener, OnInit, inject, signal, viewChild } from '@angular/core';
+import { TranslocoModule } from '@jsverse/transloco';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { Member } from 'src/app/core/_models/member';
@@ -20,7 +21,7 @@ import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/pho
     templateUrl: './member-edit.component.html',
     styleUrls: ['./member-edit.component.css'],
     imports: [TabsModule, FormsModule, TimeagoModule, GalleryModule,
-      MatDialogModule, MatIconModule, MatButtonModule,
+      MatDialogModule, MatIconModule, MatButtonModule, TranslocoModule
     ]
 })
 export class MemberEditComponent implements OnInit  {

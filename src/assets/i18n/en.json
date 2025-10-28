@@ -3,7 +3,7 @@
   "welcome": "Welcome to BikeRental",
   "login": "Login",
   "logout": "Logout",
-  "home": {
+  "bike": {
     "heroTitle": "Explore the City with BikeRental",
     "heroDescription": "Rent a bike and discover the city at your own pace. Our service offers a wide range of bikes for every adventure.",
     "viewBikes": "View Bikes",
@@ -13,16 +13,106 @@
     "popularBikes": "Our Popular Bikes",
     "ctaTitle": "Ready to Ride?",
     "ctaDescription": "Join the BikeRental community today and start your next urban adventure.",
-    "bike": {
-      "cityCruiser": "City Cruiser",
-      "cityCruiserDesc": "Perfect for leisurely rides around the city.",
-      "mountainExplorer": "Mountain Explorer",
-      "mountainExplorerDesc": "Tackle any terrain with our rugged mountain bikes.",
-      "electricGlide": "Electric Glide",
-      "electricGlideDesc": "Effortlessly cover long distances with our electric bikes.",
-      "ctaTitle": "Ready to Ride?",
-      "ctaDescription": "Join the BikeRental community today and start your next urban adventure."
-    }
+    "cityCruiser": "City Cruiser",
+    "cityCruiserDesc": "Perfect for leisurely rides around the city.",
+    "mountainExplorer": "Mountain Explorer",
+    "mountainExplorerDesc": "Tackle any terrain with our rugged mountain bikes.",
+    "electricGlide": "Electric Glide",
+    "electricGlideDesc": "Effortlessly cover long distances with our electric bikes.",
+    "bikeFavorite": {
+        "title": "Favorite Bikes",
+        "photo": "Photo",
+        "model": "Model",
+        "brand": "Brand",
+        "type": "Type",
+        "year": "Year",
+        "available": "Available",
+        "yes": "Yes",
+        "no": "No"
+      }
+  },
+  "memberList": {
+    "title": "Our Community",
+    "subtitle": "Discover and connect with our amazing community of bike enthusiasts. Meet fellow riders and find your perfect adventure partners.",
+    "membersFound": "Members Found",
+    "ageFrom": "Age From",
+    "ageTo": "Age To",
+    "gender": "Gender",
+    "allGenders": "All Genders",
+    "males": "Males",
+    "females": "Females",
+    "applyFilters": "Apply Filters",
+    "reset": "Reset",
+    "sortBy": "Sort by:",
+    "lastActive": "Last Active",
+    "newestMembers": "Newest Members",
+    "noMembers": "No members found",
+    "tryAdjusting": "Try adjusting your filters to see more results."
+  },
+  "memberEdit": {
+    "title": "Edit Profile",
+    "info": "Info",
+    "unsavedChanges": "You have made changes. Any unsaved changes will be lost.",
+    "personalInfo": "Personal Information",
+    "name": "Name",
+    "surname": "Surname",
+    "username": "Username",
+    "email": "Email",
+    "description": "Description",
+    "enterName": "Enter your name",
+    "enterSurname": "Enter your surname",
+    "enterUsername": "Username",
+    "enterEmail": "your@email.com",
+    "tellAbout": "Tell us something about yourself...",
+    "savePersonalInfo": "Save Personal Information",
+    "profileImage": "Profile Image",
+    "selectImage": "Select image",
+    "uploadHint": "PNG, JPG, GIF up to 10MB.",
+    "locationDetails": "Location Details",
+    "noLocation": "No location info available.",
+    "street": "Street",
+    "houseNumber": "House Number",
+    "postalCode": "Postal Code",
+    "city": "City",
+    "country": "Country",
+    "confirmLocation": "Confirm Location",
+    "bankingDetails": "Banking Details",
+    "noBank": "No bank account info available.",
+    "cardNumber": "Card Number",
+    "cardholderName": "Cardholder Name",
+    "expiryDate": "Expiry Date",
+    "bankName": "Bank Name",
+    "accountNumber": "Account Number",
+    "routingNumber": "Routing Number",
+    "confirmBanking": "Confirm Banking Info"
+  },
+  "memberDetail": {
+    "title": "My Profile",
+    "infoTab": "Info",
+    "favoritesTab": "Favorite Bikes",
+    "historyTab": "Rental History",
+    "personalInfo": "Personal Information",
+    "name": "Name",
+    "surname": "Surname",
+    "email": "Email",
+    "notSpecified": "Not specified",
+    "saveChanges": "Save Changes",
+    "locationDetails": "Location Details",
+    "street": "Street",
+    "houseNumber": "House Number",
+    "postalCode": "Postal Code",
+    "city": "City",
+    "country": "Country"
+  },
+  "memberCard": {
+    "viewProfile": "View Profile",
+    "sendMessage": "Send Message",
+    "notifications": "Notifications",
+    "online": "Online",
+    "offline": "Offline",
+    "age": "Age",
+    "city": "City",
+    "notSpecified": "Not specified"
   },
   "signin": {
     "title": "Sign In",
@@ -93,6 +183,115 @@
     "follow": "Follow Us",
     "copyright": "© 2025 BikeRental. All rights reserved."
   },
+  "errors": {
+    "notFound": {
+      "title": "Page not found",
+      "returnHome": "Return to home page"
+    },
+    "serverError": {
+      "title": "Internal server error - refreshing the page will make the error disappear!",
+      "errorLabel": "Error:",
+      "note": "Note: If you are seeing this then Angular is probably not to blame",
+      "whatToDo": "What to do next",
+      "step1": "Open the dev tools and check the failing request in the network tab",
+      "step2": "Examine the request URL - what API endpoint are you requesting?",
+      "step3": "Reproduce the error in Postman - if we get the same error then Angular is not the problem",
+      "stackTrace": "Following is the stack trace - the first 2 lines will tell you which line of code in the API caused the issue"
+    },
+    "testErrors": {
+      "title": "Test Error Responses",
+      "error500": "Test 500 Error",
+      "error400": "Test 400 Error",
+      "error401": "Test 401 Error",
+      "error404": "Test 404 Error",
+      "error400Validation": "Test 400 Validation Error",
+      "validationListTitle": "Validation Errors"
+    }
+  },
+  "textInput": {
+    "label": "Enter value",
+    "required": "Please enter a value",
+    "minlength": "Must be at least {{requiredLength}} characters",
+    "maxlength": "Must be at most {{requiredLength}} characters",
+    "notMatching": "Passwords do not match"
+  },
+  "accountService": {
+    "loginSuccess": "Login successful!",
+    "registerSuccess": "Registration successful!",
+    "localStorageError": "Failed to save user data to localStorage.",
+    "tokenError": "Invalid token. Roles could not be decoded."
+  },
+  "adminService": {
+    "getUsersWithRolesSuccess": "User roles loaded successfully.",
+    "getUsersWithRolesError": "Failed to load user roles.",
+    "updateUserRolesSuccess": "User roles updated successfully.",
+    "updateUserRolesError": "Failed to update user roles.",
+    "createUserNotificationsSuccess": "Notifications created successfully.",
+    "createUserNotificationsError": "Failed to create notifications.",
+    "getUserPhotosForApprovalSuccess": "Photos for approval loaded.",
+    "getUserPhotosForApprovalError": "Failed to load photos for approval."
+  },
+  "genericPhotoService": {
+    "uploadSuccess": "Photo uploaded successfully.",
+    "uploadError": "Error uploading photo.",
+    "deleteSuccess": "Photo deleted successfully.",
+    "deleteError": "Error deleting photo.",
+    "setMainSuccess": "Main photo set successfully.",
+    "setMainError": "Error setting main photo."
+  },
+  "membersService": {
+    "fetchMembersError": "Error fetching members.",
+    "fetchAllUsersError": "Error to get users.",
+    "updateSuccess": "Member updated successfully.",
+    "updateError": "Error updating member.",
+    "setMainPhotoSuccess": "Main photo set successfully.",
+    "setMainPhotoError": "Error setting main photo.",
+    "deletePhotoSuccess": "Photo deleted successfully.",
+    "deletePhotoError": "Error deleting photo."
+  },
+  "presenceService": {
+    "connectionEstablished": "Connection established.",
+    "connectionError": "Connection error.",
+    "reconnecting": "Attempting to reconnect...",
+    "reconnected": "Reconnected successfully.",
+    "connectionClosed": "Connection closed.",
+    "userOnline": "{{username}} is now online.",
+    "userOffline": "{{username}} is now offline.",
+    "getOnlineUsersError": "Error getting online users.",
+    "stopConnectionSuccess": "Connection stopped successfully.",
+    "stopConnectionError": "Error stopping connection."
+  },
+  "rentService": {
+    "getRentalsError": "Error getting rentals.",
+    "getCustomerRentalHistoryError": "Error getting customer rental history.",
+    "rentSuccess": "Bike rented successfully.",
+    "rentError": "Error renting bike.",
+    "returnSuccess": "Bike returned successfully.",
+    "returnError": "Error returning bike."
+  },
+  "errorInterceptor": {
+    "validationError": "Validation error: {{message}}",
+    "unauthorized": "Unauthorized. Please sign in.",
+    "unexpected": "Something unexpected happened. Please try again."
+  },
+  "preventUnsavedChangesGuard": {
+    "title": "Unsaved Changes",
+    "confirm": "You have unsaved changes. Do you really want to leave?"
+  },
+  "authGuard": {
+    "error": "You shall not pass!"
+  },
+  "adminGuard": {
+    "error": "You cannot enter this area"
+  },
+  "appComponent": {
+    "loading": "Loading",
+    "mainTitle": "BikeRental app"
+  },
+  "datePicker": {
+    "label": "Select date",
+    "required": "Date is required"
+  },
   "bikeManagement": {
     "title": "Bike Management",
     "subtitle": "Manage bike listings and details",
@@ -121,11 +320,13 @@
     },
     "photoManagement": {
       "empty": "No pending photos to approve or reject.",
-      "mainPhoto": "Main photo",
-      "approved": "Approved",
-      "approve": "Approve",
-      "reject": "Reject",
-      "years": "years"
+      "notFound": {
+        "mainPhoto": "Main photo",
+        "approved": "Approved",
+        "approve": "Approve",
+        "reject": "Reject",
+        "years": "years"
+      }
     }
   },
   "bikeList": {
@@ -217,6 +418,110 @@
     "nA": "N/A",
     "rentBike": "Rent Bike",
     "notAvailableBtn": "Not Available"
+  },
+  "bikeCard": {
+    "viewDetails": "View Details",
+    "addToFavorites": "Add to Favorites",
+    "rentBike": "Rent Bike",
+    "returnBike": "Return Bike",
+    "pricePeriod": "/day",
+    "readyToRide": "Ready to ride",
+    "currentlyRented": "Currently rented",
+    "available": "Available",
+    "rented": "Rented"
+  },
+  "customerRentalHistory": {
+    "title": "Rental History",
+    "photo": "Photo",
+    "model": "Model",
+    "brand": "Brand",
+    "price": "Price",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "noRentals": "No rental history found."
+  },
+  "bikeRentalHistory": {
+    "title": "Bike Rental History",
+    "photo": "Photo",
+    "username": "Username",
+    "name": "Name",
+    "surname": "Surname",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "noData": "No rental history found."
+  },
+  "genericCreateUpdateModal": {
+    "managePhotos": "Manage Photos",
+    "uploadHint": "PNG, JPG, GIF up to 10MB.",
+    "cancel": "Cancel",
+    "addTitle": "Add",
+    "editTitle": "Edit",
+    "informationTab": "Information",
+    "mainImageTab": "Main Image",
+    "availability": "Availability",
+    "availableOnly": "Available Only",
+    "save": "Save",
+    "success": "Changes have been saved successfully",
+    "error": "An error occurred while saving changes",
+    "notesPlaceholder": "Additional notes..."
+  },
+  "genericDeleteModal": {
+    "title": "Delete",
+    "confirm": "Would you like to delete this item?",
+    "cancel": "No",
+    "ok": "Ok",
+    "success": "Item deleted successfully",
+    "error": "Error deleting item"
+  },
+  "photoDelete": {
+    "title": "Delete Photos",
+    "main": "Main",
+    "delete": "Delete",
+    "noPhotos": "No photos available.",
+    "close": "Close",
+    "success": "Photo deleted successfully",
+    "error": "Error deleting photo"
+  },
+  "photoEditor": {
+    "title": "Manage Photos",
+    "select": "Select photos to upload",
+    "dragDrop": "Drag & drop files here",
+    "or": "or",
+    "chooseFiles": "Choose Image Files",
+    "formats": "Supported formats: JPG, PNG, GIF, WebP",
+    "progress": "% uploaded",
+    "existing": "Existing Photos",
+    "mainPhoto": "Main Photo",
+    "setMain": "Set as Main",
+    "delete": "Delete",
+    "close": "Close",
+    "success": "Photo uploaded successfully",
+    "error": "Error uploading photo"
+  },
+  "notificationSheet": {
+    "done": "Done!",
+    "cancel": "Cancel",
+    "empty": "No notifications assigned",
+    "success": "Notification deleted successfully",
+    "error": "Error deleting notification"
+  },
+  "commonTable": {
+    "noData": "No data available",
+    "photoAlt": "photo",
+    "firstPage": "First page",
+    "lastPage": "Last page",
+    "itemsPerPage": "Items per page",
+    "nextPage": "Next page",
+    "previousPage": "Previous page"
+  },
+  "crudTable": {
+    "addNew": "Add New",
+    "edit": "Edit",
+    "delete": "Delete",
+    "actions": "Actions",
+    "photoAlt": "photo",
+    "noData": "No data available"
   }
 }
+
 

@@ -20,7 +20,7 @@
         <button
           [routerLink]="['/bike', bike()!.id]"
           class="action-btn"
-          matTooltip="View Details">
+          matTooltip="{{ 'bikeCard.viewDetails' | transloco }}">
           <mat-icon>visibility</mat-icon>
         </button>
 
@@ -28,7 +28,7 @@
           (click)="toggleLikeBike()"
           class="action-btn"
           [class.liked]="hasLiked()"
-          matTooltip="Add to Favorites">
+          matTooltip="{{ 'bikeCard.addToFavorites' | transloco }}">
           <mat-icon>{{ hasLiked() ? 'favorite' : 'favorite_border' }}</mat-icon>
         </button>
 
@@ -36,14 +36,14 @@
           <button
             (click)="rentBike()"
             class="action-btn"
-            matTooltip="Rent Bike">
+            matTooltip="{{ 'bikeCard.rentBike' | transloco }}">
             <mat-icon>directions_bike</mat-icon>
           </button>
         } @else {
           <button
             (click)="returnBike()"
             class="action-btn return-btn"
-            matTooltip="Return Bike">
+            matTooltip="{{ 'bikeCard.returnBike' | transloco }}">
             <mat-icon>assignment_return</mat-icon>
           </button>
         }
@@ -67,7 +67,7 @@
       <div class="bike-price">
         <mat-icon class="detail-icon">attach_money</mat-icon>
         <span class="price-value">{{ bike()!.price | currency }}</span>
-        <span class="price-period">/day</span>
+        <span class="price-period">{{ 'bikeCard.pricePeriod' | transloco }}</span>
       </div>
     </div>
 
@@ -75,11 +75,11 @@
     <div class="status-indicator">
       <div class="status-left">
         <div class="status-dot" [class.available]="bike()!.isAvailable" [class.unavailable]="!bike()!.isAvailable"></div>
-        <span class="status-text">{{ bike()!.isAvailable ? 'Ready to ride' : 'Currently rented' }}</span>
+        <span class="status-text">{{ bike()!.isAvailable ? ('bikeCard.readyToRide' | transloco) : ('bikeCard.currentlyRented' | transloco) }}</span>
       </div>
       <!-- Availability Badge -->
       <div class="availability-badge" [class.available]="bike()!.isAvailable" [class.unavailable]="!bike()!.isAvailable">
-        {{ bike()!.isAvailable ? 'Available' : 'Rented' }}
+        {{ bike()!.isAvailable ? ('bikeCard.available' | transloco) : ('bikeCard.rented' | transloco) }}
       </div>
     </div>
   </div>

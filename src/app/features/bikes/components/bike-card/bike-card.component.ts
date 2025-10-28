@@ -19,12 +19,21 @@ import { MemberStore } from 'src/app/core/_stores/member.store';
 import { RouterLink, RouterModule } from '@angular/router';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { BikeService } from 'src/app/core/_services/bike.service';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-bike-card',
   templateUrl: './bike-card.component.html',
   styleUrls: ['./bike-card.component.css'],
-  imports: [CommonModule, RouterModule, RouterLink, MatIconModule, MatTooltipModule],
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    RouterLink,
+    MatIconModule,
+    MatTooltipModule,
+    TranslocoModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BikeCardComponent implements OnInit {

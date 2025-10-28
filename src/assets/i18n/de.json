@@ -3,7 +3,7 @@
   "welcome": "Willkommen bei BikeRental",
   "login": "Anmelden",
   "logout": "Abmelden",
-  "home": {
+  "bike": {
     "heroTitle": "Entdecke die Stadt mit BikeRental",
     "heroDescription": "Miete ein Fahrrad und entdecke die Stadt in deinem eigenen Tempo. Unser Service bietet eine große Auswahl an Fahrrädern für jedes Abenteuer.",
     "viewBikes": "Fahrräder ansehen",
@@ -13,16 +13,106 @@
     "popularBikes": "Unsere beliebten Fahrräder",
     "ctaTitle": "Bereit zum Losfahren?",
     "ctaDescription": "Werde Teil der BikeRental-Community und starte dein nächstes urbanes Abenteuer.",
-    "bike": {
-      "cityCruiser": "City Cruiser",
-      "cityCruiserDesc": "Perfekt für gemütliche Fahrten durch die Stadt.",
-      "mountainExplorer": "Mountain Explorer",
-      "mountainExplorerDesc": "Bewältige jedes Gelände mit unseren robusten Mountainbikes.",
-      "electricGlide": "Electric Glide",
-      "electricGlideDesc": "Mühelos lange Strecken mit unseren Elektrofahrrädern zurücklegen.",
-      "ctaTitle": "Bereit zum Losfahren?",
-      "ctaDescription": "Werde Teil der BikeRental-Community und starte dein nächstes urbanes Abenteuer."
-    }
+    "cityCruiser": "City Cruiser",
+    "cityCruiserDesc": "Perfekt für gemütliche Fahrten durch die Stadt.",
+    "mountainExplorer": "Mountain Explorer",
+    "mountainExplorerDesc": "Bewältige jedes Gelände mit unseren robusten Mountainbikes.",
+    "electricGlide": "Electric Glide",
+    "electricGlideDesc": "Mühelos lange Strecken mit unseren Elektrofahrrädern zurücklegen."
+  },
+  "bikeFavorite": {
+    "title": "Favoriten-Fahrräder",
+    "photo": "Foto",
+    "model": "Modell",
+    "brand": "Marke",
+    "type": "Typ",
+    "year": "Jahr",
+    "available": "Verfügbar",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "memberList": {
+    "title": "Unsere Community",
+    "subtitle": "Entdecke und vernetze dich mit unserer großartigen Fahrrad-Community. Triff andere Fahrer und finde die perfekten Abenteuerpartner.",
+    "membersFound": "Gefundene Mitglieder",
+    "ageFrom": "Alter von",
+    "ageTo": "Alter bis",
+    "gender": "Geschlecht",
+    "allGenders": "Alle Geschlechter",
+    "males": "Männer",
+    "females": "Frauen",
+    "applyFilters": "Filter anwenden",
+    "reset": "Zurücksetzen",
+    "sortBy": "Sortieren nach:",
+    "lastActive": "Zuletzt aktiv",
+    "newestMembers": "Neueste Mitglieder",
+    "noMembers": "Keine Mitglieder gefunden",
+    "tryAdjusting": "Versuche, deine Filter anzupassen, um mehr Ergebnisse zu sehen."
+  },
+  "memberEdit": {
+    "title": "Profil bearbeiten",
+    "info": "Info",
+    "unsavedChanges": "Sie haben Änderungen vorgenommen. Nicht gespeicherte Änderungen gehen verloren.",
+    "personalInfo": "Persönliche Informationen",
+    "name": "Name",
+    "surname": "Nachname",
+    "username": "Benutzername",
+    "email": "E-Mail",
+    "description": "Beschreibung",
+    "enterName": "Geben Sie Ihren Namen ein",
+    "enterSurname": "Geben Sie Ihren Nachnamen ein",
+    "enterUsername": "Benutzername",
+    "enterEmail": "deine@email.com",
+    "tellAbout": "Erzählen Sie uns etwas über sich...",
+    "savePersonalInfo": "Persönliche Informationen speichern",
+    "profileImage": "Profilbild",
+    "selectImage": "Bild auswählen",
+    "uploadHint": "PNG, JPG, GIF bis 10MB.",
+    "locationDetails": "Standortdetails",
+    "noLocation": "Keine Standortinformationen verfügbar.",
+    "street": "Straße",
+    "houseNumber": "Hausnummer",
+    "postalCode": "Postleitzahl",
+    "city": "Stadt",
+    "country": "Land",
+    "confirmLocation": "Standort bestätigen",
+    "bankingDetails": "Bankdaten",
+    "noBank": "Keine Bankdaten verfügbar.",
+    "cardNumber": "Kartennummer",
+    "cardholderName": "Karteninhaber",
+    "expiryDate": "Ablaufdatum",
+    "bankName": "Bankname",
+    "accountNumber": "Kontonummer",
+    "routingNumber": "Bankleitzahl",
+    "confirmBanking": "Bankdaten bestätigen"
+  },
+  "memberDetail": {
+    "title": "Mein Profil",
+    "infoTab": "Info",
+    "favoritesTab": "Favoriten-Fahrräder",
+    "historyTab": "Mietverlauf",
+    "personalInfo": "Persönliche Informationen",
+    "name": "Name",
+    "surname": "Nachname",
+    "email": "E-Mail",
+    "notSpecified": "Nicht angegeben",
+    "saveChanges": "Änderungen speichern",
+    "locationDetails": "Standortdetails",
+    "street": "Straße",
+    "houseNumber": "Hausnummer",
+    "postalCode": "Postleitzahl",
+    "city": "Stadt",
+    "country": "Land"
+  },
+  "memberCard": {
+    "viewProfile": "Profil ansehen",
+    "sendMessage": "Nachricht senden",
+    "notifications": "Benachrichtigungen",
+    "online": "Online",
+    "offline": "Offline",
+    "age": "Alter",
+    "city": "Stadt",
+    "notSpecified": "Nicht angegeben"
   },
   "signin": {
     "title": "Anmelden",
@@ -93,6 +183,115 @@
     "follow": "Folge uns",
     "copyright": "© 2025 BikeRental. Alle Rechte vorbehalten."
   },
+  "errors": {
+    "notFound": {
+      "title": "Seite nicht gefunden",
+      "returnHome": "Zurück zur Startseite"
+    },
+    "serverError": {
+      "title": "Interner Serverfehler – Aktualisieren der Seite kann den Fehler beheben!",
+      "errorLabel": "Fehler:",
+      "note": "Hinweis: Wenn Sie dies sehen, ist wahrscheinlich nicht Angular schuld",
+      "whatToDo": "Was ist als Nächstes zu tun?",
+      "step1": "Öffnen Sie die Entwicklertools und prüfen Sie die fehlgeschlagene Anfrage im Netzwerk-Tab",
+      "step2": "Untersuchen Sie die Anfrage-URL – welchen API-Endpunkt rufen Sie auf?",
+      "step3": "Reproduzieren Sie den Fehler in Postman – tritt derselbe Fehler auf, liegt das Problem nicht bei Angular",
+      "stackTrace": "Im Folgenden der Stacktrace – die ersten 2 Zeilen zeigen, welche Codezeile im API das Problem verursacht hat"
+    },
+    "testErrors": {
+      "title": "Fehlerantworten testen",
+      "error500": "500-Fehler testen",
+      "error400": "400-Fehler testen",
+      "error401": "401-Fehler testen",
+      "error404": "404-Fehler testen",
+      "error400Validation": "400-Validierungsfehler testen",
+      "validationListTitle": "Validierungsfehler"
+    }
+  },
+  "textInput": {
+    "label": "Wert eingeben",
+    "required": "Bitte geben Sie einen Wert ein",
+    "minlength": "Muss mindestens {{requiredLength}} Zeichen haben",
+    "maxlength": "Darf höchstens {{requiredLength}} Zeichen haben",
+    "notMatching": "Passwörter stimmen nicht überein"
+  },
+  "accountService": {
+    "loginSuccess": "Anmeldung erfolgreich!",
+    "registerSuccess": "Registrierung erfolgreich!",
+    "localStorageError": "Fehler beim Speichern der Benutzerdaten in localStorage.",
+    "tokenError": "Ungültiges Token. Rollen konnten nicht dekodiert werden."
+  },
+    "adminService": {
+    "getUsersWithRolesSuccess": "Benutzerrollen erfolgreich geladen.",
+    "getUsersWithRolesError": "Benutzerrollen konnten nicht geladen werden.",
+    "updateUserRolesSuccess": "Benutzerrollen erfolgreich aktualisiert.",
+    "updateUserRolesError": "Benutzerrollen konnten nicht aktualisiert werden.",
+    "createUserNotificationsSuccess": "Benachrichtigungen erfolgreich erstellt.",
+    "createUserNotificationsError": "Benachrichtigungen konnten nicht erstellt werden.",
+    "getUserPhotosForApprovalSuccess": "Fotos zur Genehmigung geladen.",
+    "getUserPhotosForApprovalError": "Fotos zur Genehmigung konnten nicht geladen werden."
+  },
+  "genericPhotoService": {
+    "uploadSuccess": "Foto erfolgreich hochgeladen.",
+    "uploadError": "Fehler beim Hochladen der Foto.",
+    "deleteSuccess": "Foto erfolgreich gelöscht.",
+    "deleteError": "Fehler beim Löschen der Foto.",
+    "setMainSuccess": "Hauptfoto erfolgreich festgelegt.",
+    "setMainError": "Fehler beim Festlegen des Hauptfotos."
+  },
+  "membersService": {
+    "fetchMembersError": "Fehler beim Abrufen der Mitglieder.",
+    "fetchAllUsersError": "Fehler beim Abrufen der Benutzer.",
+    "updateSuccess": "Mitglied erfolgreich aktualisiert.",
+    "updateError": "Fehler beim Aktualisieren des Mitglieds.",
+    "setMainPhotoSuccess": "Hauptfoto erfolgreich festgelegt.",
+    "setMainPhotoError": "Fehler beim Festlegen des Hauptfotos.",
+    "deletePhotoSuccess": "Foto erfolgreich gelöscht.",
+    "deletePhotoError": "Fehler beim Löschen des Fotos."
+  },
+  "presenceService": {
+    "connectionEstablished": "Verbindung hergestellt.",
+    "connectionError": "Verbindungsfehler.",
+    "reconnecting": "Versuche, erneut zu verbinden...",
+    "reconnected": "Erfolgreich erneut verbunden.",
+    "connectionClosed": "Verbindung geschlossen.",
+    "userOnline": "{{username}} ist jetzt online.",
+    "userOffline": "{{username}} ist jetzt offline.",
+    "getOnlineUsersError": "Fehler beim Abrufen der Online-Benutzer.",
+    "stopConnectionSuccess": "Verbindung erfolgreich getrennt.",
+    "stopConnectionError": "Fehler beim Trennen der Verbindung."
+  },
+  "rentService": {
+    "getRentalsError": "Fehler beim Abrufen der Vermietungen.",
+    "getCustomerRentalHistoryError": "Fehler beim Abrufen der Kunden-Miethistorie.",
+    "rentSuccess": "Fahrrad erfolgreich gemietet.",
+    "rentError": "Fehler beim Mieten des Fahrrads.",
+    "returnSuccess": "Fahrrad erfolgreich zurückgegeben.",
+    "returnError": "Fehler beim Zurückgeben des Fahrrads."
+  },
+  "errorInterceptor": {
+    "validationError": "Validierungsfehler: {{message}}",
+    "unauthorized": "Nicht autorisiert. Bitte anmelden.",
+    "unexpected": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+  },
+  "preventUnsavedChangesGuard": {
+    "title": "Ungespeicherte Änderungen",
+    "confirm": "Sie haben ungespeicherte Änderungen. Möchten Sie die Seite wirklich verlassen?"
+  },
+  "authGuard": {
+    "error": "Du kommst hier nicht vorbei!"
+  },
+  "adminGuard": {
+    "error": "Sie können diesen Bereich nicht betreten"
+  },
+  "appComponent": {
+    "loading": "Wird geladen",
+    "mainTitle": "BikeRental App"
+  },
+  "datePicker": {
+    "label": "Datum auswählen",
+    "required": "Datum ist erforderlich"
+  },
   "bikeManagement": {
     "title": "Fahrradverwaltung",
     "subtitle": "Verwalte Fahrradangebote und Details",
@@ -121,11 +320,24 @@
     },
     "photoManagement": {
       "empty": "Keine ausstehenden Fotos zum Genehmigen oder Ablehnen.",
-      "mainPhoto": "Hauptfoto",
-      "approved": "Genehmigt",
-      "approve": "Genehmigen",
-      "reject": "Ablehnen",
-      "years": "Jahre"
+      "notFound": {
+        "mainPhoto": "Hauptfoto",
+        "approved": "Genehmigt",
+        "approve": "Genehmigen",
+        "reject": "Ablehnen",
+        "years": "Jahre"
+      }
+      ,
+      "adminService": {
+        "getUsersWithRolesSuccess": "Benutzerrollen erfolgreich geladen.",
+        "getUsersWithRolesError": "Benutzerrollen konnten nicht geladen werden.",
+        "updateUserRolesSuccess": "Benutzerrollen erfolgreich aktualisiert.",
+        "updateUserRolesError": "Benutzerrollen konnten nicht aktualisiert werden.",
+        "createUserNotificationsSuccess": "Benachrichtigungen erfolgreich erstellt.",
+        "createUserNotificationsError": "Benachrichtigungen konnten nicht erstellt werden.",
+        "getUserPhotosForApprovalSuccess": "Fotos zur Genehmigung geladen.",
+        "getUserPhotosForApprovalError": "Fotos zur Genehmigung konnten nicht geladen werden."
+      }
     }
   },
   "bikeEdit": {
@@ -217,6 +429,108 @@
     "nA": "k.A.",
     "rentBike": "Fahrrad mieten",
     "notAvailableBtn": "Nicht verfügbar"
+  },
+  "bikeCard": {
+    "viewDetails": "Details ansehen",
+    "addToFavorites": "Zu Favoriten hinzufügen",
+    "rentBike": "Fahrrad mieten",
+    "returnBike": "Fahrrad zurückgeben",
+    "pricePeriod": "/Tag",
+    "readyToRide": "Fahrbereit",
+    "currentlyRented": "Derzeit vermietet",
+    "available": "Verfügbar",
+    "rented": "Vermietet"
+  },
+  "customerRentalHistory": {
+    "title": "Mietverlauf",
+    "photo": "Foto",
+    "model": "Modell",
+    "brand": "Marke",
+    "price": "Preis",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "noRentals": "Kein Mietverlauf gefunden."
+  },
+  "bikeRentalHistory": {
+    "title": "Fahrrad-Mietverlauf",
+    "photo": "Foto",
+    "username": "Benutzername",
+    "name": "Name",
+    "surname": "Nachname",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "noData": "Kein Mietverlauf gefunden."
+  },
+  "genericCreateUpdateModal": {
+    "managePhotos": "Fotos verwalten",
+    "uploadHint": "PNG, JPG, GIF bis 10MB.",
+    "cancel": "Abbrechen",
+    "addTitle": "Hinzufügen",
+    "editTitle": "Bearbeiten",
+    "informationTab": "Informationen",
+    "mainImageTab": "Hauptbild",
+    "availability": "Verfügbarkeit",
+    "availableOnly": "Nur verfügbar",
+    "save": "Speichern",
+    "success": "Änderungen wurden erfolgreich gespeichert",
+    "error": "Beim Speichern der Änderungen ist ein Fehler aufgetreten",
+    "notesPlaceholder": "Zusätzliche Notizen..."
+  },
+  "genericDeleteModal": {
+    "title": "Löschen",
+    "confirm": "Möchten Sie dieses Element löschen?",
+    "cancel": "Nein",
+    "ok": "Ja",
+    "success": "Element erfolgreich gelöscht",
+    "error": "Fehler beim Löschen des Elements"
+  },
+  "photoDelete": {
+    "title": "Fotos löschen",
+    "main": "Hauptfoto",
+    "delete": "Löschen",
+    "noPhotos": "Keine Fotos verfügbar.",
+    "close": "Schließen",
+    "success": "Foto erfolgreich gelöscht",
+    "error": "Fehler beim Löschen des Fotos"
+  },
+  "photoEditor": {
+    "title": "Fotos verwalten",
+    "select": "Fotos zum Hochladen auswählen",
+    "dragDrop": "Dateien hierher ziehen und ablegen",
+    "or": "oder",
+    "chooseFiles": "Bilddateien auswählen",
+    "formats": "Unterstützte Formate: JPG, PNG, GIF, WebP",
+    "progress": "% hochgeladen",
+    "existing": "Vorhandene Fotos",
+    "mainPhoto": "Hauptfoto",
+    "setMain": "Als Hauptfoto festlegen",
+    "delete": "Löschen",
+    "close": "Schließen",
+    "success": "Foto erfolgreich hochgeladen",
+    "error": "Fehler beim Hochladen des Fotos"
+  },
+  "notificationSheet": {
+    "done": "Erledigt!",
+    "cancel": "Abbrechen",
+    "empty": "Keine Benachrichtigungen zugewiesen",
+    "success": "Benachrichtigung erfolgreich gelöscht",
+    "error": "Fehler beim Löschen der Benachrichtigung"
+  },
+  "commonTable": {
+    "noData": "Keine Daten verfügbar",
+    "photoAlt": "Foto",
+    "firstPage": "Erste Seite",
+    "lastPage": "Letzte Seite",
+    "itemsPerPage": "Elemente pro Seite",
+    "nextPage": "Nächste Seite",
+    "previousPage": "Vorherige Seite"
+  },
+  "crudTable": {
+    "addNew": "Neu hinzufügen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "actions": "Aktionen",
+    "photoAlt": "Foto",
+    "noData": "Keine Daten verfügbar"
   }
-
 }

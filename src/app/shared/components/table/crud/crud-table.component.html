@@ -1,9 +1,9 @@
 @if (user().roles.includes('Admin')) {
 <div class="row">
   <div class="d-flex justify-content-end mb-2 w-100">
-    <button mat-fab extended (click)="openDialogEdit()">
-        <mat-icon>add</mat-icon> Add New
-    </button>
+  <button mat-fab extended (click)="openDialogEdit()">
+    <mat-icon>add</mat-icon> {{ 'crudTable.addNew' | transloco }}
+  </button>
   </div>
 
   <table mat-table [dataSource]="tableData" class="mat-elevation-z8 demo-table">
@@ -20,7 +20,7 @@
                     *ngSwitchCase="'photoUrl'"
                     class="crud-table__thumb"
                     [src]="row?.photoUrl"
-                    alt="photo"
+                    [alt]="'crudTable.photoAlt' | transloco"
                     (error)="onImageError($event)" />
                 </ng-container>
               </ng-container>
@@ -32,13 +32,13 @@
         }
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'crudTable.actions' | transloco }}</th>
           <td mat-cell *matCellDef="let row">
             <button mat-icon-button (click)="openDialogEdit(row)">
-              <mat-icon>edit</mat-icon>
+              <mat-icon>edit</mat-icon> {{ 'crudTable.edit' | transloco }}
             </button>
             <button mat-icon-button (click)="openDialogDelete(row)">
-              <mat-icon>delete</mat-icon>
+              <mat-icon>delete</mat-icon> {{ 'crudTable.delete' | transloco }}
             </button>
           </td>
 
@@ -46,6 +46,12 @@
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplayWithExpand;"></tr>
+        <!-- Mensaje de tabla vacía -->
+        <tr *ngIf="tableData.data.length === 0">
+          <td [attr.colspan]="columnsToDisplayWithExpand.length" class="text-center text-muted">
+            {{ 'crudTable.noData' | transloco }}
+          </td>
+        </tr>
       </table>
         <mat-paginator
           class="modern-mat-paginator mt-3"

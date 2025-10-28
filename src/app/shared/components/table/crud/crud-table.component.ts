@@ -14,11 +14,13 @@ import { Pagination } from "src/app/core/_models/pagination";
 import { GenericCreateUpdateModalComponent } from "../../modals/generic-create-update-modal/generic-create-update-modal.component";
 import { GenericDeleteModalComponent } from "../../modals/generic-delete-modal/generic-delete-modal.component";
 import { PhotoConfig } from 'src/app/core/_models/genericPhotoConfig';
+import { TranslocoModule } from "@jsverse/transloco";
 
 @Component({
   selector: 'app-crud-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatDialogModule, MatIconModule, MatTableModule, MatPaginatorModule],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatDialogModule, MatIconModule,
+    MatTableModule, MatPaginatorModule, TranslocoModule],
   templateUrl: './crud-table.component.html',
   styleUrls: ['./crud-table.component.css']
 })

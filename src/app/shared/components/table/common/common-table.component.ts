@@ -23,6 +23,7 @@ import { TableColumn } from 'src/app/core/_models/generic';
 import { Pagination } from 'src/app/core/_models/pagination';
 import { RentalHistory } from 'src/app/core/_models/rentalHistory';
 import { Router } from '@angular/router';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-common-table',
@@ -35,6 +36,7 @@ import { Router } from '@angular/router';
     MatIconModule,
     MatTableModule,
     MatPaginatorModule,
+    TranslocoModule,
   ],
   templateUrl: './common-table.component.html',
   styleUrls: ['./common-table.component.css'],

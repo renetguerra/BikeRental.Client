@@ -1,4 +1,5 @@
-<h3 mat-dialog-title>Delete Photos</h3>
+
+<h3 mat-dialog-title>{{ 'photoDelete.title' | transloco }}</h3>
 <mat-dialog-content>
     @if (entity()) {
         <div class="row">
@@ -13,7 +14,7 @@
                             (click)="setMainPhoto(photo)"
                             [ngClass]='photo.isMain ? "btn-success active" : "btn-outline-success"'
                             >
-                            Main
+                            {{ 'photoDelete.main' | transloco }}
                             </button>
                         }
                         @if (canEdit()) {
@@ -21,7 +22,7 @@
                                 [disabled]="photo.isMain"
                                 (click)="deletePhoto(photo)"
                                 class="btn btn-sm btn-danger align-self-center"
-                            ><i class="fa fa-trash"></i></button>
+                            ><i class="fa fa-trash"></i> {{ 'photoDelete.delete' | transloco }}</button>
                         }
                     </div>
                 </div>
@@ -29,9 +30,9 @@
         </div>
     }
     @if (photos().length === 0) {
-        <p>No photos available.</p>
+        <p>{{ 'photoDelete.noPhotos' | transloco }}</p>
     }
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="closeDialog()">Close</button>
+    <button mat-button (click)="closeDialog()">{{ 'photoDelete.close' | transloco }}</button>
 </mat-dialog-actions>

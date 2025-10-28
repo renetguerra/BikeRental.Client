@@ -5,7 +5,6 @@ import { TimeagoModule } from 'ngx-timeago';
 import { PresenceService } from 'src/app/core/_services/presence.service';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { BikeService } from 'src/app/core/_services/bike.service';
-import { NotificationService } from 'src/app/core/_services/notification.service';
 import { GalleryModule } from 'ng-gallery';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -19,6 +18,7 @@ import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/pho
 import { BikeRentalHistoryComponent } from 'src/app/features/rental/bike-rental-history/bike-rental-history.component';
 import { RentStore } from 'src/app/core/_stores/rent.store';
 import { TranslocoModule } from '@jsverse/transloco';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-bike-detail',
@@ -35,7 +35,7 @@ export class BikeDetailComponent implements OnInit {
   private accountService = inject(AccountService);
   public presenceService = inject(PresenceService);
   private bikeService = inject(BikeService);
-  private notificationService = inject(NotificationService);
+  private toastr = inject(ToastrService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   readonly dialog = inject(MatDialog);
@@ -130,9 +130,13 @@ export class BikeDetailComponent implements OnInit {
         console.log('OK', response);
 
         // Show success notification
-        this.notificationService.success(
+        this.toastr.success(
           `Bike ${bikeName} rented successfully! 🚴‍♂️`,
-          5000
+          'Rental Successful',
+          {
+            timeOut: 6000,
+            positionClass: 'toast-bottom-right',
+          }
         );
 
         // Reload rental history after a successful rental
@@ -147,9 +151,13 @@ export class BikeDetailComponent implements OnInit {
 
         // Show error notification
         const errorMessage = err?.error?.message || 'Error renting the bike';
-        this.notificationService.error(
+        this.toastr.error(
           `Error: ${errorMessage}`,
-          6000
+          'Rental Error',
+          {
+            timeOut: 6000,
+            positionClass: 'toast-bottom-right',
+          }
         );
       },
     });

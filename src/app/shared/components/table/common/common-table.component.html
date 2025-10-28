@@ -15,7 +15,7 @@
             <img
               *ngSwitchCase="'photoUrl'"
               [src]="row.photoUrl"
-              alt="photo"
+              [alt]="'commonTable.photoAlt' | transloco"
               style="width: 60px; border-radius: 4px"
               (error)="onImageError($event, row)"
             />
@@ -34,6 +34,12 @@
       [class.clickable-row]="isRowClickable()"
       (click)="isRowClickable() ? onRowClicked(row) : null"
     ></tr>
+    <!-- Mensaje de tabla vacía -->
+    <tr *ngIf="tableData.data.length === 0">
+      <td [attr.colspan]="displayedColumns.length" class="text-center text-muted">
+        {{ 'commonTable.noData' | transloco }}
+      </td>
+    </tr>
   </table>
   <mat-paginator
     class="modern-mat-paginator mt-3"

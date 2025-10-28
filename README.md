@@ -1,5 +1,77 @@
 # Client
 
+## New Features
+
+### Single Sign-On (SSO)
+
+The application supports SSO authentication, allowing users to log in with organization accounts (Google, Microsoft, LDAP, etc.) or social providers. This enables secure, centralized access and eliminates password management.
+
+**How it works:**
+- On login, users choose their preferred provider.
+- The backend validates the token and creates the session automatically.
+
+**Generic UI example:**
+```html
+<button (click)="loginWithGoogle()">Sign in with Google</button>
+<button (click)="loginWithMicrosoft()">Sign in with Microsoft</button>
+```
+**TypeScript example:**
+```typescript
+loginWithGoogle() {
+	this.authService.loginWithProvider('google');
+}
+```
+> The `authService` handles redirection and token validation for SSO.
+
+---
+
+### Internationalization (i18n) and Translation
+
+The app is fully translated to English, Spanish, and German using Transloco. Users can select their language from the UI, and all texts, notifications, and error messages are shown in the chosen language.
+
+**How it works:**
+- The language selector is available in the main menu or navigation bar.
+- Changing the language updates all texts instantly.
+
+**Language selector UI example:**
+```html
+<select [(ngModel)]="selectedLang" (change)="setLang(selectedLang)">
+	<option value="en">English</option>
+	<option value="es">Español</option>
+	<option value="de">Deutsch</option>
+</select>
+```
+**TypeScript example:**
+```typescript
+setLang(lang: string) {
+	this.translocoService.setActiveLang(lang);
+}
+```
+> The `translocoService` manages the active language and loads translations.
+
+**Translation usage in components:**
+```html
+<span>{{ 'login' | transloco }}</span>
+```
+**Service notification example:**
+```typescript
+import { TranslocoService } from "@jsverse/transloco";
+
+const msg = this.translocoService.translate('rentService.rentSuccess');
+this.toastr.success(msg);
+```
+
+---
+
+### Transloco Installation
+
+To enable translation, install Transloco by running:
+
+```bash
+npm install @jsverse/transloco
+```
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 19.x.x.
 
 ## Development server
