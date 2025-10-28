@@ -11,8 +11,17 @@
     "backToHome": "Volver al inicio",
     "registerTitle": "Únete a BikeRental hoy",
     "popularBikes": "Nuestras bicicletas populares",
+    "ctaTitle": "¿Listo para rodar?",
+    "ctaDescription": "Únete a la comunidad BikeRental hoy y comienza tu próxima aventura urbana.",
     "bike": {
-      "cityCruiser": "Ciudad Cruiser"
+      "cityCruiser": "Ciudad Cruiser",
+      "cityCruiserDesc": "Perfecta para paseos tranquilos por la ciudad.",
+      "mountainExplorer": "Exploradora de Montaña",
+      "mountainExplorerDesc": "Enfrenta cualquier terreno con nuestras bicicletas de montaña.",
+      "electricGlide": "Deslizamiento Eléctrico",
+      "electricGlideDesc": "Recorre largas distancias sin esfuerzo con nuestras bicicletas eléctricas.",
+      "ctaTitle": "¿Listo para rodar?",
+      "ctaDescription": "Únete a la comunidad BikeRental hoy y comienza tu próxima aventura urbana."
     }
   },
   "signin": {
@@ -27,8 +36,35 @@
     "show": "Mostrar",
     "hide": "Ocultar"
   },
+  "register": {
+    "backToHome": "Volver al inicio",
+    "title": "Registrarse",
+    "subtitle": "Crea tu cuenta de BikeRental",
+    "genderLabel": "Soy:",
+    "gender": {
+      "male": "Hombre",
+      "female": "Mujer"
+    },
+    "name": "Nombre",
+    "surname": "Apellido",
+    "username": "Usuario",
+    "knownAs": "Alias",
+    "dateOfBirth": "Fecha de nacimiento",
+    "city": "Ciudad",
+    "country": "País",
+    "password": "Contraseña",
+    "togglePassword": "Mostrar/ocultar contraseña",
+    "passwordStrength": "Fortaleza de la contraseña:",
+    "confirmPassword": "Confirmar contraseña",
+    "register": "Registrarse",
+    "registering": "Registrando...",
+    "fixErrors": "Por favor corrige los siguientes errores:",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "signIn": "Iniciar sesión"
+  },
   "nav": {
     "profile": "Perfil",
+    "home": "Inicio",
     "bikes": "Bicicletas",
     "customers": "Clientes",
     "admin": "Administración",
@@ -44,5 +80,143 @@
       "es": "Español",
       "de": "Alemán"
     }
+  },
+  "footer": {
+    "description": "Explora la ciudad con nuestro servicio premium de alquiler de bicicletas. Transporte seguro, conveniente y ecológico.",
+    "quickLinks": "Enlaces rápidos",
+    "support": "Soporte",
+    "help": "Centro de ayuda",
+    "privacy": "Política de privacidad",
+    "terms": "Términos de servicio",
+    "contact": "Contacto",
+    "about": "Sobre nosotros",
+    "follow": "Síguenos",
+    "copyright": "© 2025 BikeRental. Todos los derechos reservados."
+  },
+  "bikeManagement": {
+    "title": "Gestión de bicicletas",
+    "subtitle": "Administra el listado y detalles de bicicletas",
+    "totalBikes": "Total de bicicletas",
+    "bikesDetails": "Bicicletas y detalles",
+    "photo": "Foto",
+    "model": "Modelo",
+    "brand": "Marca",
+    "type": "Tipo",
+    "year": "Año",
+    "price": "Precio",
+    "available": "Disponible"
+  },
+  "adminPanel": {
+    "title": "Panel de administración",
+    "userManagement": {
+      "title": "Gestión de usuarios",
+      "subtitle": "Gestiona roles y permisos de usuarios",
+      "totalUsers": "Total de usuarios",
+      "usersRoles": "Usuarios y roles",
+      "username": "Usuario",
+      "roles": "Roles",
+      "actions": "Acciones",
+      "editRoles": "Editar roles",
+      "noRoles": "Sin roles asignados"
+    },
+    "photoManagement": {
+      "empty": "No hay fotos pendientes para aprobar o rechazar.",
+      "mainPhoto": "Foto principal",
+      "approved": "Aprobada",
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "years": "años"
+    }
+  },
+  "bikeList": {
+    "header": {
+      "title": "Bicicletas disponibles",
+      "subtitle": "Explora nuestra amplia selección de bicicletas para alquilar. Encuentra el paseo perfecto para tu próxima aventura.",
+      "countLabel": "Bicicletas encontradas"
+    },
+    "filters": {
+      "type": "Tipo",
+      "model": "Modelo",
+      "brand": "Marca",
+      "year": "Año",
+      "allYears": "Todos los años",
+      "priceRange": "Rango de precios",
+      "min": "Mín",
+      "max": "Máx",
+      "availability": "Disponibilidad",
+      "availableOnly": "Solo disponibles",
+      "apply": "Aplicar filtros",
+      "reset": "Restablecer"
+    },
+    "sort": {
+      "label": "Ordenar por:",
+      "type": "Tipo",
+      "model": "Modelo",
+      "brand": "Marca",
+      "price": "Precio"
+    },
+    "grid": {
+      "noResultsTitle": "No se encontraron bicicletas",
+      "noResultsDesc": "Intenta ajustar tus filtros para ver más resultados."
+    },
+    "pagination": {
+      "first": "Primera",
+      "last": "Última",
+      "next": "Siguiente",
+      "prev": "Anterior"
+    }
+  },
+  "bikeEdit": {
+    "title": "Editar bicicleta",
+    "loading": "Cargando datos de la bicicleta...",
+    "infoAlert": "Has realizado cambios. Los cambios no guardados se perderán.",
+    "infoTab": "Información de la bicicleta",
+    "brand": "Marca",
+    "brandPlaceholder": "Introduce la marca",
+    "model": "Modelo",
+    "modelPlaceholder": "Introduce el modelo",
+    "type": "Tipo",
+    "typeSelect": "Selecciona el tipo",
+    "typeOptions": {
+      "mountain": "Montaña",
+      "road": "Carretera",
+      "electric": "Eléctrica",
+      "hybrid": "Híbrida",
+      "bmx": "BMX"
+    },
+    "year": "Año",
+    "yearPlaceholder": "2024",
+    "price": "Precio por día",
+    "pricePlaceholder": "25.00",
+    "available": "Disponible",
+    "availableTrue": "Disponible",
+    "availableFalse": "No disponible",
+    "notes": "Notas",
+    "notesPlaceholder": "Notas adicionales sobre la bicicleta...",
+    "save": "Guardar información de la bicicleta",
+    "mainImage": "Imagen principal",
+    "managePhotos": "Gestionar fotos",
+    "uploadHint": "PNG, JPG, GIF hasta 10MB."
+  },
+  "bikeDetail": {
+    "infoTab": "Información",
+    "historyTab": "Historial de alquiler",
+    "cardTitle": "Información de la bicicleta",
+    "editInfo": "Editar información",
+    "mainImageOnly": "Solo imagen principal",
+    "addPhoto": "Agregar foto",
+    "brand": "Marca",
+    "model": "Modelo",
+    "year": "Año",
+    "type": "Tipo",
+    "pricePerDay": "Precio por día",
+    "status": "Estado",
+    "available": "Disponible",
+    "notAvailable": "No disponible",
+    "notSpecified": "No especificado",
+    "nA": "N/D",
+    "rentBike": "Alquilar bicicleta",
+    "notAvailableBtn": "No disponible"
   }
 }
+

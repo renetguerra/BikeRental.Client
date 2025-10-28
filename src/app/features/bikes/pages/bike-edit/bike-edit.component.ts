@@ -21,11 +21,13 @@ import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/pho
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { Bike } from 'src/app/core/_models/bike';
 import { Photo } from 'src/app/core/_models/photo';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
   selector: 'app-bike-edit',
   templateUrl: './bike-edit.component.html',
   styleUrls: ['./bike-edit.component.css'],
+  standalone: true,
   imports: [
     CommonModule,
     FormsModule,
@@ -34,6 +36,7 @@ import { Photo } from 'src/app/core/_models/photo';
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
+    TranslocoModule,
   ],
 })
 export class BikeEditComponent implements OnInit {

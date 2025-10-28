@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { TranslocoModule } from '@jsverse/transloco';
 
 /**
  * FooterComponent - Main application footer
@@ -18,7 +19,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-footer',
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.css'],
-  imports: [CommonModule, MatIconModule, MatButtonModule, RouterLink]
+  imports: [CommonModule, MatIconModule, MatButtonModule, RouterLink, TranslocoModule]
 })
 export class FooterComponent {
 

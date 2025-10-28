@@ -9,36 +9,35 @@
       <div class="footer-brand">
         <h3 class="footer-logo">BikeRental</h3>
         <p class="footer-description">
-          Explore the city with our premium bike rental service.
-          Safe, convenient, and eco-friendly transportation.
+          {{ 'footer.description' | transloco }}
         </p>
       </div>
 
       <!-- Quick Links -->
       <div class="footer-section">
-        <h4 class="footer-title">Quick Links</h4>
+        <h4 class="footer-title">{{ 'footer.quickLinks' | transloco }}</h4>
         <ul class="footer-links">
-          <li><a routerLink="/" class="footer-link">Home</a></li>
-          <li><a routerLink="/bikes" class="footer-link">Bikes</a></li>
-          <li><a routerLink="/members" class="footer-link">Customers</a></li>
-          <li><a routerLink="/admin" class="footer-link">Admin</a></li>
+          <li><a routerLink="/" class="footer-link">{{ 'nav.home' | transloco }}</a></li>
+          <li><a routerLink="/bikes" class="footer-link">{{ 'nav.bikes' | transloco }}</a></li>
+          <li><a routerLink="/members" class="footer-link">{{ 'nav.customers' | transloco }}</a></li>
+          <li><a routerLink="/admin" class="footer-link">{{ 'nav.admin' | transloco }}</a></li>
         </ul>
       </div>
 
       <!-- Support -->
       <div class="footer-section">
-        <h4 class="footer-title">Support</h4>
+        <h4 class="footer-title">{{ 'footer.support' | transloco }}</h4>
         <ul class="footer-links">
-          <li><a href="#" class="footer-link">Help Center</a></li>
-          <li><a href="#" class="footer-link">Privacy Policy</a></li>
-          <li><a href="#" class="footer-link">Terms of Service</a></li>
-          <li><a href="#" class="footer-link">Contact Us</a></li>
+          <li><a href="#" class="footer-link">{{ 'footer.help' | transloco }}</a></li>
+          <li><a href="#" class="footer-link">{{ 'footer.privacy' | transloco }}</a></li>
+          <li><a href="#" class="footer-link">{{ 'footer.terms' | transloco }}</a></li>
+          <li><a href="#" class="footer-link">{{ 'footer.contact' | transloco }}</a></li>
         </ul>
       </div>
 
       <!-- Social Media -->
       <div class="footer-section">
-        <h4 class="footer-title">Follow Us</h4>
+        <h4 class="footer-title">{{ 'footer.follow' | transloco }}</h4>
         <div class="social-links">
           <button
             *ngFor="let social of socialLinks"
@@ -67,12 +66,12 @@
     <div class="footer-bottom">
       <div class="footer-bottom-content">
         <p class="copyright">
-          © {{ currentYear }} BikeRental. All rights reserved.
+          {{ 'footer.copyright' | transloco }}
         </p>
         <div class="footer-bottom-links">
-          <a href="#" class="footer-bottom-link">Privacy Policy</a>
+          <a href="#" class="footer-bottom-link">{{ 'footer.privacy' | transloco }}</a>
           <span class="separator">•</span>
-          <a href="#" class="footer-bottom-link">Terms of Service</a>
+          <a href="#" class="footer-bottom-link">{{ 'footer.terms' | transloco }}</a>
         </div>
       </div>
     </div>

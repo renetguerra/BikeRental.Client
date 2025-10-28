@@ -8,12 +8,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { FocusTrapModule } from "ngx-bootstrap/focus-trap";
 import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-bike-list',
     templateUrl: './bike-list.component.html',
     styleUrls: ['./bike-list.component.css'],
-    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, MatPaginatorModule, MatSlideToggleModule, ButtonsModule, FocusTrapModule]
+    standalone: true,
+    imports: [CommonModule, RouterModule, FormsModule, BikeCardComponent, MatPaginatorModule, MatSlideToggleModule, ButtonsModule, FocusTrapModule, TranslocoModule]
 })
 export class BikeListComponent implements OnInit, AfterViewInit {
 

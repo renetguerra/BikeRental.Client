@@ -5,14 +5,14 @@
       <div class="header-text">
         <h1 class="admin-title">
           <mat-icon class="title-icon">admin_panel_settings</mat-icon>
-          Bike Management
+          {{ 'bikeManagement.title' | transloco }}
         </h1>
-        <p class="admin-subtitle">Manage bike listings and details</p>
+        <p class="admin-subtitle">{{ 'bikeManagement.subtitle' | transloco }}</p>
       </div>
       <div class="header-stats">
         <div class="stat-card">
           <div class="stat-value">{{ dataSource().length }}</div>
-          <div class="stat-label">Total Bikes</div>
+          <div class="stat-label">{{ 'bikeManagement.totalBikes' | transloco }}</div>
         </div>
       </div>
     </div>
@@ -25,7 +25,7 @@
       <div class="card-header">
         <h2 class="card-title">
           <mat-icon class="card-icon">directions_bike</mat-icon>
-          Bikes & Details
+          {{ 'bikeManagement.bikesDetails' | transloco }}
         </h2>
       </div>
 

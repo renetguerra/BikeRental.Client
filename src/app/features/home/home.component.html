@@ -59,23 +59,23 @@
           <div class="bike-card__image bike-card__image--city"></div>
           <div class="bike-card__content">
             <h3 class="bike-card__title">{{ 'home.bike.cityCruiser' | transloco }}</h3>
-            <p class="bike-card__description">Perfect for leisurely rides around the city.</p>
+            <p class="bike-card__description">{{ 'home.bike.cityCruiserDesc' | transloco }}</p>
           </div>
         </div>
 
         <div class="bike-card">
           <div class="bike-card__image bike-card__image--mountain"></div>
           <div class="bike-card__content">
-            <h3 class="bike-card__title">Mountain Explorer</h3>
-            <p class="bike-card__description">Tackle any terrain with our rugged mountain bikes.</p>
+            <h3 class="bike-card__title">{{ 'home.bike.mountainExplorer' | transloco }}</h3>
+            <p class="bike-card__description">{{ 'home.bike.mountainExplorerDesc' | transloco }}</p>
           </div>
         </div>
 
         <div class="bike-card">
           <div class="bike-card__image bike-card__image--electric"></div>
           <div class="bike-card__content">
-            <h3 class="bike-card__title">Electric Glide</h3>
-            <p class="bike-card__description">Effortlessly cover long distances with our electric bikes.</p>
+            <h3 class="bike-card__title">{{ 'home.bike.electricGlide' | transloco }}</h3>
+            <p class="bike-card__description">{{ 'home.bike.electricGlideDesc' | transloco }}</p>
           </div>
         </div>
       </div>
@@ -86,9 +86,9 @@
   <section class="cta-section">
     <div class="container">
       <div class="cta-content">
-        <h2 class="cta-title">Ready to Ride?</h2>
+        <h2 class="cta-title">{{ 'home.ctaTitle' | transloco }}</h2>
         <p class="cta-description">
-          Join the BikeRental community today and start your next urban adventure.
+          {{ 'home.ctaDescription' | transloco }}
         </p>
         <button
           mat-raised-button
@@ -96,7 +96,7 @@
           class="cta-btn"
           (click)="registerToggle()">
           <mat-icon>rocket_launch</mat-icon>
-          Get Started
+          {{ 'home.getStarted' | transloco }}
         </button>
       </div>
     </div>

@@ -10,14 +10,14 @@
             class="tab-button"
             [class.active]="activeTab() === 'info'"
             (click)="setActiveTab('info')">
-            Info
+            {{ 'bikeDetail.infoTab' | transloco }}
           </button>
           @if (hasRentalHistory()) {
             <button
               class="tab-button"
               [class.active]="activeTab() === 'history'"
               (click)="setActiveTab('history')">
-              Rental History
+              {{ 'bikeDetail.historyTab' | transloco }}
             </button>
           }
         </div>
@@ -29,11 +29,11 @@
             <!-- Bike Information Card -->
             <div class="info-card">
               <div class="card-header">
-                <h2 class="card-title">Bike Information</h2>
+                <h2 class="card-title">{{ 'bikeDetail.cardTitle' | transloco }}</h2>
                 @if (user()?.roles?.includes('Admin')) {
                   <button class="secondary-btn" (click)="editBike()">
                     <mat-icon>edit</mat-icon>
-                    Edit Info
+                    {{ 'bikeDetail.editInfo' | transloco }}
                   </button>
                 }
               </div>
@@ -49,10 +49,11 @@
                   } @else {
                     <div class="no-images-mini">
                       <mat-icon class="no-images-icon-mini">photo</mat-icon>
-                      <span>Main image only</span>
+                      <span>{{ 'bikeDetail.mainImageOnly' | transloco }}</span>
                       @if (user()?.roles?.includes('Admin')) {
                         <button class="mini-btn" (click)="openDialogAddPhoto()">
                           <mat-icon>add</mat-icon>
+                          {{ 'bikeDetail.addPhoto' | transloco }}
                         </button>
                       }
                     </div>
@@ -64,40 +65,40 @@
                   <div class="bike-details-single-column">
                     <div class="detail-item">
                       <span class="detail-text">
-                        <span class="detail-label">Brand:</span>
-                        <span class="detail-value">{{ bike()?.brand || 'Not specified' }}</span>
+                        <span class="detail-label">{{ 'bikeDetail.brand' | transloco }}:</span>
+                        <span class="detail-value">{{ bike()?.brand || ('bikeDetail.notSpecified' | transloco) }}</span>
                       </span>
                     </div>
                     <div class="detail-item">
                       <span class="detail-text">
-                        <span class="detail-label">Model:</span>
-                        <span class="detail-value">{{ bike()?.model || 'Not specified' }}</span>
+                        <span class="detail-label">{{ 'bikeDetail.model' | transloco }}:</span>
+                        <span class="detail-value">{{ bike()?.model || ('bikeDetail.notSpecified' | transloco) }}</span>
                       </span>
                     </div>
                     <div class="detail-item">
                       <span class="detail-text">
-                        <span class="detail-label">Year:</span>
-                        <span class="detail-value">{{ bike()?.year || 'N/A' }}</span>
+                        <span class="detail-label">{{ 'bikeDetail.year' | transloco }}:</span>
+                        <span class="detail-value">{{ bike()?.year || ('bikeDetail.nA' | transloco) }}</span>
                       </span>
                     </div>
                     <div class="detail-item">
                       <span class="detail-text">
-                        <span class="detail-label">Type:</span>
-                        <span class="detail-value">{{ bike()?.type || 'Not specified' }}</span>
+                        <span class="detail-label">{{ 'bikeDetail.type' | transloco }}:</span>
+                        <span class="detail-value">{{ bike()?.type || ('bikeDetail.notSpecified' | transloco) }}</span>
                       </span>
                     </div>
                     <div class="detail-item">
                       <span class="detail-text">
-                        <span class="detail-label">Price per day:</span>
+                        <span class="detail-label">{{ 'bikeDetail.pricePerDay' | transloco }}:</span>
                         <span class="detail-value price-highlight">{{ bike()?.price | currency }}</span>
                       </span>
                     </div>
                     <div class="detail-item">
                       <span class="detail-text">
-                        <span class="detail-label">Status:</span>
+                        <span class="detail-label">{{ 'bikeDetail.status' | transloco }}:</span>
                         <span class="detail-value" [class.available]="bike()?.isAvailable" [class.unavailable]="!bike()?.isAvailable">
                           <mat-icon class="status-icon">{{ bike()?.isAvailable ? 'check_circle' : 'cancel' }}</mat-icon>
-                          {{ bike()?.isAvailable ? 'Available' : 'Not available' }}
+                          {{ bike()?.isAvailable ? ('bikeDetail.available' | transloco) : ('bikeDetail.notAvailable' | transloco) }}
                         </span>
                       </span>
                     </div>
@@ -110,9 +111,9 @@
                         (click)="rentBike()">
                         <mat-icon>pedal_bike</mat-icon>
                         @if (bike()?.isAvailable) {
-                          Rent Bike
+                          {{ 'bikeDetail.rentBike' | transloco }}
                         } @else {
-                          Not Available
+                          {{ 'bikeDetail.notAvailableBtn' | transloco }}
                         }
                       </button>
                     </div>

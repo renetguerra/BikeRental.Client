@@ -19,7 +19,7 @@
       mat-icon-button
       class="back-button"
       (click)="goBack()"
-      matTooltip="Back to Home"
+      matTooltip="{{ 'register.backToHome' | transloco }}"
       matTooltipPosition="right">
       <mat-icon>arrow_back</mat-icon>
     </button>
@@ -55,8 +55,8 @@
 
     <!-- Header -->
     <div class="register-header">
-      <h1 class="register-title">Sign Up</h1>
-      <p class="register-subtitle">Create your BikeRental account</p>
+      <h1 class="register-title">{{ 'register.title' | transloco }}</h1>
+      <p class="register-subtitle">{{ 'register.subtitle' | transloco }}</p>
     </div>
 
     <!-- Register Form -->
@@ -65,13 +65,13 @@
 
       <!-- Gender Selection -->
       <div class="form-field">
-        <label class="form-label">I am a:</label>
+        <label class="form-label">{{ 'register.genderLabel' | transloco }}</label>
         <mat-radio-group formControlName="gender" class="gender-group d-flex flex-row gap-3 justify-content-center align-items-center">
           <mat-radio-button value="male" class="gender-option gender-option--male">
-            <span class="gender-label">Male</span>
+            <span class="gender-label">{{ 'register.gender.male' | transloco }}</span>
           </mat-radio-button>
           <mat-radio-button value="female" class="gender-option gender-option--female">
-            <span class="gender-label">Female</span>
+            <span class="gender-label">{{ 'register.gender.female' | transloco }}</span>
           </mat-radio-button>
         </mat-radio-group>
       </div>
@@ -79,7 +79,7 @@
       <!-- Name Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Name</mat-label>
+          <mat-label>{{ 'register.name' | transloco }}</mat-label>
           <input
             matInput
             formControlName="name"
@@ -94,7 +94,7 @@
       <!-- Surname Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Surname</mat-label>
+          <mat-label>{{ 'register.surname' | transloco }}</mat-label>
           <input
             matInput
             formControlName="surname"
@@ -109,7 +109,7 @@
       <!-- Username Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Username</mat-label>
+          <mat-label>{{ 'register.username' | transloco }}</mat-label>
           <input
             matInput
             formControlName="username"
@@ -141,7 +141,7 @@
       <!-- Known As Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Known as</mat-label>
+          <mat-label>{{ 'register.knownAs' | transloco }}</mat-label>
           <input
             matInput
             formControlName="knownAs"
@@ -156,7 +156,7 @@
       <!-- Date of Birth Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Date of birth</mat-label>
+          <mat-label>{{ 'register.dateOfBirth' | transloco }}</mat-label>
           <input
             matInput
             [matDatepicker]="dobPicker"
@@ -176,7 +176,7 @@
       <!-- City Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>City</mat-label>
+          <mat-label>{{ 'register.city' | transloco }}</mat-label>
           <input
             matInput
             formControlName="city"
@@ -192,7 +192,7 @@
       <!-- Country Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Country</mat-label>
+          <mat-label>{{ 'register.country' | transloco }}</mat-label>
           <input
             matInput
             formControlName="country"
@@ -208,7 +208,7 @@
       <!-- Password Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Password</mat-label>
+          <mat-label>{{ 'register.password' | transloco }}</mat-label>
           <input
             matInput
             [type]="hidePassword() ? 'password' : 'text'"
@@ -221,7 +221,7 @@
             type="button"
             class="password-toggle"
             (click)="togglePasswordVisibility()"
-            matTooltip="Toggle password visibility">
+            matTooltip="{{ 'register.togglePassword' | transloco }}">
             <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error *ngIf="hasError('password')">
@@ -240,9 +240,9 @@
             </div>
           </div>
           <small class="strength-text">
-            Password strength:
+            {{ 'register.passwordStrength' | transloco }}
             <span [class]="'strength-' + getPasswordStrength()">
-              {{ getPasswordStrength() || 'Enter password' }}
+              {{ getPasswordStrength() || ('register.passwordStrength' | transloco) }}
             </span>
           </small>
         </div>
@@ -251,7 +251,7 @@
       <!-- Confirm Password Field -->
       <div class="form-field">
         <mat-form-field appearance="outline" class="full-width modern-field">
-          <mat-label>Confirm Password</mat-label>
+          <mat-label>{{ 'register.confirmPassword' | transloco }}</mat-label>
           <input
             matInput
             [type]="hideConfirmPassword() ? 'password' : 'text'"
@@ -264,7 +264,7 @@
             type="button"
             class="password-toggle"
             (click)="toggleConfirmPasswordVisibility()"
-            matTooltip="Toggle password visibility">
+            matTooltip="{{ 'register.togglePassword' | transloco }}">
             <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
           <mat-error *ngIf="hasError('confirmPassword')">
@@ -284,12 +284,12 @@
 
           <span *ngIf="!isLoading()" class="button-content">
             <mat-icon>person_add</mat-icon>
-            Register
+            {{ 'register.register' | transloco }}
           </span>
 
           <span *ngIf="isLoading()" class="loading-content">
             <div class="loading-spinner"></div>
-            Registering...
+            {{ 'register.registering' | transloco }}
           </span>
         </button>
       </div>
@@ -300,7 +300,7 @@
     <div class="validation-errors" *ngIf="validationErrors() && validationErrors()!.length > 0">
       <mat-divider></mat-divider>
       <div class="error-list">
-        <h4>Please fix the following errors:</h4>
+        <h4>{{ 'register.fixErrors' | transloco }}</h4>
         <ul>
           <li *ngFor="let error of validationErrors()">{{ error }}</li>
         </ul>
@@ -313,13 +313,13 @@
     <!-- Footer -->
     <div class="register-footer">
       <p class="signin-prompt">
-        Already have an account?
+        {{ 'register.alreadyHaveAccount' | transloco }}
         <button
           mat-button
           color="primary"
           (click)="navigateToSignIn()"
           class="signin-link">
-          Sign In
+          {{ 'register.signIn' | transloco }}
         </button>
       </p>
     </div>

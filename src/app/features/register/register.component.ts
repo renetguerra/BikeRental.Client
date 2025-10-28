@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ToastrService } from 'ngx-toastr';
 import { AccountService } from 'src/app/core/_services/account.service';
 import { debounceTime, finalize, map, switchMap, take } from 'rxjs';
@@ -47,7 +48,8 @@ import { debounceTime, finalize, map, switchMap, take } from 'rxjs';
     MatTooltipModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    TranslocoModule
   ]
 })
 export class RegisterComponent implements OnInit {

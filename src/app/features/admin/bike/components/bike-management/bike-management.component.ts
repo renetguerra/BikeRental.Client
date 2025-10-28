@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatChipsModule } from '@angular/material/chips';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminUserStore } from 'src/app/core/_stores/adminUser.store';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
@@ -14,41 +15,43 @@ import { TableColumn } from 'src/app/core/_models/generic';
 import { CrudTableComponent } from 'src/app/shared/components/table/crud/crud-table.component';
 import { PhotoConfig } from 'src/app/core/_models/genericPhotoConfig';
 
+const transloco = inject(TranslocoService);
+
 const BIKEFAVORITE_COLUMNS: TableColumn<Bike>[] = [
   {
     columnDef: 'photoUrl',
-    header: 'Photo',
+    header: transloco.translate('bikeManagement.photo'),
     cell: (row: Bike) => row.photoUrl ?? 'assets/placeholder-bike.png',
     isCustomRender: true,
   },
   {
     columnDef: 'model',
-    header: 'Model',
+    header: transloco.translate('bikeManagement.model'),
     cell: (row: Bike) => row.model,
   },
   {
     columnDef: 'brand',
-    header: 'Brand',
+    header: transloco.translate('bikeManagement.brand'),
     cell: (row: Bike) => row.brand,
   },
   {
     columnDef: 'type',
-    header: 'Type',
+    header: transloco.translate('bikeManagement.type'),
     cell: (row: Bike) => row.type,
   },
   {
     columnDef: 'year',
-    header: 'Year',
+    header: transloco.translate('bikeManagement.year'),
     cell: (row: Bike) => row.year,
   },
   {
     columnDef: 'price',
-    header: 'Price',
+    header: transloco.translate('bikeManagement.price'),
     cell: (row: Bike) => row.price,
   },
   {
     columnDef: 'isAvailable',
-    header: 'Available',
+    header: transloco.translate('bikeManagement.available'),
     cell: (row: Bike) => row.isAvailable,
   }
 ];
@@ -66,7 +69,8 @@ const BIKEFAVORITE_COLUMNS: TableColumn<Bike>[] = [
     MatIconModule,
     MatTooltipModule,
     MatChipsModule,
-    CrudTableComponent
+    CrudTableComponent,
+    TranslocoModule
   ]
 })
 export class BikeManagementComponent implements OnInit {

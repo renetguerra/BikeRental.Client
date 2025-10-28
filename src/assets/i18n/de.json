@@ -11,8 +11,17 @@
     "backToHome": "Zurück zur Startseite",
     "registerTitle": "Werde noch heute Mitglied bei BikeRental",
     "popularBikes": "Unsere beliebten Fahrräder",
+    "ctaTitle": "Bereit zum Losfahren?",
+    "ctaDescription": "Werde Teil der BikeRental-Community und starte dein nächstes urbanes Abenteuer.",
     "bike": {
-      "cityCruiser": "City Cruiser"
+      "cityCruiser": "City Cruiser",
+      "cityCruiserDesc": "Perfekt für gemütliche Fahrten durch die Stadt.",
+      "mountainExplorer": "Mountain Explorer",
+      "mountainExplorerDesc": "Bewältige jedes Gelände mit unseren robusten Mountainbikes.",
+      "electricGlide": "Electric Glide",
+      "electricGlideDesc": "Mühelos lange Strecken mit unseren Elektrofahrrädern zurücklegen.",
+      "ctaTitle": "Bereit zum Losfahren?",
+      "ctaDescription": "Werde Teil der BikeRental-Community und starte dein nächstes urbanes Abenteuer."
     }
   },
   "signin": {
@@ -27,8 +36,35 @@
     "show": "Anzeigen",
     "hide": "Verbergen"
   },
+  "register": {
+    "backToHome": "Zurück zur Startseite",
+    "title": "Registrieren",
+    "subtitle": "Erstelle dein BikeRental-Konto",
+    "genderLabel": "Ich bin:",
+    "gender": {
+      "male": "Mann",
+      "female": "Frau"
+    },
+    "name": "Name",
+    "surname": "Nachname",
+    "username": "Benutzername",
+    "knownAs": "Bekannt als",
+    "dateOfBirth": "Geburtsdatum",
+    "city": "Stadt",
+    "country": "Land",
+    "password": "Passwort",
+    "togglePassword": "Passwort anzeigen/verbergen",
+    "passwordStrength": "Passwortstärke:",
+    "confirmPassword": "Passwort bestätigen",
+    "register": "Registrieren",
+    "registering": "Wird registriert...",
+    "fixErrors": "Bitte behebe die folgenden Fehler:",
+    "alreadyHaveAccount": "Hast du schon ein Konto?",
+    "signIn": "Anmelden"
+  },
   "nav": {
     "profile": "Profil",
+    "home": "Startseite",
     "bikes": "Fahrräder",
     "customers": "Kunden",
     "admin": "Admin",
@@ -44,5 +80,143 @@
       "es": "Spanisch",
       "de": "Deutsch"
     }
+  },
+  "footer": {
+    "description": "Entdecke die Stadt mit unserem Premium-Fahrradverleih. Sicher, bequem und umweltfreundlich unterwegs.",
+    "quickLinks": "Schnellzugriff",
+    "support": "Support",
+    "help": "Hilfezentrum",
+    "privacy": "Datenschutzrichtlinie",
+    "terms": "Nutzungsbedingungen",
+    "contact": "Kontakt",
+    "about": "Über uns",
+    "follow": "Folge uns",
+    "copyright": "© 2025 BikeRental. Alle Rechte vorbehalten."
+  },
+  "bikeManagement": {
+    "title": "Fahrradverwaltung",
+    "subtitle": "Verwalte Fahrradangebote und Details",
+    "totalBikes": "Gesamtanzahl Fahrräder",
+    "bikesDetails": "Fahrräder & Details",
+    "photo": "Foto",
+    "model": "Modell",
+    "brand": "Marke",
+    "type": "Typ",
+    "year": "Jahr",
+    "price": "Preis",
+    "available": "Verfügbar"
+  },
+  "adminPanel": {
+    "title": "Admin-Bereich",
+    "userManagement": {
+      "title": "Benutzerverwaltung",
+      "subtitle": "Verwalte Benutzerrollen und Berechtigungen",
+      "totalUsers": "Gesamtanzahl Benutzer",
+      "usersRoles": "Benutzer & Rollen",
+      "username": "Benutzername",
+      "roles": "Rollen",
+      "actions": "Aktionen",
+      "editRoles": "Rollen bearbeiten",
+      "noRoles": "Keine Rollen zugewiesen"
+    },
+    "photoManagement": {
+      "empty": "Keine ausstehenden Fotos zum Genehmigen oder Ablehnen.",
+      "mainPhoto": "Hauptfoto",
+      "approved": "Genehmigt",
+      "approve": "Genehmigen",
+      "reject": "Ablehnen",
+      "years": "Jahre"
+    }
+  },
+  "bikeEdit": {
+    "title": "Fahrrad bearbeiten",
+    "loading": "Fahrraddaten werden geladen...",
+    "infoAlert": "Sie haben Änderungen vorgenommen. Nicht gespeicherte Änderungen gehen verloren.",
+    "infoTab": "Fahrrad-Informationen",
+    "brand": "Marke",
+    "brandPlaceholder": "Marke eingeben",
+    "model": "Modell",
+    "modelPlaceholder": "Modell eingeben",
+    "type": "Typ",
+    "typeSelect": "Typ auswählen",
+    "typeOptions": {
+      "mountain": "Mountainbike",
+      "road": "Rennrad",
+      "electric": "E-Bike",
+      "hybrid": "Hybrid",
+      "bmx": "BMX"
+    },
+    "year": "Jahr",
+    "yearPlaceholder": "2024",
+    "price": "Preis pro Tag",
+    "pricePlaceholder": "25.00",
+    "available": "Verfügbar",
+    "availableTrue": "Verfügbar",
+    "availableFalse": "Nicht verfügbar",
+    "notes": "Notizen",
+    "notesPlaceholder": "Zusätzliche Hinweise zum Fahrrad...",
+    "save": "Fahrrad-Informationen speichern",
+    "mainImage": "Hauptbild",
+    "managePhotos": "Fotos verwalten",
+    "uploadHint": "PNG, JPG, GIF bis 10MB."
+  },
+  "bikeList": {
+    "header": {
+      "title": "Verfügbare Fahrräder",
+      "subtitle": "Entdecke unsere große Auswahl an Fahrrädern zur Miete. Finde das perfekte Rad für dein nächstes Abenteuer.",
+      "countLabel": "Gefundene Fahrräder"
+    },
+    "filters": {
+      "type": "Typ",
+      "model": "Modell",
+      "brand": "Marke",
+      "year": "Jahr",
+      "allYears": "Alle Jahre",
+      "priceRange": "Preisspanne",
+      "min": "Min",
+      "max": "Max",
+      "availability": "Verfügbarkeit",
+      "availableOnly": "Nur verfügbare",
+      "apply": "Filter anwenden",
+      "reset": "Zurücksetzen"
+    },
+    "sort": {
+      "label": "Sortieren nach:",
+      "type": "Typ",
+      "model": "Modell",
+      "brand": "Marke",
+      "price": "Preis"
+    },
+    "grid": {
+      "noResultsTitle": "Keine Fahrräder gefunden",
+      "noResultsDesc": "Versuche, deine Filter anzupassen, um mehr Ergebnisse zu sehen."
+    },
+    "pagination": {
+      "first": "Erste",
+      "last": "Letzte",
+      "next": "Nächste",
+      "prev": "Vorherige"
+    }
+  },
+  "bikeDetail": {
+    "infoTab": "Info",
+    "historyTab": "Mietverlauf",
+    "cardTitle": "Fahrrad-Informationen",
+    "editInfo": "Informationen bearbeiten",
+    "mainImageOnly": "Nur Hauptbild",
+    "addPhoto": "Foto hinzufügen",
+    "brand": "Marke",
+    "model": "Modell",
+    "year": "Jahr",
+    "type": "Typ",
+    "pricePerDay": "Preis pro Tag",
+    "status": "Status",
+    "available": "Verfügbar",
+    "notAvailable": "Nicht verfügbar",
+    "notSpecified": "Nicht angegeben",
+    "nA": "k.A.",
+    "rentBike": "Fahrrad mieten",
+    "notAvailableBtn": "Nicht verfügbar"
   }
+
 }

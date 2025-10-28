@@ -1,10 +1,9 @@
-
 <div class="photo-management">
   <div class="photo-management__grid">
     @if (filteredUsers().length === 0) {
       <div class="photo-management__empty">
         <i class="fa fa-image" style="font-size:2.5rem;color:var(--primary);margin-bottom:1rem;"></i>
-  <p class="photo-management__empty-text">No pending photos to approve or reject.</p>
+        <p class="photo-management__empty-text">{{ 'adminPanel.photoManagement.empty' | transloco }}</p>
       </div>
     } @else {
       @for (user of filteredUsers(); track user.id) {
@@ -14,7 +13,7 @@
             <div class="photo-card__info">
               <h3 class="photo-card__name">{{user.knownAs}}</h3>
               <span class="photo-card__username">{{user.username}}</span>
-              <span class="photo-card__meta">{{user.age}} años · {{user.address!.city}}, {{user.address!.country}}</span>
+              <span class="photo-card__meta">{{user.age}} {{ 'photoManagement.years' | transloco }} · {{user.address!.city}}, {{user.address!.country}}</span>
             </div>
           </div>
           <div class="photo-card__photos">
@@ -24,19 +23,19 @@
                   <img [src]="photo.url" class="photo-card__photo-thumb" alt="Photo of {{user.knownAs}}">
                   @if (photo.isMain) {
                     <span class="photo-card__main-star">
-                      <i class="fa fa-star" aria-label="Main photo" title="Main photo"></i>
+                      <i class="fa fa-star" aria-label="MainPhoto" title="{{ 'adminPanel.photoManagement.mainPhoto' | transloco }}"></i>
                     </span>
                   }
                   @if (photo.isApproved) {
-                    <span class="photo-card__approved-badge">Approved</span>
+                    <span class="photo-card__approved-badge">{{ 'adminPanel.photoManagement.approved' | transloco }}</span>
                   }
                 </div>
                 <div class="photo-card__actions">
                   <button class="photo-card__btn btn-apply photo-card__btn--icon" (click)="approvePhoto(photo.id, user)">
-                    <i class="fa fa-check" aria-label="Approve" title="Approve"></i>
+                    <i class="fa fa-check" aria-label="Approve" title="{{ 'adminPanel.photoManagement.approve' | transloco }}"></i>
                   </button>
                   <button class="photo-card__btn btn-reset photo-card__btn--icon" (click)="rejectPhoto(photo.id, user)">
-                    <i class="fa fa-times" aria-label="Reject" title="Reject"></i>
+                    <i class="fa fa-times" aria-label="Reject" title="{{ 'adminPanel.photoManagement.reject' | transloco }}"></i>
                   </button>
                 </div>
               </div>

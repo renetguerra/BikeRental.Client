@@ -11,8 +11,17 @@
     "backToHome": "Back to Home",
     "registerTitle": "Join BikeRental Today",
     "popularBikes": "Our Popular Bikes",
+    "ctaTitle": "Ready to Ride?",
+    "ctaDescription": "Join the BikeRental community today and start your next urban adventure.",
     "bike": {
-      "cityCruiser": "City Cruiser"
+      "cityCruiser": "City Cruiser",
+      "cityCruiserDesc": "Perfect for leisurely rides around the city.",
+      "mountainExplorer": "Mountain Explorer",
+      "mountainExplorerDesc": "Tackle any terrain with our rugged mountain bikes.",
+      "electricGlide": "Electric Glide",
+      "electricGlideDesc": "Effortlessly cover long distances with our electric bikes.",
+      "ctaTitle": "Ready to Ride?",
+      "ctaDescription": "Join the BikeRental community today and start your next urban adventure."
     }
   },
   "signin": {
@@ -27,8 +36,35 @@
     "show": "Show",
     "hide": "Hide"
   },
+  "register": {
+    "backToHome": "Back to Home",
+    "title": "Sign Up",
+    "subtitle": "Create your BikeRental account",
+    "genderLabel": "I am a:",
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "name": "Name",
+    "surname": "Surname",
+    "username": "Username",
+    "knownAs": "Known as",
+    "dateOfBirth": "Date of birth",
+    "city": "City",
+    "country": "Country",
+    "password": "Password",
+    "togglePassword": "Toggle password visibility",
+    "passwordStrength": "Password strength:",
+    "confirmPassword": "Confirm Password",
+    "register": "Register",
+    "registering": "Registering...",
+    "fixErrors": "Please fix the following errors:",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign In"
+  },
   "nav": {
     "profile": "Profile",
+    "home": "Home",
     "bikes": "Bikes",
     "customers": "Customers",
     "admin": "Admin",
@@ -44,5 +80,143 @@
       "es": "Spanish",
       "de": "German"
     }
+  },
+  "footer": {
+    "description": "Explore the city with our premium bike rental service. Safe, convenient, and eco-friendly transportation.",
+    "quickLinks": "Quick Links",
+    "support": "Support",
+    "help": "Help Center",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us",
+    "about": "About Us",
+    "follow": "Follow Us",
+    "copyright": "© 2025 BikeRental. All rights reserved."
+  },
+  "bikeManagement": {
+    "title": "Bike Management",
+    "subtitle": "Manage bike listings and details",
+    "totalBikes": "Total Bikes",
+    "bikesDetails": "Bikes & Details",
+    "photo": "Photo",
+    "model": "Model",
+    "brand": "Brand",
+    "type": "Type",
+    "year": "Year",
+    "price": "Price",
+    "available": "Available"
+  },
+  "adminPanel": {
+    "title": "Admin Panel",
+    "userManagement": {
+      "title": "User Management",
+      "subtitle": "Manage user roles and permissions",
+      "totalUsers": "Total Users",
+      "usersRoles": "Users & Roles",
+      "username": "Username",
+      "roles": "Roles",
+      "actions": "Actions",
+      "editRoles": "Edit Roles",
+      "noRoles": "No roles assigned"
+    },
+    "photoManagement": {
+      "empty": "No pending photos to approve or reject.",
+      "mainPhoto": "Main photo",
+      "approved": "Approved",
+      "approve": "Approve",
+      "reject": "Reject",
+      "years": "years"
+    }
+  },
+  "bikeList": {
+    "header": {
+      "title": "Available Bikes",
+      "subtitle": "Explore our wide selection of bikes for rent. Find the perfect ride for your next adventure.",
+      "countLabel": "Bikes Found"
+    },
+    "filters": {
+      "type": "Type",
+      "model": "Model",
+      "brand": "Brand",
+      "year": "Year",
+      "allYears": "All Years",
+      "priceRange": "Price Range",
+      "min": "Min",
+      "max": "Max",
+      "availability": "Availability",
+      "availableOnly": "Available Only",
+      "apply": "Apply Filters",
+      "reset": "Reset"
+    },
+    "sort": {
+      "label": "Sort by:",
+      "type": "Type",
+      "model": "Model",
+      "brand": "Brand",
+      "price": "Price"
+    },
+    "grid": {
+      "noResultsTitle": "No bikes found",
+      "noResultsDesc": "Try adjusting your filters to see more results."
+    },
+    "pagination": {
+      "first": "First",
+      "last": "Last",
+      "next": "Next",
+      "prev": "Previous"
+    }
+  },
+  "bikeEdit": {
+    "title": "Edit Bike",
+    "loading": "Loading bike data...",
+    "infoAlert": "You have made changes. Any unsaved changes will be lost.",
+    "infoTab": "Bike Information",
+    "brand": "Brand",
+    "brandPlaceholder": "Enter brand",
+    "model": "Model",
+    "modelPlaceholder": "Enter model",
+    "type": "Type",
+    "typeSelect": "Select type",
+    "typeOptions": {
+      "mountain": "Mountain",
+      "road": "Road",
+      "electric": "Electric",
+      "hybrid": "Hybrid",
+      "bmx": "BMX"
+    },
+    "year": "Year",
+    "yearPlaceholder": "2024",
+    "price": "Price per day",
+    "pricePlaceholder": "25.00",
+    "available": "Available",
+    "availableTrue": "Available",
+    "availableFalse": "Not available",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes about the bike...",
+    "save": "Save Bike Information",
+    "mainImage": "Main Image",
+    "managePhotos": "Manage Photos",
+    "uploadHint": "PNG, JPG, GIF up to 10MB."
+  },
+  "bikeDetail": {
+    "infoTab": "Info",
+    "historyTab": "Rental History",
+    "cardTitle": "Bike Information",
+    "editInfo": "Edit Info",
+    "mainImageOnly": "Main image only",
+    "addPhoto": "Add photo",
+    "brand": "Brand",
+    "model": "Model",
+    "year": "Year",
+    "type": "Type",
+    "pricePerDay": "Price per day",
+    "status": "Status",
+    "available": "Available",
+    "notAvailable": "Not available",
+    "notSpecified": "Not specified",
+    "nA": "N/A",
+    "rentBike": "Rent Bike",
+    "notAvailableBtn": "Not Available"
   }
 }
+

@@ -18,14 +18,17 @@ import { PhotoEditorComponent } from 'src/app/shared/components/photo-editor/pho
 import { PhotoDeleteComponent } from 'src/app/shared/components/photo-delete/photo-delete.component';
 import { BikeRentalHistoryComponent } from 'src/app/features/rental/bike-rental-history/bike-rental-history.component';
 import { RentStore } from 'src/app/core/_stores/rent.store';
+import { TranslocoModule } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-bike-detail',
     templateUrl: './bike-detail.component.html',
     styleUrls: ['./bike-detail.component.css'],
+    standalone: true,
     imports: [CommonModule, GalleryModule, TimeagoModule,
         BikeRentalHistoryComponent,
-        MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule]
+        MatDialogModule, MatIconModule, MatButtonModule, MatDividerModule,
+        TranslocoModule]
 })
 export class BikeDetailComponent implements OnInit {
 

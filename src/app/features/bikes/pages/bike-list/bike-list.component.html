@@ -3,12 +3,12 @@
   <div class="container">
     <div class="header-content">
       <div class="header-text">
-        <h1 class="bikes-title">Available Bikes</h1>
-        <p class="bikes-subtitle">Explore our wide selection of bikes for rent. Find the perfect ride for your next adventure.</p>
+        <h1 class="bikes-title">{{ 'bikeList.header.title' | transloco }}</h1>
+        <p class="bikes-subtitle">{{ 'bikeList.header.subtitle' | transloco }}</p>
       </div>
       <div class="bikes-count">
         <span class="count-number">{{ bikes()?.length || 0 }}</span>
-        <span class="count-label">Bikes Found</span>
+        <span class="count-label">{{ 'bikeList.header.countLabel' | transloco }}</span>
       </div>
     </div>
   </div>
@@ -28,7 +28,7 @@
         <div class="filters-grid">
           <!-- Type Filter -->
           <div class="filter-group">
-            <span class="filter-label">Type</span>
+            <span class="filter-label">{{ 'bikeList.filters.type' | transloco }}</span>
             <div class="filter-input-wrapper">
               <input
                 type="text"
@@ -42,7 +42,7 @@
 
           <!-- Model Filter -->
           <div class="filter-group">
-            <span class="filter-label">Model</span>
+            <span class="filter-label">{{ 'bikeList.filters.model' | transloco }}</span>
             <div class="filter-input-wrapper">
               <input
                 type="text"
@@ -55,7 +55,7 @@
 
           <!-- Brand Filter -->
           <div class="filter-group">
-            <span class="filter-label">Brand</span>
+            <span class="filter-label">{{ 'bikeList.filters.brand' | transloco }}</span>
             <div class="filter-input-wrapper">
               <input
                 type="text"
@@ -68,14 +68,14 @@
 
           <!-- Year Filter -->
           <div class="filter-group">
-            <span class="filter-label">Year</span>
+            <span class="filter-label">{{ 'bikeList.filters.year' | transloco }}</span>
             <div class="filter-input-wrapper">
               <select
                 name="year"
                 class="filter-select"
                 [ngModel]="bikeParams()!.year"
                 (ngModelChange)="bikeParams() && (bikeParams()!.year = $event)">
-                <option value="0">All Years</option>
+                <option value="0">{{ 'bikeList.filters.allYears' | transloco }}</option>
                 @for (bikeYear of bikeYears; track bikeYear.value) {
                 <option [ngValue]="bikeYear.value">{{ bikeYear.value }}</option>
                 }
@@ -85,13 +85,13 @@
 
           <!-- Price Range -->
           <div class="filter-group">
-            <span class="filter-label">Price Range</span>
+            <span class="filter-label">{{ 'bikeList.filters.priceRange' | transloco }}</span>
             <div class="price-range">
               <input
                 type="number"
                 class="filter-input price-input"
                 name="minPrice"
-                placeholder="Min"
+                placeholder="{{ 'bikeList.filters.min' | transloco }}"
                 [ngModel]="bikeParams() && bikeParams()!.minPrice"
                 (ngModelChange)="bikeParams() && (bikeParams()!.minPrice = $event)" />
               <span class="price-separator">-</span>
@@ -99,7 +99,7 @@
                 type="number"
                 class="filter-input price-input"
                 name="maxPrice"
-                placeholder="Max"
+                placeholder="{{ 'bikeList.filters.max' | transloco }}"
                 [ngModel]="bikeParams() && bikeParams()!.maxPrice"
                 (ngModelChange)="bikeParams() && (bikeParams()!.maxPrice = $event)" />
             </div>
@@ -107,13 +107,13 @@
 
           <!-- Availability Toggle -->
           <div class="filter-group availability-group">
-            <span class="filter-label">Availability</span>
+            <span class="filter-label">{{ 'bikeList.filters.availability' | transloco }}</span>
             <div class="availability-toggle">
               <mat-slide-toggle
                 [(ngModel)]="bikeParams()!.isAvailable"
                 name="isAvailable"
                 class="modern-toggle">
-                <span class="switch-text">Available Only</span>
+                <span class="switch-text">{{ 'bikeList.filters.availableOnly' | transloco }}</span>
               </mat-slide-toggle>
             </div>
           </div>
@@ -121,42 +121,42 @@
 
         <!-- Action Buttons -->
         <div class="filter-actions">
-          <button class="btn-apply" type="submit">Apply Filters</button>
-          <button class="btn-reset" type="button" (click)="resetFilters()">Reset</button>
+          <button class="btn-apply" type="submit">{{ 'bikeList.filters.apply' | transloco }}</button>
+          <button class="btn-reset" type="button" (click)="resetFilters()">{{ 'bikeList.filters.reset' | transloco }}</button>
         </div>
       </form>
 
       <!-- Sort Options -->
       <div class="sort-section">
-        <span class="sort-label">Sort by:</span>
+        <span class="sort-label">{{ 'bikeList.sort.label' | transloco }}</span>
         <div class="sort-buttons">
           <button
             type="button"
             class="sort-btn"
             [class.active]="bikeParams()!.orderBy === 'type'"
             (click)="setOrderBy('type')">
-            Type
+            {{ 'bikeList.sort.type' | transloco }}
           </button>
           <button
             type="button"
             class="sort-btn"
             [class.active]="bikeParams()!.orderBy === 'model'"
             (click)="setOrderBy('model')">
-            Model
+            {{ 'bikeList.sort.model' | transloco }}
           </button>
           <button
             type="button"
             class="sort-btn"
             [class.active]="bikeParams()!.orderBy === 'brand'"
             (click)="setOrderBy('brand')">
-            Brand
+            {{ 'bikeList.sort.brand' | transloco }}
           </button>
           <button
             type="button"
             class="sort-btn"
             [class.active]="bikeParams()!.orderBy === 'price'"
             (click)="setOrderBy('price')">
-            Price
+            {{ 'bikeList.sort.price' | transloco }}
           </button>
         </div>
       </div>
@@ -178,8 +178,8 @@
     @if (bikes().length === 0) {
       <div class="no-results">
         <div class="no-results-icon">🚴‍♂️</div>
-        <h3>No bikes found</h3>
-        <p>Try adjusting your filters to see more results.</p>
+        <h3>{{ 'bikeList.grid.noResultsTitle' | transloco }}</h3>
+        <p>{{ 'bikeList.grid.noResultsDesc' | transloco }}</p>
       </div>
     }
 

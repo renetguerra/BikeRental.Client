@@ -6,6 +6,7 @@ import { MemberStore } from 'src/app/core/_stores/member.store';
 import { ToastrService } from 'ngx-toastr';
 import { MembersService } from '../../../../../core/_services/members.service';
 import { JsonPipe } from '@angular/common';
+import { TranslocoModule } from '@jsverse/transloco';
 import { CommonTableComponent } from 'src/app/shared/components/table/common/common-table.component';
 import { Member } from 'src/app/core/_models/member';
 import { P } from '@angular/cdk/platform.d-B3vREl3q';
@@ -15,7 +16,7 @@ import { P } from '@angular/cdk/platform.d-B3vREl3q';
     templateUrl: './photo-management.component.html',
     styleUrls: ['./photo-management.component.css'],
     standalone: true,
-    imports: []
+    imports: [TranslocoModule]
 })
 export class PhotoManagementComponent {
   photos: Photo[] = [];

@@ -1,20 +1,20 @@
 @if (!bike()) {
   <div class="text-center">
     <div class="spinner-border" role="status">
-      <span class="sr-only">Loading...</span>
+      <span class="sr-only">{{ 'bikeEdit.loading' | transloco }}</span>
     </div>
-    <p>Loading bike data...</p>
+    <p>{{ 'bikeEdit.loading' | transloco }}</p>
   </div>
 } @else {
 <div class="modern-bike-detail">
   <div class="container">
     <div class="max-w-4xl mx-auto">
-  <h1 class="page-title">Edit Bike</h1>
+      <h1 class="page-title">{{ 'bikeEdit.title' | transloco }}</h1>
 
       @if (editForm?.dirty) {
       <div class="alert alert-info mb-4">
         <p>
-          <strong>Info: </strong>You have made changes. Any unsaved changes will be lost.
+          <strong>Info: </strong>{{ 'bikeEdit.infoAlert' | transloco }}
         </p>
       </div>
       }
@@ -28,58 +28,58 @@
 
               <!-- Bike Information Card -->
               <div class="info-card">
-                <h2 class="card-title">Bike Information</h2>
+                <h2 class="card-title">{{ 'bikeEdit.infoTab' | transloco }}</h2>
                 <div class="bike-details">
                   <div class="detail-row">
                     <div class="detail-group">
                       <div class="detail-text">
-                        <span class="detail-label">Brand:</span>
+                        <span class="detail-label">{{ 'bikeEdit.brand' | transloco }}</span>
                         <input
                           type="text"
                           name="brand"
                           class="detail-input"
                           [(ngModel)]="bike()!.brand"
-                          placeholder="Enter brand">
+                          placeholder="{{ 'bikeEdit.brandPlaceholder' | transloco }}">
                       </div>
                     </div>
                     <div class="detail-group">
                       <div class="detail-text">
-                        <span class="detail-label">Model:</span>
+                        <span class="detail-label">{{ 'bikeEdit.model' | transloco }}</span>
                         <input
                           type="text"
                           name="model"
                           class="detail-input"
                           [(ngModel)]="bike()!.model"
-                          placeholder="Enter model">
+                          placeholder="{{ 'bikeEdit.modelPlaceholder' | transloco }}">
                       </div>
                     </div>
                   </div>
                   <div class="detail-row">
                     <div class="detail-group">
                       <div class="detail-text">
-                        <span class="detail-label">Type:</span>
+                        <span class="detail-label">{{ 'bikeEdit.type' | transloco }}</span>
                         <select
                           name="type"
                           class="detail-input"
                           [(ngModel)]="bike()!.type">
-                          <option value="">Select type</option>
-                          <option value="Mountain">Mountain</option>
-                          <option value="Road">Road</option>
-                          <option value="Electric">Electric</option>
-                          <option value="Hybrid">Hybrid</option>
-                          <option value="BMX">BMX</option>
+                          <option value="">{{ 'bikeEdit.typeSelect' | transloco }}</option>
+                          <option value="Mountain">{{ 'bikeEdit.typeOptions.mountain' | transloco }}</option>
+                          <option value="Road">{{ 'bikeEdit.typeOptions.road' | transloco }}</option>
+                          <option value="Electric">{{ 'bikeEdit.typeOptions.electric' | transloco }}</option>
+                          <option value="Hybrid">{{ 'bikeEdit.typeOptions.hybrid' | transloco }}</option>
+                          <option value="BMX">{{ 'bikeEdit.typeOptions.bmx' | transloco }}</option>
                         </select>
                       </div>
                     </div>
                     <div class="detail-group">
                       <div class="detail-text">
-                        <span class="detail-label">Year:</span>
+                        <span class="detail-label">{{ 'bikeEdit.year' | transloco }}</span>
                         <input
                           type="number"
                           name="year"
                           class="detail-input"
                           [(ngModel)]="bike()!.year"
-                          placeholder="2024"
+                          placeholder="{{ 'bikeEdit.yearPlaceholder' | transloco }}"
                           min="1990"
                           max="2030">
                       </div>
@@ -88,26 +88,26 @@
                   <div class="detail-row">
                     <div class="detail-group">
                       <div class="detail-text">
-                        <span class="detail-label">Price per day:</span>
+                        <span class="detail-label">{{ 'bikeEdit.price' | transloco }}</span>
                         <input
                           type="number"
                           name="price"
                           class="detail-input"
                           [(ngModel)]="bike()!.price"
-                          placeholder="25.00"
+                          placeholder="{{ 'bikeEdit.pricePlaceholder' | transloco }}"
                           step="0.01"
                           min="0">
                       </div>
                     </div>
                     <div class="detail-group">
                       <div class="detail-text">
-                        <span class="detail-label">Available:</span>
+                        <span class="detail-label">{{ 'bikeEdit.available' | transloco }}</span>
                         <select
                           name="isAvailable"
                           class="detail-input"
                           [(ngModel)]="bike()!.isAvailable">
-                          <option [ngValue]="true">Available</option>
-                          <option [ngValue]="false">Not available</option>
+                          <option [ngValue]="true">{{ 'bikeEdit.availableTrue' | transloco }}</option>
+                          <option [ngValue]="false">{{ 'bikeEdit.availableFalse' | transloco }}</option>
                         </select>
                       </div>
                     </div>
@@ -115,11 +115,11 @@
                   <div class="detail-row detail-row-full">
                     <div class="detail-group detail-group-full">
                       <div class="detail-text">
-                        <span class="detail-label">Notes:</span>
+                        <span class="detail-label">{{ 'bikeEdit.notes' | transloco }}</span>
                         <textarea
                           name="notes"
                           class="detail-input detail-textarea-large"
-                          placeholder="Additional notes about the bike..."
+                          placeholder="{{ 'bikeEdit.notesPlaceholder' | transloco }}"
                           rows="4"></textarea>
                       </div>
                     </div>
@@ -134,14 +134,14 @@
                     class="primary-btn"
                     [disabled]="!editForm?.dirty">
                     <mat-icon>save</mat-icon>
-                    Save Bike Information
+                    {{ 'bikeEdit.save' | transloco }}
                   </button>
                 </div>
               </div>
 
               <!-- Main Image of the Card -->
               <div class="info-card">
-                <h2 class="card-title">Main Image</h2>
+                <h2 class="card-title">{{ 'bikeEdit.mainImage' | transloco }}</h2>
                 <div class="profile-upload-section">
                   <div class="profile-avatar">
                     <img
@@ -152,9 +152,9 @@
                   <div class="upload-controls">
                     <button type="button" class="primary-btn" (click)="openDialogAddPhoto()">
                       <mat-icon>add_a_photo</mat-icon>
-                      Manage Photos
+                      {{ 'bikeEdit.managePhotos' | transloco }}
                     </button>
-                    <p class="upload-hint">PNG, JPG, GIF up to 10MB.</p>
+                    <p class="upload-hint">{{ 'bikeEdit.uploadHint' | transloco }}</p>
                   </div>
                 </div>
               </div>
