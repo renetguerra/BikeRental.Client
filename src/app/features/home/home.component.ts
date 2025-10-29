@@ -19,7 +19,7 @@ import { TranslocoModule } from '@jsverse/transloco';
       TranslocoModule]
 })
 export class HomeComponent {
-  private accountService = inject(AccountService);
+
   private router = inject(Router);
   readonly dialog = inject(MatDialog);
 
@@ -27,27 +27,16 @@ export class HomeComponent {
 
   user = this.memberStore.user;
 
-  private readonly refreshTrigger = new Subject<void>();
-
   registerMode = false;
 
-  /**
-   * Toggle registration mode on/off
-   */
   registerToggle() {
     this.registerMode = !this.registerMode;
   }
 
-  /**
-   * Cancel registration mode (called from register component)
-   */
   cancelRegisterMode(event?: boolean) {
     this.registerMode = event ?? false;
   }
 
-  /**
-   * Navigate to bikes list page
-   */
   navigateToBikes() {
     this.router.navigate(['/bikes']);
   }

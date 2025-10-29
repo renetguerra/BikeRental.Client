@@ -56,10 +56,12 @@ export class MemberStore {
   };
 
   constructor() {
-    effect(() => {
-      const value = this.memberByUsername();
-      if (value) this._member.set(value);
-    });
+    if (this.user()) {
+      effect(() => {
+        const value = this.memberByUsername();
+        if (value) this._member.set(value);
+      });
+    }
   }
 
   loadMembers(forceReload = false) {
