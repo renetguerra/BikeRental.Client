@@ -101,6 +101,13 @@ export class NavComponent {
   }
 
   onImgError(event: Event, filePath: string) {
-    (event.target as HTMLImageElement).src = `${filePath}`;
+    const img = event.target as HTMLImageElement;
+    const imgSrc = filePath ?? './assets/user.png';
+
+    if (imgSrc && !img.src.endsWith(imgSrc) && !img.src.endsWith(imgSrc)) {
+      img.src = imgSrc;
+    } else {
+      img.src = './assets/user.png';
+    }
   }
 }

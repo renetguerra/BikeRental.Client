@@ -3,7 +3,7 @@
   "welcome": "Bienvenido a BikeRental",
   "login": "Iniciar sesión",
   "logout": "Cerrar sesión",
-  "bike": {
+  "home": {
     "heroTitle": "Explora la ciudad con BikeRental",
     "heroDescription": "Alquila una bicicleta y descubre la ciudad a tu ritmo. Nuestro servicio ofrece una amplia gama de bicicletas para cada aventura.",
     "viewBikes": "Ver bicicletas",
@@ -14,11 +14,13 @@
     "ctaTitle": "¿Listo para rodar?",
     "ctaDescription": "Únete a la comunidad BikeRental hoy y comienza tu próxima aventura urbana.",
     "cityCruiser": "Ciudad Cruiser",
-    "cityCruiserDesc": "Perfecta para paseos tranquilos por la ciudad.",
     "mountainExplorer": "Exploradora de Montaña",
-    "mountainExplorerDesc": "Enfrenta cualquier terreno con nuestras bicicletas de montaña.",
     "electricGlide": "Deslizamiento Eléctrico",
-    "electricGlideDesc": "Recorre largas distancias sin esfuerzo con nuestras bicicletas eléctricas."
+    "bike": {
+      "cityCruiserDesc": "Perfecta para paseos tranquilos por la ciudad.",
+      "mountainExplorerDesc": "Enfrenta cualquier terreno con nuestras bicicletas de montaña.",
+      "electricGlideDesc": "Recorre largas distancias sin esfuerzo con nuestras bicicletas eléctricas."
+    }
   },
   "bikeFavorite": {
     "title": "Bicicletas favoritas",

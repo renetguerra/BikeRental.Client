@@ -3,7 +3,7 @@
   "welcome": "Welcome to BikeRental",
   "login": "Login",
   "logout": "Logout",
-  "bike": {
+  "home": {
     "heroTitle": "Explore the City with BikeRental",
     "heroDescription": "Rent a bike and discover the city at your own pace. Our service offers a wide range of bikes for every adventure.",
     "viewBikes": "View Bikes",
@@ -14,22 +14,13 @@
     "ctaTitle": "Ready to Ride?",
     "ctaDescription": "Join the BikeRental community today and start your next urban adventure.",
     "cityCruiser": "City Cruiser",
-    "cityCruiserDesc": "Perfect for leisurely rides around the city.",
     "mountainExplorer": "Mountain Explorer",
-    "mountainExplorerDesc": "Tackle any terrain with our rugged mountain bikes.",
     "electricGlide": "Electric Glide",
-    "electricGlideDesc": "Effortlessly cover long distances with our electric bikes.",
-    "bikeFavorite": {
-        "title": "Favorite Bikes",
-        "photo": "Photo",
-        "model": "Model",
-        "brand": "Brand",
-        "type": "Type",
-        "year": "Year",
-        "available": "Available",
-        "yes": "Yes",
-        "no": "No"
-      }
+    "bike": {
+      "cityCruiserDesc": "Perfect for leisurely rides around the city.",
+      "electricGlideDesc": "Effortlessly cover long distances with our electric bikes.",
+      "mountainExplorerDesc": "Tackle any terrain with our rugged mountain bikes."
+    }
   },
   "memberList": {
     "title": "Our Community",
@@ -328,6 +319,17 @@
         "years": "years"
       }
     }
+  },
+  "bikeFavorite": {
+    "title": "Favorite Bikes",
+    "photo": "Photo",
+    "model": "Model",
+    "brand": "Brand",
+    "type": "Type",
+    "year": "Year",
+    "available": "Available",
+    "yes": "Yes",
+    "no": "No"
   },
   "bikeList": {
     "header": {

@@ -14,16 +14,15 @@ export class AuthService {
 
   baseUrl = environment.apiUrl;
   popup: Window | null = null;
-  // SPA origin (use runtime origin so it matches dev/prod automatically)
-  origin = typeof window !== 'undefined' ? window.location.origin : 'https://localhost:4201';
+
   accessToken = signal<string | null>(null);
   refreshToken = signal<string | null>(null);
 
   currentUser = signal<User | null>(null);
 
   startExternalLogin(provider: string) {
-    // start login in same window
-    window.location.href = `${this.baseUrl}auth/login/${provider.toLowerCase()}?returnUrl=https://localhost:4201/bikes`;
+    const currentOrigin = window.location.origin;
+    window.location.href = `${this.baseUrl}auth/login/${provider.toLowerCase()}?returnUrl=${currentOrigin}/bikes`;
   }
 
   logout() {

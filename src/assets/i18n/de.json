@@ -3,7 +3,7 @@
   "welcome": "Willkommen bei BikeRental",
   "login": "Anmelden",
   "logout": "Abmelden",
-  "bike": {
+  "home": {
     "heroTitle": "Entdecke die Stadt mit BikeRental",
     "heroDescription": "Miete ein Fahrrad und entdecke die Stadt in deinem eigenen Tempo. Unser Service bietet eine große Auswahl an Fahrrädern für jedes Abenteuer.",
     "viewBikes": "Fahrräder ansehen",
@@ -14,11 +14,13 @@
     "ctaTitle": "Bereit zum Losfahren?",
     "ctaDescription": "Werde Teil der BikeRental-Community und starte dein nächstes urbanes Abenteuer.",
     "cityCruiser": "City Cruiser",
-    "cityCruiserDesc": "Perfekt für gemütliche Fahrten durch die Stadt.",
     "mountainExplorer": "Mountain Explorer",
-    "mountainExplorerDesc": "Bewältige jedes Gelände mit unseren robusten Mountainbikes.",
     "electricGlide": "Electric Glide",
-    "electricGlideDesc": "Mühelos lange Strecken mit unseren Elektrofahrrädern zurücklegen."
+    "bike": {
+      "cityCruiserDesc": "Perfekt für gemütliche Fahrten durch die Stadt.",
+      "mountainExplorerDesc": "Bewältige jedes Gelände mit unseren robusten Mountainbikes.",
+      "electricGlideDesc": "Mühelos lange Strecken mit unseren Elektrofahrrädern zurücklegen."
+    }
   },
   "bikeFavorite": {
     "title": "Favoriten-Fahrräder",

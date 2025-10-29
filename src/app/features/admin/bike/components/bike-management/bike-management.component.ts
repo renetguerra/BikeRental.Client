@@ -15,9 +15,8 @@ import { TableColumn } from 'src/app/core/_models/generic';
 import { CrudTableComponent } from 'src/app/shared/components/table/crud/crud-table.component';
 import { PhotoConfig } from 'src/app/core/_models/genericPhotoConfig';
 
-const transloco = inject(TranslocoService);
-
-const BIKEFAVORITE_COLUMNS: TableColumn<Bike>[] = [
+function getBikeColumns(transloco: TranslocoService): TableColumn<Bike>[] {
+  return [
   {
     columnDef: 'photoUrl',
     header: transloco.translate('bikeManagement.photo'),
@@ -55,6 +54,7 @@ const BIKEFAVORITE_COLUMNS: TableColumn<Bike>[] = [
     cell: (row: Bike) => row.isAvailable,
   }
 ];
+}
 
 @Component({
   selector: 'app-bike-management',
@@ -89,7 +89,7 @@ export class BikeManagementComponent implements OnInit {
 
   private adminUserStore = inject(AdminUserStore);
   readonly bikeStore = inject(BikeStore);
-
+  readonly transloco = inject(TranslocoService);
 
   users = this.adminUserStore.users;
 
@@ -99,7 +99,7 @@ export class BikeManagementComponent implements OnInit {
   params = new Params();
   pagination = this.bikeStore.pagination;
 
-  columns = BIKEFAVORITE_COLUMNS;
+  columns: TableColumn<Bike>[] = getBikeColumns(this.transloco);
 
   defaultColDef = {
     sortable: true,

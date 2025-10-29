@@ -87,6 +87,7 @@ export class BikeFavoriteComponent implements OnInit {
   params = new Params();
   pagination = this.likeStore.pagination;
   columns: TableColumn<BikeFavorite>[] = getBikeFavoriteColumns(this.transloco);
+
   defaultColDef = {
     sortable: true,
     filter: true,
