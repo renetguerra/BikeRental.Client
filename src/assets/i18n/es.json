@@ -13,10 +13,10 @@
     "popularBikes": "Nuestras bicicletas populares",
     "ctaTitle": "¿Listo para rodar?",
     "ctaDescription": "Únete a la comunidad BikeRental hoy y comienza tu próxima aventura urbana.",
-    "cityCruiser": "Ciudad Cruiser",
-    "mountainExplorer": "Exploradora de Montaña",
-    "electricGlide": "Deslizamiento Eléctrico",
     "bike": {
+      "cityCruiser": "Ciudad Cruiser",
+      "mountainExplorer": "Exploradora de Montaña",
+      "electricGlide": "Deslizamiento Eléctrico",
       "cityCruiserDesc": "Perfecta para paseos tranquilos por la ciudad.",
       "mountainExplorerDesc": "Enfrenta cualquier terreno con nuestras bicicletas de montaña.",
       "electricGlideDesc": "Recorre largas distancias sin esfuerzo con nuestras bicicletas eléctricas."

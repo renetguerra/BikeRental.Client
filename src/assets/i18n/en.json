@@ -13,10 +13,10 @@
     "popularBikes": "Our Popular Bikes",
     "ctaTitle": "Ready to Ride?",
     "ctaDescription": "Join the BikeRental community today and start your next urban adventure.",
-    "cityCruiser": "City Cruiser",
-    "mountainExplorer": "Mountain Explorer",
-    "electricGlide": "Electric Glide",
     "bike": {
+      "cityCruiser": "City Cruiser",
+      "mountainExplorer": "Mountain Explorer",
+      "electricGlide": "Electric Glide",
       "cityCruiserDesc": "Perfect for leisurely rides around the city.",
       "electricGlideDesc": "Effortlessly cover long distances with our electric bikes.",
       "mountainExplorerDesc": "Tackle any terrain with our rugged mountain bikes."
