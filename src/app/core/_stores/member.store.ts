@@ -25,6 +25,7 @@ export class MemberStore {
   readonly membersResponse = toSignal(
       toObservable(this.triggerLoad!).pipe(
         filter(load => load !== undefined),
+        filter(() => !!this.user()),
         switchMap(forceReload =>
           this.memberService.getMembers(this.userParams()!, forceReload).pipe(
             tap(res => {

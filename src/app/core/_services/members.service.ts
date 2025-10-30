@@ -64,10 +64,12 @@ export class MembersService {
         this.members.set(response.result || []);
         return response;
       }),
-        catchError(error => {
-          const msg = this.transloco.translate('membersService.fetchMembersError');
-          this.toastr.error(msg);
-          return throwError(() => new Error(msg));
+        catchError((error) => {
+          this.transloco.selectTranslate('membersService.fetchMembersError').subscribe(msg => {
+            this.toastr.error(msg);
+          });
+          console.error(error);
+          return throwError(() => error);
         })
     );
   }

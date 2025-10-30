@@ -1,6 +1,6 @@
 import { provideHttpClient, withFetch, withInterceptors, withInterceptorsFromDi } from "@angular/common/http";
-import { provideTransloco } from '@jsverse/transloco';
-import { TranslocoHttpLoader } from './transloco.loader';
+import { provideTransloco, TranslocoModule } from '@jsverse/transloco';
+import { TranslocoHttpLoader } from '../assets/i18n/transloco.loader';
 import { ApplicationConfig, importProvidersFrom } from "@angular/core";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter, RouteReuseStrategy, withViewTransitions } from "@angular/router";
@@ -17,18 +17,13 @@ import { MatMenuModule, MatMenuTrigger } from "@angular/material/menu";
 import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { languageInterceptor } from "./core/_interceptors/language.interceptor";
+import { translocoConfiguration } from "src/assets/i18n/transloco.config";
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideTransloco({
-            config: {
-                availableLangs: ['en', 'es', 'de'],
-                defaultLang: 'en',
-                fallbackLang: 'en',
-                reRenderOnLangChange: true,
-                prodMode: false
-            },
-            loader: TranslocoHttpLoader,
+          config: translocoConfiguration,
+          loader: TranslocoHttpLoader
         }),
         provideRouter(
             routes,
@@ -40,7 +35,16 @@ export const appConfig: ApplicationConfig = {
         provideToastr({
             positionClass: 'toast-bottom-right'
         }),
-        importProvidersFrom(NgxSpinnerModule, TimeagoModule.forRoot(), ModalModule.forRoot(), MatMenuModule, MatMenuTrigger, MatButtonModule, MatSnackBarModule),
+        importProvidersFrom(
+          NgxSpinnerModule,
+          TimeagoModule.forRoot(),
+          ModalModule.forRoot(),
+          MatMenuModule,
+          MatMenuTrigger,
+          MatButtonModule,
+          MatSnackBarModule,
+          TranslocoModule
+        ),
         { provide: RouteReuseStrategy, useClass: CustomRouteReuseStrategy },
         provideHttpClient(
             withFetch(),
