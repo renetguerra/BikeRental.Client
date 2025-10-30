@@ -5,7 +5,6 @@ import { AccountService } from "../_services/account.service";
 import { MembersService } from "../_services/members.service";
 import { Member } from "../_models/member";
 import { UserParams } from "../_models/userParams";
-import { Photo } from "../_models/photo";
 
 @Injectable({ providedIn: 'root' })
 export class MemberStore {
