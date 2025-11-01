@@ -310,6 +310,7 @@
       "noRoles": "No roles assigned"
     },
     "photoManagement": {
+      "title": "Photo Management",
       "empty": "No pending photos to approve or reject.",
       "notFound": {
         "mainPhoto": "Main photo",

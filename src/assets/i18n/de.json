@@ -223,7 +223,7 @@
     "localStorageError": "Fehler beim Speichern der Benutzerdaten in localStorage.",
     "tokenError": "Ungültiges Token. Rollen konnten nicht dekodiert werden."
   },
-    "adminService": {
+  "adminService": {
     "getUsersWithRolesSuccess": "Benutzerrollen erfolgreich geladen.",
     "getUsersWithRolesError": "Benutzerrollen konnten nicht geladen werden.",
     "updateUserRolesSuccess": "Benutzerrollen erfolgreich aktualisiert.",
@@ -321,6 +321,7 @@
       "noRoles": "Keine Rollen zugewiesen"
     },
     "photoManagement": {
+      "title": "Fotoverwaltung",
       "empty": "Keine ausstehenden Fotos zum Genehmigen oder Ablehnen.",
       "notFound": {
         "mainPhoto": "Hauptfoto",
@@ -328,17 +329,6 @@
         "approve": "Genehmigen",
         "reject": "Ablehnen",
         "years": "Jahre"
-      }
-      ,
-      "adminService": {
-        "getUsersWithRolesSuccess": "Benutzerrollen erfolgreich geladen.",
-        "getUsersWithRolesError": "Benutzerrollen konnten nicht geladen werden.",
-        "updateUserRolesSuccess": "Benutzerrollen erfolgreich aktualisiert.",
-        "updateUserRolesError": "Benutzerrollen konnten nicht aktualisiert werden.",
-        "createUserNotificationsSuccess": "Benachrichtigungen erfolgreich erstellt.",
-        "createUserNotificationsError": "Benachrichtigungen konnten nicht erstellt werden.",
-        "getUserPhotosForApprovalSuccess": "Fotos zur Genehmigung geladen.",
-        "getUserPhotosForApprovalError": "Fotos zur Genehmigung konnten nicht geladen werden."
       }
     }
   },

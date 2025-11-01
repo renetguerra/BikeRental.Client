@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
@@ -17,6 +17,7 @@ import { ThemeService } from 'src/app/core/_services/theme.service';
 import { BikeStore } from 'src/app/core/_stores/bike.store';
 import { AuthStore } from 'src/app/core/_stores/auth.store';
 import { TranslocoModule } from '@jsverse/transloco';
+import { User } from 'src/app/core/_models/user';
 
 @Component({
     selector: 'app-nav',
@@ -42,16 +43,20 @@ export class NavComponent {
   private memberStore = inject(MemberStore);
 
   // user = this.memberStore.user;
-  user = this.authStore.currentUser;
+  user: Signal<User | null> = this.authStore.currentUser;
   currentTheme = this.themeService.theme;
 
-  constructor() { }
+  constructor() {
+    this.authStore.setCurrentUser();
+   }
 
   login() {
     this.accountService.login(this.model).subscribe({
       next: _ => {
-        this.router.navigateByUrl('/bikes');
-        this.model = {}
+        if (this.user()) {
+          this.router.navigateByUrl('/bikes');
+          this.model = {}
+        }
       }
     })
   }

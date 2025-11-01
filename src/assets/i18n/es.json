@@ -321,6 +321,7 @@
       "noRoles": "Sin roles asignados"
     },
     "photoManagement": {
+      "title": "Gestión de fotos",
       "empty": "No hay fotos pendientes para aprobar o rechazar.",
       "notFound": {
         "mainPhoto": "Foto principal",

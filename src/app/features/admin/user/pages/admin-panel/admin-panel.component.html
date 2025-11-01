@@ -1,12 +1,12 @@
 <h2>{{ 'adminPanel.title' | transloco }}</h2>
 <div class="tab-panel container">
     <tabset class="member-tabset">
-        <tab [heading]="('adminPanel.userManagement' | transloco)" *appHasRole="['Admin']">
+        <tab [heading]="('adminPanel.userManagement.title' | transloco)" *appHasRole="['Admin']">
             <div class="container-fluid">
                 <app-user-management></app-user-management>
             </div>
         </tab>
-        <tab [heading]="('adminPanel.photoManagement' | transloco)" *appHasRole="['Admin', 'Moderator']">
+        <tab [heading]="('adminPanel.photoManagement.title' | transloco)" *appHasRole="['Admin', 'Moderator']">
             <div class="container-fluid">
                 <app-photo-management></app-photo-management>
             </div>

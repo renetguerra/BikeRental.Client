@@ -38,6 +38,7 @@ export class AccountService {
         const user = response;
         if (user) {
           this.setCurrentUser(user);
+          this.authStore.setCurrentUser(user);
           this.showNotification(this.transloco.translate('accountService.loginSuccess'));
         }
       })
@@ -89,12 +90,12 @@ export class AccountService {
   }
 
   logout() {
-  localStorage.removeItem('user');
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  sessionStorage.removeItem('user');
-  this.currentUser.set(null);
-  this.presenceService.stopHubConnection();
+    localStorage.removeItem('user');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    sessionStorage.removeItem('user');
+    this.currentUser.set(null);
+    this.presenceService.stopHubConnection();
   }
 
   getDecodedToken(token: string) {

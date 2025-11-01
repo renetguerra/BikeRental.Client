@@ -16,20 +16,8 @@ interface DecodedToken {
 
 @Injectable({ providedIn: 'root' })
 export class AuthStore {
-  // Permite actualizar el usuario en AccountService si se pasa como argumento
-  refreshCurrentUser(accountService?: { currentUser: any }) {
-    const token = getCookie('ACCESS_TOKEN') || localStorage.getItem('access_token');
-    if (token) {
-      const user = this.userFromToken(token);
-      if (user) {
-        this._currentUser.set(user);
-        if (accountService) accountService.currentUser.set(user);
-      }
-    } else {
-      this._currentUser.set(null);
-      if (accountService) accountService.currentUser.set(null);
-    }
-  }
+
+  // Elimina la inyección directa de AccountService para evitar ciclo DI
 
   // Internal writable signals
   private _accessToken: WritableSignal<string | null> = signal<string | null>(null);
@@ -70,34 +58,46 @@ export class AuthStore {
     }
   }
 
-  setCurrentUser(user: User | null) {
-    // Debug: log the user object before applying it to the store
-    try {
-      console.debug('AuthStore.setCurrentUser', user);
-    } catch (e) {
-      // ignore console errors in exotic runtimes
-    }
-
+  setCurrentUser(user?: User) {
     // Persist user to both localStorage and sessionStorage for visibility and recovery
     if (user) {
       try {
-        const str = JSON.stringify(user);
-        localStorage.setItem('user', str);
-        sessionStorage.setItem('user', str);
+        this._currentUser.set(user);
       } catch (e) {
         console.warn('AuthStore: failed to persist user to storage', e);
       }
     } else {
       try {
-        localStorage.removeItem('user');
-        sessionStorage.removeItem('user');
+        if (localStorage.getItem('user')) {
+          this._currentUser.set(localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null);
+        }
+        else {
+          localStorage.removeItem('user');
+          sessionStorage.removeItem('user');
+        }
+
       } catch (e) {
         // ignore
       }
     }
 
-    this._currentUser.set(user);
-    if (user?.token) this.setTokens(user.token, this._refreshToken());
+    // this._currentUser.set(user);
+    // if (user?.token) this.setTokens(user.token, this._refreshToken());
+  }
+
+  // Allows updating the user in AccountService if passed as an argument
+  refreshCurrentUser(accountService?: { currentUser: any }) {
+    const token = getCookie('ACCESS_TOKEN') || localStorage.getItem('access_token');
+    if (token) {
+      const user = this.userFromToken(token);
+      if (user) {
+        this._currentUser.set(user);
+        if (accountService) accountService.currentUser.set(user);
+      }
+    } else {
+      this._currentUser.set(null);
+      if (accountService) accountService.currentUser.set(null);
+    }
   }
 
   clear() {
