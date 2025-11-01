@@ -50,7 +50,7 @@ export class PhotoManagementComponent {
         console.error(err);
 
         // Show error notification
-  const errorMessage = err?.error?.message || 'Error approving photo';
+      const errorMessage = err?.error?.message || 'Error approving photo';
         this.toastr.error(
           `Error: ${errorMessage}`,
           'Error',
@@ -65,7 +65,7 @@ export class PhotoManagementComponent {
       next: () => {
         this.adminUserStore.updateUserPhotoApproval(user.id, photoId, false);
         this.adminUserStore.loadUserPhotosForApproval(true);
-      // Reload the list after rejection
+        // Reload the list after rejection
         // this.adminUserStore.loadUserPhotosForApproval();
       },
       error: (err) => {

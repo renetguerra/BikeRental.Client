@@ -133,6 +133,7 @@ export class AdminUserStore {
             }
           : u
       )
+      .filter((u) => u.userPhotos.some((photo) => !photo.isApproved))
     );
     console.log('Users received from service:', this._userPhotosForApproval());
   }

@@ -34,11 +34,11 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef>{{ 'crudTable.actions' | transloco }}</th>
           <td mat-cell *matCellDef="let row">
-            <button mat-icon-button (click)="openDialogEdit(row)">
-              <mat-icon>edit</mat-icon> {{ 'crudTable.edit' | transloco }}
+            <button mat-icon-button (click)="openDialogEdit(row)" title="{{ 'crudTable.edit' | transloco }}">
+              <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button (click)="openDialogDelete(row)">
-              <mat-icon>delete</mat-icon> {{ 'crudTable.delete' | transloco }}
+            <button mat-icon-button (click)="openDialogDelete(row)" title="{{ 'crudTable.delete' | transloco }}">
+              <mat-icon>delete</mat-icon>
             </button>
           </td>
 

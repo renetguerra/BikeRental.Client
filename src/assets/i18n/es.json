@@ -323,13 +323,11 @@
     "photoManagement": {
       "title": "Gestión de fotos",
       "empty": "No hay fotos pendientes para aprobar o rechazar.",
-      "notFound": {
-        "mainPhoto": "Foto principal",
-        "approved": "Aprobada",
-        "approve": "Aprobar",
-        "reject": "Rechazar",
-        "years": "años"
-      }
+      "mainPhoto": "Foto principal",
+      "approved": "Aprobada",
+      "approve": "Aprobar",
+      "reject": "Rechazar",
+      "years": "años"
     }
   },
   "bikeList": {

@@ -323,13 +323,11 @@
     "photoManagement": {
       "title": "Fotoverwaltung",
       "empty": "Keine ausstehenden Fotos zum Genehmigen oder Ablehnen.",
-      "notFound": {
-        "mainPhoto": "Hauptfoto",
-        "approved": "Genehmigt",
-        "approve": "Genehmigen",
-        "reject": "Ablehnen",
-        "years": "Jahre"
-      }
+      "mainPhoto": "Hauptfoto",
+      "approved": "Genehmigt",
+      "approve": "Genehmigen",
+      "reject": "Ablehnen",
+      "years": "Jahre"
     }
   },
   "bikeEdit": {

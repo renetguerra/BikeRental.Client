@@ -312,13 +312,11 @@
     "photoManagement": {
       "title": "Photo Management",
       "empty": "No pending photos to approve or reject.",
-      "notFound": {
-        "mainPhoto": "Main photo",
-        "approved": "Approved",
-        "approve": "Approve",
-        "reject": "Reject",
-        "years": "years"
-      }
+      "mainPhoto": "Main photo",
+      "approved": "Approved",
+      "approve": "Approve",
+      "reject": "Reject",
+      "years": "years"
     }
   },
   "bikeFavorite": {
