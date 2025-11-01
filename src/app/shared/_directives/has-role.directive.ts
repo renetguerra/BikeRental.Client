@@ -6,13 +6,16 @@ import { AccountService } from '../../core/_services/account.service';
     standalone: true
 })
 export class HasRoleDirective {
-  private accountService = inject(AccountService);  
+  private accountService = inject(AccountService);
   private viewContainerRef = inject(ViewContainerRef);
   private templateRef = inject(TemplateRef);
 
+  private authStore = inject(AccountService);
+
   appHasRole = input<string[]>([]);
-  user = this.accountService.currentUser();
-  
+  // user = this.accountService.currentUser();
+  user = this.authStore.currentUser();
+
   ngOnInit(): void {
     if (this.user?.roles.some(r => this.appHasRole().includes(r))) {
       this.viewContainerRef.createEmbeddedView(this.templateRef);

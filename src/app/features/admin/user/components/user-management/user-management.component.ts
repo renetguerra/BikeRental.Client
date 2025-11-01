@@ -39,7 +39,7 @@ export class UserManagementComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['username', 'roles', 'actions'];
   bsModalRef: BsModalRef<RolesModalComponent> = new BsModalRef<RolesModalComponent>();
-  availableRoles = ['Admin','Moderator','Member'];
+  availableRoles = ['Admin','Moderator','Customer'];
 
   dataSource = new MatTableDataSource<User>([]);
 
